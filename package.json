@@ -2,7 +2,7 @@
   "name": "ipaint-postcards",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://snehamarathe.github.io/ipaint",
+  "homepage": "https://SnehaMarathe.github.io/ipaint",
   "dependencies": {
     "firebase": "^10.7.1",
     "react": "^18.2.0",
