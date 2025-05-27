@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ipaint-postcards/static/css/main.7726c0fa.css",
+    "main.js": "/ipaint-postcards/static/js/main.f57f1373.js",
+    "index.html": "/ipaint-postcards/index.html",
+    "main.7726c0fa.css.map": "/ipaint-postcards/static/css/main.7726c0fa.css.map",
+    "main.f57f1373.js.map": "/ipaint-postcards/static/js/main.f57f1373.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7726c0fa.css",
+    "static/js/main.f57f1373.js"
+  ]
+}
