@@ -8,8 +8,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="postcard-bg">
+    <img src="postcard-bg.jpg" alt="Postcard texture background">
+  </div>
+
   <header>
-    <h1>🎨 ipaint.in</h1>
+    <h1>📮 ipaint.in</h1>
     <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness!</p>
   </header>
 
@@ -31,40 +35,43 @@
       <label for="message">Your Motivational Message</label>
       <textarea id="message" name="message" required></textarea>
 
-      <div class="qr-section">
-        <p>Scan & Pay ₹25</p>
-        <img src="YOUR_QR_CODE_IMAGE_URL_HERE" alt="Pay QR Code" />
-        <p>UPI ID: 9822571038@upi</p>
-      </div>
-
       <button type="submit">💌 Imagine & Post My Wish</button>
     </form>
   </div>
 
-  <section class="examples">
-    <h2>🎁 Wish Examples</h2>
-    <div class="card-grid">
-      <div class="card">"Dear Aanya, always believe in your dreams — you're a star in the making!"</div>
-      <div class="card">"Hi Rohan! Keep exploring and asking questions. The world needs curious minds like yours!"</div>
-      <div class="card">"To Kabir, You have magic in your heart — never stop being kind and brave!"</div>
+  <section class="samples">
+    <h2>✉️ Sample Postcards</h2>
+    <div class="cards">
+      <div class="card"><img src="sample1.jpg" alt=""><p>Keep shining, superstar!</p></div>
+      <div class="card"><img src="sample2.jpg" alt=""><p>Adventure awaits—go explore!</p></div>
+      <div class="card"><img src="sample3.jpg" alt=""><p>Kindness is magic—spread it everywhere!</p></div>
     </div>
   </section>
 
   <section class="testimonials">
     <h2>💬 What People Say</h2>
-    <div class="testimonial">
-      <p>"ipaint.in helped my daughter feel so special! She carried her postcard around for days." – Meera, Mumbai</p>
-    </div>
-    <div class="testimonial">
-      <p>"I love sending these to my nieces. It's a beautiful way to show love." – Ajay, Pune</p>
-    </div>
-    <div class="testimonial">
-      <p>"What a creative initiative! Made my kid's day truly unforgettable." – Priya, Bangalore</p>
-    </div>
+    <div class="testimonial">"ipaint.in helped my daughter feel so special! She carried her postcard around for days." – Meera, Mumbai</div>
+    <div class="testimonial">"I love sending these to my nieces. It's a beautiful way to show love." – Ajay, Pune</div>
+    <div class="testimonial">"What a creative initiative! Made my kid's day truly unforgettable." – Priya, Bangalore</div>
+  </section>
+
+  <section class="qr-gen">
+    <h2>Scan & Pay ₹25</h2>
+    <div id="qrcode"></div>
+    <p>UPI ID: <strong>9822571038@upi</strong></p>
   </section>
 
   <footer>
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
   </footer>
+
+  <script src="qrcode.min.js"></script>
+  <script>
+    new QRCode(document.getElementById("qrcode"), {
+      text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
+      width: 180,
+      height: 180
+    });
+  </script>
 </body>
 </html>

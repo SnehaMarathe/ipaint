@@ -1,2 +1,2 @@
 # ipaint.in 🎨
-Send imagination-inspired postcards to children!
+Postcard wishes for children.
