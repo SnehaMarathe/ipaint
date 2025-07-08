@@ -72,3 +72,35 @@ footer {
   color: #777;
   margin-top: 2rem;
 }
+
+.examples, .testimonials {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 1rem;
+}
+.examples h2, .testimonials h2 {
+  text-align: center;
+  color: #ff7043;
+}
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+.card {
+  background: #fff3e0;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  max-width: 250px;
+}
+.testimonial {
+  background: #e1f5fe;
+  margin: 1rem auto;
+  padding: 1rem;
+  border-left: 4px solid #0288d1;
+  border-radius: 8px;
+  max-width: 600px;
+  font-style: italic;
+}
