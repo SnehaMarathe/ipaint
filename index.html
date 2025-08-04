@@ -5,9 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ipaint.in – Send Joyful Wishes to Children</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
+  <style>
+    .success-message {
+      display: none;
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .error-message {
+      display: none;
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <div class="postcard-bg">
@@ -39,6 +60,8 @@
 
       <button type="submit">💌 Imagine & Post My Wish</button>
     </form>
+    <div class="success-message" id="successMessage">✅ Your wish has been posted successfully!</div>
+    <div class="error-message" id="errorMessage">❌ Something went wrong. Please try again.</div>
   </div>
 
   <section class="samples">
@@ -63,23 +86,15 @@
     <p>UPI ID: <strong>9822571038@upi</strong></p>
   </section>
 
-  <section class="visitor-counter">
-    <h2>👥 Visitors: <span id="visitorCount">0</span></h2>
-  </section>
-
   <footer>
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
   </footer>
 
   <script src="qrcode.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
   <script>
-    new QRCode(document.getElementById("qrcode"), {
-      text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
-      width: 180,
-      height: 180
-    });
-
-    // ===== Firebase Setup =====
+    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
       authDomain: "ipaint-7b2a5.firebaseapp.com",
@@ -90,54 +105,46 @@
       measurementId: "G-NE05L2CS5Y"
     };
 
+    // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // ===== Form Submission =====
-    document.getElementById("wishForm").addEventListener("submit", async (e) => {
+    document.getElementById("wishForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      const formData = {
-        toName: document.getElementById("toName").value,
-        toAddress: document.getElementById("toAddress").value,
-        fromName: document.getElementById("fromName").value,
-        mobileNumber: document.getElementById("mobileNumber").value,
-        message: document.getElementById("message").value,
-        timestamp: new Date()
-      };
+      const toName = document.getElementById("toName").value;
+      const toAddress = document.getElementById("toAddress").value;
+      const fromName = document.getElementById("fromName").value;
+      const mobileNumber = document.getElementById("mobileNumber").value;
+      const message = document.getElementById("message").value;
 
       try {
-        await db.collection("wishes").add(formData);
-        alert("✅ Your wish has been posted successfully!");
+        await db.collection("wishes").add({
+          toName,
+          toAddress,
+          fromName,
+          mobileNumber,
+          message,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        document.getElementById("successMessage").style.display = "block";
+        document.getElementById("errorMessage").style.display = "none";
         document.getElementById("wishForm").reset();
+
       } catch (error) {
-        console.error("❌ Error saving wish:", error);
-        alert("Failed to post your wish. Please try again.");
+        console.error("Error saving wish:", error);
+        document.getElementById("errorMessage").style.display = "block";
+        document.getElementById("successMessage").style.display = "none";
       }
     });
 
-    // ===== Visitor Counter =====
-    const counterRef = db.collection("visitorCounts").doc("main");
-
-    async function updateVisitorCount() {
-      const doc = await counterRef.get();
-      if (!doc.exists) {
-        await counterRef.set({ count: 1 });
-      } else {
-        await counterRef.update({ count: firebase.firestore.FieldValue.increment(1) });
-      }
-    }
-
-    function listenVisitorCount() {
-      counterRef.onSnapshot((doc) => {
-        if (doc.exists) {
-          document.getElementById("visitorCount").textContent = doc.data().count;
-        }
-      });
-    }
-
-    updateVisitorCount();
-    listenVisitorCount();
+    // Generate QR Code
+    new QRCode(document.getElementById("qrcode"), {
+      text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
+      width: 180,
+      height: 180
+    });
   </script>
 </body>
 </html>
