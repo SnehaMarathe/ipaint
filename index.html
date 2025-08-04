@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ipaint.in – Send Joyful Wishes to Children</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .message-box {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+  </style>
 </head>
 <body>
   <div class="postcard-bg">
@@ -16,28 +28,28 @@
     <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness!</p>
   </header>
 
-  <main class="container">
+  <div class="container">
     <h2>✨ Write Your Magical Wish</h2>
     <form id="wishForm">
       <label for="toName">To: Full Name</label>
-      <input type="text" id="toName" name="toName" required maxlength="50"/>
+      <input type="text" id="toName" name="toName" required />
 
       <label for="toAddress">To: Full Address</label>
-      <input type="text" id="toAddress" name="toAddress" required maxlength="200"/>
+      <input type="text" id="toAddress" name="toAddress" required />
 
       <label for="fromName">From: Your Name</label>
-      <input type="text" id="fromName" name="fromName" required maxlength="50"/>
+      <input type="text" id="fromName" name="fromName" required />
 
       <label for="mobileNumber">From: Mobile Number</label>
       <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}" placeholder="10-digit number"/>
 
       <label for="message">Your Motivational Message</label>
-      <textarea id="message" name="message" required maxlength="300"></textarea>
+      <textarea id="message" name="message" required></textarea>
 
       <button type="submit">💌 Imagine & Post My Wish</button>
       <div id="formMessage" class="message-box"></div>
     </form>
-  </main>
+  </div>
 
   <section class="qr-gen">
     <h2>Scan & Pay ₹25</h2>
@@ -50,6 +62,68 @@
   </footer>
 
   <script src="qrcode.min.js"></script>
-  <script type="module" src="main.js"></script>
+  <script>
+    new QRCode(document.getElementById("qrcode"), {
+      text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
+      width: 180,
+      height: 180
+    });
+  </script>
+
+  <!-- Firebase v9 modular SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
+      authDomain: "ipaint-7b2a5.firebaseapp.com",
+      projectId: "ipaint-7b2a5",
+      storageBucket: "ipaint-7b2a5.appspot.com",
+      messagingSenderId: "470124187831",
+      appId: "1:470124187831:web:831554ab7218ac62dbbd32",
+      measurementId: "G-NE05L2CS5Y"
+    };
+
+    console.log("Initializing Firebase...");
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    console.log("Firebase initialized:", app);
+
+    document.getElementById('wishForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formMessage = document.getElementById('formMessage');
+      
+      const wishData = {
+        toName: document.getElementById('toName').value.trim(),
+        toAddress: document.getElementById('toAddress').value.trim(),
+        fromName: document.getElementById('fromName').value.trim(),
+        mobileNumber: document.getElementById('mobileNumber').value.trim(),
+        message: document.getElementById('message').value.trim(),
+        timestamp: new Date()
+      };
+
+      console.log("Attempting Firestore write...", wishData);
+
+      try {
+        const docRef = await addDoc(collection(db, 'wishes'), wishData);
+        console.log("✅ Document written with ID:", docRef.id);
+
+        formMessage.textContent = "✅ Your wish has been sent successfully!";
+        formMessage.className = "message-box success";
+        formMessage.style.display = "block";
+        document.getElementById('wishForm').reset();
+      } catch (error) {
+        console.error("❌ Firestore Error:", error);
+        formMessage.textContent = "❌ Failed to send wish. Check console for details.";
+        formMessage.className = "message-box error";
+        formMessage.style.display = "block";
+      }
+
+      setTimeout(() => {
+        formMessage.style.display = "none";
+      }, 4000);
+    });
+  </script>
 </body>
 </html>
