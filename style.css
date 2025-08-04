@@ -1,104 +1,83 @@
-
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #faf3e0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
   margin: 0;
   padding: 0;
-  color: #333;
+  text-align: center;
 }
-.postcard-bg {
+
+.postcard-bg img {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
-  opacity: 0.08;
-}
-.postcard-bg img {
-  width: 100%;
-  height: auto;
   object-fit: cover;
+  opacity: 0.15;
+  z-index: -1;
 }
+
 header {
-  background-image: linear-gradient(to right, #ffe0b2, #ffcc80);
-  padding: 2rem;
-  text-align: center;
-  border-bottom: 2px dashed #ffb74d;
+  padding: 20px;
 }
-header h1 {
-  font-size: 2.2rem;
-  margin: 0;
+
+.container {
+  background: #fff;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-header p {
-  margin-top: 0.5rem;
-  font-size: 1.1rem;
-}
-.container, .samples, .testimonials, .qr-gen {
-  max-width: 800px;
-  background-color: rgba(255, 255, 255, 0.96);
-  padding: 2rem;
-  margin: 2rem auto;
-  border-radius: 12px;
-  border: 2px dashed #ffcc80;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+
 label {
   display: block;
-  margin-top: 1rem;
+  text-align: left;
+  margin-top: 10px;
   font-weight: bold;
 }
+
 input, textarea {
   width: 100%;
-  padding: 0.75rem;
-  margin-top: 0.5rem;
+  padding: 8px;
+  margin-top: 4px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-}
-textarea {
-  resize: vertical;
-  height: 120px;
-}
-button {
-  background-color: #ff7043;
-  color: white;
-  padding: 1rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-top: 1.5rem;
-  cursor: pointer;
-  width: 100%;
-}
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-.cards .card {
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  width: 200px;
-  text-align: center;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.cards .card img {
-  width: 100%;
-  border-radius: 8px;
-}
-.testimonial {
-  background: #e3f2fd;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-left: 4px solid #64b5f6;
   border-radius: 6px;
 }
-footer {
+
+button {
+  margin-top: 15px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #ff3b2e;
+}
+
+.message-box {
+  display: none;
   text-align: center;
-  padding: 2rem;
-  font-size: 0.9rem;
-  color: #777;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.success { background: #d4edda; color: #155724; }
+.error { background: #f8d7da; color: #721c24; }
+
+.qr-gen {
+  margin-top: 30px;
+}
+
+footer {
+  margin-top: 40px;
+  padding: 15px;
+  background: #f1f1f1;
 }
