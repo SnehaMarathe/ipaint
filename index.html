@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ipaint.in – Send Joyful Wishes to Children</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
 </head>
 <body>
   <div class="postcard-bg">
@@ -19,7 +21,7 @@
 
   <div class="container">
     <h2>✨ Write Your Magical Wish</h2>
-    <form>
+    <form id="wishForm">
       <label for="toName">To: Full Name</label>
       <input type="text" id="toName" name="toName" required />
 
@@ -61,6 +63,10 @@
     <p>UPI ID: <strong>9822571038@upi</strong></p>
   </section>
 
+  <section class="visitor-counter">
+    <h2>👥 Visitors: <span id="visitorCount">0</span></h2>
+  </section>
+
   <footer>
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
   </footer>
@@ -72,6 +78,66 @@
       width: 180,
       height: 180
     });
+
+    // ===== Firebase Setup =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
+      authDomain: "ipaint-7b2a5.firebaseapp.com",
+      projectId: "ipaint-7b2a5",
+      storageBucket: "ipaint-7b2a5.firebasestorage.app",
+      messagingSenderId: "470124187831",
+      appId: "1:470124187831:web:831554ab7218ac62dbbd32",
+      measurementId: "G-NE05L2CS5Y"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ===== Form Submission =====
+    document.getElementById("wishForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        toName: document.getElementById("toName").value,
+        toAddress: document.getElementById("toAddress").value,
+        fromName: document.getElementById("fromName").value,
+        mobileNumber: document.getElementById("mobileNumber").value,
+        message: document.getElementById("message").value,
+        timestamp: new Date()
+      };
+
+      try {
+        await db.collection("wishes").add(formData);
+        alert("✅ Your wish has been posted successfully!");
+        document.getElementById("wishForm").reset();
+      } catch (error) {
+        console.error("❌ Error saving wish:", error);
+        alert("Failed to post your wish. Please try again.");
+      }
+    });
+
+    // ===== Visitor Counter =====
+    const counterRef = db.collection("visitorCounts").doc("main");
+
+    async function updateVisitorCount() {
+      const doc = await counterRef.get();
+      if (!doc.exists) {
+        await counterRef.set({ count: 1 });
+      } else {
+        await counterRef.update({ count: firebase.firestore.FieldValue.increment(1) });
+      }
+    }
+
+    function listenVisitorCount() {
+      counterRef.onSnapshot((doc) => {
+        if (doc.exists) {
+          document.getElementById("visitorCount").textContent = doc.data().count;
+        }
+      });
+    }
+
+    updateVisitorCount();
+    listenVisitorCount();
   </script>
 </body>
 </html>
