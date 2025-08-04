@@ -5,30 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ipaint.in – Send Joyful Wishes to Children</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .success-message {
-      display: none;
-      color: #155724;
-      background-color: #d4edda;
-      border: 1px solid #c3e6cb;
-      padding: 10px;
-      margin-top: 15px;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: bold;
-    }
-    .error-message {
-      display: none;
-      color: #721c24;
-      background-color: #f8d7da;
-      border: 1px solid #f5c6cb;
-      padding: 10px;
-      margin-top: 15px;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: bold;
-    }
-  </style>
 </head>
 <body>
   <div class="postcard-bg">
@@ -37,7 +13,7 @@
 
   <header>
     <h1>📮 ipaint.in</h1>
-    <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness!</p>
+    <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness and happiness!</p>
   </header>
 
   <div class="container">
@@ -60,8 +36,6 @@
 
       <button type="submit">💌 Imagine & Post My Wish</button>
     </form>
-    <div class="success-message" id="successMessage">✅ Your wish has been posted successfully!</div>
-    <div class="error-message" id="errorMessage">❌ Something went wrong. Please try again.</div>
   </div>
 
   <section class="samples">
@@ -91,15 +65,24 @@
   </footer>
 
   <script src="qrcode.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
   <script>
-    // Firebase Config
+    new QRCode(document.getElementById("qrcode"), {
+      text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
+      width: 180,
+      height: 180
+    });
+  </script>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
       authDomain: "ipaint-7b2a5.firebaseapp.com",
       projectId: "ipaint-7b2a5",
-      storageBucket: "ipaint-7b2a5.firebasestorage.app",
+      storageBucket: "ipaint-7b2a5.appspot.com",
       messagingSenderId: "470124187831",
       appId: "1:470124187831:web:831554ab7218ac62dbbd32",
       measurementId: "G-NE05L2CS5Y"
@@ -109,41 +92,27 @@
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    document.getElementById("wishForm").addEventListener("submit", async function(e) {
+    // Form submit
+    document.getElementById('wishForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const toName = document.getElementById("toName").value;
-      const toAddress = document.getElementById("toAddress").value;
-      const fromName = document.getElementById("fromName").value;
-      const mobileNumber = document.getElementById("mobileNumber").value;
-      const message = document.getElementById("message").value;
+      const wishData = {
+        toName: document.getElementById('toName').value,
+        toAddress: document.getElementById('toAddress').value,
+        fromName: document.getElementById('fromName').value,
+        mobileNumber: document.getElementById('mobileNumber').value,
+        message: document.getElementById('message').value,
+        timestamp: new Date()
+      };
 
       try {
-        await db.collection("wishes").add({
-          toName,
-          toAddress,
-          fromName,
-          mobileNumber,
-          message,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        document.getElementById("successMessage").style.display = "block";
-        document.getElementById("errorMessage").style.display = "none";
-        document.getElementById("wishForm").reset();
-
+        await db.collection('wishes').add(wishData);
+        alert("✅ Your wish has been sent successfully!");
+        document.getElementById('wishForm').reset();
       } catch (error) {
-        console.error("Error saving wish:", error);
-        document.getElementById("errorMessage").style.display = "block";
-        document.getElementById("successMessage").style.display = "none";
+        console.error("Error writing to Firestore:", error);
+        alert("❌ Failed to send wish. Please try again.");
       }
-    });
-
-    // Generate QR Code
-    new QRCode(document.getElementById("qrcode"), {
-      text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
-      width: 180,
-      height: 180
     });
   </script>
 </body>
