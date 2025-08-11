@@ -306,7 +306,21 @@
 
   <footer>
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
+    <br>
+    <span id="visitorCount" style="font-size:0.85rem; color:#555;">
+      👀 Visitors: Loading...
+    </span>
   </footer>
+  
+  <script>
+    // Simple visitor counter using localStorage
+    if (!localStorage.getItem('visitorCount')) {
+      localStorage.setItem('visitorCount', 0);
+    }
+    let count = parseInt(localStorage.getItem('visitorCount')) + 1;
+    localStorage.setItem('visitorCount', count);
+    document.getElementById('visitorCount').textContent = "👀 Visitors: " + count;
+  </script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
