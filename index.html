@@ -233,18 +233,17 @@
         <label for="message">Your Motivational Message</label>
         <textarea id="message" name="message" required></textarea>
 
-        <button type="button" id="payButton">💌 Imagine & Post My Wish</button>
+        <button type="button" id="payButton">💌 Imagine &amp; Post My Wish</button>
         <div id="formMessage" class="message-box"></div>
       </form>
     </div>
 
-    <!-- Right Side: Removed QR Code, kept banner -->
+    <!-- Right Side: Banner -->
     <div class="postcard-right">
-      <!-- New Banner Image -->
       <div class="upi-banner">
         <img src="girl.png" 
              alt="From your heart to their hands — iPaint your wishes" 
-             class="promo-banner">
+             class="promo-banner" />
       </div>
     </div>
   </div>
@@ -270,7 +269,7 @@
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
   </footer>
 
-  <!-- Firebase -->
+  <!-- Firebase + Razorpay Integration -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
@@ -296,9 +295,7 @@
 
       // Validate form before payment
       const form = document.getElementById('wishForm');
-      if (!form.reportValidity()) {
-        return;
-      }
+      if (!form.reportValidity()) return;
 
       const wishData = {
         toName: document.getElementById('toName').value.trim(),
@@ -308,15 +305,13 @@
         message: document.getElementById('message').value.trim()
       };
 
-      // Razorpay options
       const options = {
-        key: "rzp_live_qFVcFW1dSmAW0M", // "rzp_test_2wFKfqydF2XePp", // Replace with your Razorpay API key
-        amount: 1500, // Amount in paise = ₹15.00
+        key: "rzp_live_qFVcFW1dSmAW0M",  // Replace with your Razorpay API key
+        amount: 1500, // 15 INR in paise
         currency: "INR",
         name: "iPaint Wishes",
         description: "Send a magical wish",
         handler: async function (response) {
-          // On successful payment, save to Firebase
           try {
             await addDoc(collection(db, 'wishes'), {
               ...wishData,
