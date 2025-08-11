@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ipaint – Send Joyful Wishes to Children</title>
+  <title>ipaint.in – Send Joyful Wishes to Children</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Segoe+UI&display=swap" rel="stylesheet">
 
   <style>
+    /* ---------- Base & Background ---------- */
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: url('paper-texture.jpg') repeat;
+      background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
       margin: 0;
       padding: 0;
     }
 
+    /* ---------- Header ---------- */
     header {
       text-align: center;
       padding: 1.5rem;
@@ -36,17 +38,20 @@
       color: #555;
     }
 
+    /* ---------- Postcard Layout ---------- */
     .postcard {
       background-color: #fffdf5;
-      border: 4px dashed #ffcc80;
+      border: 6px solid #e0c097;
       border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
       max-width: 1000px;
       margin: 2rem auto;
       display: flex;
       flex-wrap: wrap;
       padding: 2rem;
       gap: 2rem;
+      background-image: url('https://www.transparenttextures.com/patterns/beige-paper.png');
+      position: relative;
     }
 
     .postcard-left {
@@ -61,16 +66,21 @@
       padding-left: 1.5rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between; /* stamp at top, QR at bottom */
+      justify-content: space-between;
       align-items: center;
     }
 
     .stamp {
       width: 80px;
-      margin-top: 0.5rem;
-      opacity: 0.85;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      opacity: 0.9;
+      transform: rotate(-3deg);
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
     }
 
+    /* ---------- Form ---------- */
     label {
       margin-top: 1rem;
       font-weight: bold;
@@ -84,6 +94,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 0.95rem;
+      background-color: #fffef8;
     }
 
     textarea {
@@ -107,6 +118,7 @@
       background-color: #f4511e;
     }
 
+    /* ---------- QR Code ---------- */
     .qr-gen {
       text-align: center;
       margin-bottom: 1rem;
@@ -123,13 +135,7 @@
       margin-top: 0.5rem;
     }
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
-      color: #777;
-    }
-
+    /* ---------- Messages ---------- */
     .message-box {
       display: none;
       text-align: center;
@@ -142,35 +148,72 @@
     .success { background: #d4edda; color: #155724; }
     .error { background: #f8d7da; color: #721c24; }
 
-    /* Testimonials */
+    /* ---------- Testimonials (Old Style Restored) ---------- */
     .testimonials {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 1.5rem;
       background: #fff8e1;
+      padding: 2rem;
       border-radius: 12px;
-      border: 2px dashed #ffcc80;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      text-align: center;
+      max-width: 900px;
+      margin: 3rem auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
 
     .testimonials h2 {
+      text-align: center;
       font-family: 'Pacifico', cursive;
+      font-size: 2rem;
       color: #ff7043;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
 
     .testimonial {
-      margin-bottom: 1rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .testimonial:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    .testimonial p {
       font-style: italic;
-      color: #555;
+      color: #444;
     }
 
     .testimonial span {
       display: block;
-      margin-top: 0.3rem;
+      margin-top: 0.5rem;
+      font-weight: bold;
+      color: #666;
       font-size: 0.9rem;
-      color: #888;
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      .postcard {
+        flex-direction: column;
+      }
+      .postcard-right {
+        border-left: none;
+        padding-left: 0;
+      }
+      .stamp {
+        position: static;
+        margin: 0 auto;
+        display: block;
+      }
     }
   </style>
 </head>
@@ -182,6 +225,8 @@
   </header>
 
   <div class="postcard">
+    <img src="stamp.png" alt="Postage Stamp" class="stamp">
+
     <!-- Left Side: Form -->
     <div class="postcard-left">
       <h2>✨ Write Your Magical Wish</h2>
@@ -206,9 +251,8 @@
       </form>
     </div>
 
-    <!-- Right Side: Stamp + QR -->
+    <!-- Right Side: QR Code -->
     <div class="postcard-right">
-      <img src="stamp.png" alt="Postage Stamp" class="stamp">
       <div class="qr-gen">
         <h2>Scan & Pay ₹25</h2>
         <div id="qrcode"></div>
@@ -217,20 +261,20 @@
     </div>
   </div>
 
-  <!-- Testimonials -->
+  <!-- Testimonials Section -->
   <section class="testimonials">
     <h2>💬 What People Are Saying</h2>
     <div class="testimonial">
-      <p>"My daughter loved receiving her postcard — it made her week!"</p>
-      <span>- Priya S.</span>
+      <p>"Such a heartwarming initiative! My little cousin was thrilled to receive his postcard."</p>
+      <span>– Anjali M.</span>
     </div>
     <div class="testimonial">
-      <p>"A small act, a big smile — beautiful initiative!"</p>
-      <span>- Arjun K.</span>
+      <p>"A simple way to make a big difference in a child’s day."</p>
+      <span>– Rohan S.</span>
     </div>
     <div class="testimonial">
-      <p>"Such a thoughtful way to encourage creativity in children."</p>
-      <span>- Neha R.</span>
+      <p>"It felt so special to send a personal message that could inspire."</p>
+      <span>– Priya K.</span>
     </div>
   </section>
 
