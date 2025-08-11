@@ -1,97 +1,82 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(180deg, #fff7e6 0%, #ffe0b2 100%);
+  background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
   margin: 0;
   padding: 0;
-  color: #333;
-}
-
-.postcard-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  opacity: 0.06;
-}
-.postcard-bg img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
 }
 
 header {
-  background: linear-gradient(90deg, #ffa726, #ff7043);
-  padding: 2rem;
   text-align: center;
-  border-bottom: 4px dashed rgba(255,255,255,0.5);
-  color: white;
-  animation: fadeIn 1s ease-in-out;
-}
-header h1 {
-  font-family: 'Pacifico', cursive;
-  font-size: 3rem;
-  margin: 0;
-}
-header .icon {
-  font-size: 3.2rem;
-  display: inline-block;
-  animation: bounce 1.2s infinite ease-in-out;
-}
-header .brand {
-  background: rgba(255,255,255,0.2);
-  padding: 0.3rem 1rem;
-  border-radius: 12px;
-}
-header .tagline {
-  font-family: 'Caveat', cursive;
-  font-size: 1.6rem;
-  margin-top: 1rem;
-  line-height: 1.5;
-}
-header .highlight {
-  background: rgba(255,255,255,0.3);
-  padding: 0.2rem 0.5rem;
-  border-radius: 8px;
-}
-header .heart {
-  animation: pulse 1.5s infinite;
+  padding: 1.5rem;
+  background: linear-gradient(90deg, #ffe0b2, #ffcc80);
+  border-bottom: 4px dashed #ffb74d;
 }
 
-.container, .samples, .testimonials, .qr-gen {
-  max-width: 800px;
-  background-color: #fff;
-  padding: 2rem;
-  margin: 2rem auto;
-  border-radius: 12px;
-  border: 2px dashed #ffcc80;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+header h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.5rem;
+  margin: 0;
+  color: #ff7043;
 }
-.container:hover, .samples:hover, .testimonials:hover, .qr-gen:hover {
-  transform: translateY(-3px);
+
+header p {
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+.postcard {
+  background-color: #fffdf5;
+  border: 6px solid #e0c097;
+  border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  max-width: 1000px;
+  margin: 2rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  gap: 2rem;
+  background-image: url('https://www.transparenttextures.com/patterns/beige-paper.png');
+}
+
+.postcard-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.postcard-right {
+  flex: 1;
+  border-left: 2px solid #ddd;
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* stamp at top, QR at bottom */
+  align-items: center;
+}
+
+.stamp {
+  width: 80px;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+  transform: rotate(-3deg);
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
 
 label {
-  display: block;
   margin-top: 1rem;
   font-weight: bold;
+  font-size: 0.95rem;
 }
 
 input, textarea {
   width: 100%;
   padding: 0.75rem;
-  margin-top: 0.5rem;
-  border: 1px solid #ddd;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #fffdf9;
-  transition: border-color 0.2s;
-}
-input:focus, textarea:focus {
-  border-color: #ffa726;
-  outline: none;
+  font-size: 0.95rem;
+  background-color: #fffef8;
 }
 
 textarea {
@@ -100,7 +85,7 @@ textarea {
 }
 
 button {
-  background: linear-gradient(90deg, #ff8a65, #ff7043);
+  background-color: #ff7043;
   color: white;
   padding: 1rem;
   border: none;
@@ -108,44 +93,27 @@ button {
   font-size: 1rem;
   margin-top: 1.5rem;
   cursor: pointer;
-  width: 100%;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: background 0.3s;
 }
+
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  background-color: #f4511e;
 }
 
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-.cards .card {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  width: 200px;
+.qr-gen {
   text-align: center;
-  padding: 1rem;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-}
-.cards .card:hover {
-  transform: rotate(-1deg) scale(1.03);
-}
-.cards .card img {
-  width: 100%;
-  border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
-.testimonial {
-  background: #fff8e1;
-  padding: 1rem;
+.qr-gen #qrcode {
+  display: inline-block;
   margin: 1rem 0;
-  border-left: 4px solid #ffb74d;
-  border-radius: 6px;
+}
+
+.qr-gen p {
+  font-size: 1.1rem;
+  color: #444;
+  margin-top: 0.5rem;
 }
 
 footer {
@@ -163,18 +131,37 @@ footer {
   border-radius: 6px;
   font-weight: bold;
 }
+
 .success { background: #d4edda; color: #155724; }
 .error { background: #f8d7da; color: #721c24; }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+/* Testimonials */
+.testimonials {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 1.5rem;
+  background: #fff8e1;
+  border-radius: 12px;
+  border: 2px dashed #ffcc80;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  text-align: center;
 }
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+
+.testimonials h2 {
+  font-family: 'Pacifico', cursive;
+  color: #ff7043;
+  margin-bottom: 1rem;
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+
+.testimonial {
+  margin-bottom: 1rem;
+  font-style: italic;
+  color: #555;
+}
+
+.testimonial span {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: #888;
 }
