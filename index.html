@@ -192,18 +192,11 @@
       }
     }
 
-    /* Fixed girl.png styling */
     .upi-banner {
-      max-width: 100%;
+      width: 100%;
       display: flex;
       justify-content: center;
-      align-items: center;
-    }
-    .upi-banner img {
-      max-width: 220px;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-top: 1rem;
     }
     
     .promo-banner {
@@ -215,6 +208,7 @@
       object-fit: contain;
     }
 
+    /* Price badge and side tag */
     .price-badge {
       background-color: #ff7043;
       color: white;
@@ -238,14 +232,6 @@
       font-size: 0.95rem;
       max-width: 200px;
       margin-top: 1rem;
-    }
-
-    /* Visitor counter style */
-    .visitor-counter {
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      color: #555;
-      text-align: center;
     }
   </style>
 
@@ -294,13 +280,10 @@
 
     <div class="postcard-right">
       <div class="upi-banner">
-        <img src="girl.png" alt="From your heart to their hands — iPaint your wishes" />
+        <img src="girl.png" alt="From your heart to their hands — iPaint your wishes" class="promo-banner" />
       </div>
       <div class="price-tag">
         💌 Post a real postcard for just <strong>₹15</strong>
-      </div>
-      <div class="visitor-counter">
-        👀 Visitors: <span id="visitorCount">0</span>
       </div>
     </div>
   </div>
@@ -327,7 +310,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
@@ -341,20 +324,6 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
-    async function updateVisitorCount() {
-      const counterRef = doc(db, "metrics", "visitorCounter");
-      const counterSnap = await getDoc(counterRef);
-
-      if (counterSnap.exists()) {
-        await updateDoc(counterRef, { count: increment(1) });
-        document.getElementById("visitorCount").textContent = counterSnap.data().count + 1;
-      } else {
-        await setDoc(counterRef, { count: 1 });
-        document.getElementById("visitorCount").textContent = 1;
-      }
-    }
-    updateVisitorCount();
 
     const payButton = document.getElementById('payButton');
     const formMessage = document.getElementById('formMessage');
