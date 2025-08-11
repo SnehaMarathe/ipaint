@@ -37,7 +37,6 @@
       margin-top: 0.5rem;
       color: #555;
     }
-    
 
     /* ---------- Postcard Layout ---------- */
     .postcard {
@@ -132,7 +131,7 @@
     .success { background: #d4edda; color: #155724; }
     .error { background: #f8d7da; color: #721c24; }
 
-    /* ---------- Testimonials (Old Style Restored) ---------- */
+    /* ---------- Testimonials ---------- */
     .testimonials {
       background: #fff8e1;
       padding: 2rem;
@@ -185,6 +184,7 @@
       color: #777;
     }
 
+    /* ---------- Responsive ---------- */
     @media (max-width: 768px) {
       .postcard {
         flex-direction: column;
@@ -200,20 +200,21 @@
       }
     }
 
-    .upi-banner {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-    
+    /* ---------- Banner Images ---------- */
     .promo-banner {
-      max-width: 230px; /* keeps image within column */
+      max-width: 230px;
       width: 100%;
       height: auto;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       object-fit: contain;
+    }
+
+    .image-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
     }
   </style>
 
@@ -254,12 +255,12 @@
       </form>
     </div>
 
-    <!-- Right Side: Banner -->
+    <!-- Right Side: Banner Images -->
     <div class="postcard-right">
-      <div class="upi-banner">
-        <img src="girl.png" 
-             alt="From your heart to their hands — iPaint your wishes" 
-             class="promo-banner" />
+      <div class="image-stack">
+        <img src="girl.png" alt="From your heart to their hands — iPaint your wishes" class="promo-banner" />
+        <img src="sample1.png" alt="Sample Postcard 1" class="promo-banner" />
+        <img src="sample2.png" alt="Sample Postcard 2" class="promo-banner" />
       </div>
     </div>
   </div>
