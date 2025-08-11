@@ -1,83 +1,190 @@
+/* Google Fonts for warmth & playfulness */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Caveat:wght@400;600&display=swap');
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+  font-family: 'Caveat', cursive;
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
   margin: 0;
   padding: 0;
-  text-align: center;
+  color: #4e342e;
+  background-attachment: fixed;
+  overflow-x: hidden;
 }
 
-.postcard-bg img {
+/* Faint animated floating hearts */
+body::before {
+  content: "💌 💖 💫";
+  position: fixed;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  font-size: 2rem;
+  animation: floatHearts 12s linear infinite;
+  opacity: 0.1;
+}
+@keyframes floatHearts {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(40px) translateX(20px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+.postcard-bg {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  opacity: 0.15;
   z-index: -1;
+  opacity: 0.06;
+}
+.postcard-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 header {
-  padding: 20px;
+  background: linear-gradient(90deg, #ffb74d, #ff8a65);
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 4px dashed rgba(255,255,255,0.6);
+  color: white;
+}
+header h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.5rem;
+  margin: 0;
+}
+header p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0.5rem auto 0;
 }
 
-.container {
-  background: #fff;
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.container, .samples, .testimonials, .qr-gen {
+  max-width: 800px;
+  background-color: rgba(255, 255, 255, 0.97);
+  padding: 2rem;
+  margin: 2rem auto;
+  border-radius: 16px;
+  border: 3px dashed #ffcc80;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.container:hover, .samples:hover, .testimonials:hover, .qr-gen:hover {
+  transform: scale(1.01);
 }
 
 label {
   display: block;
-  text-align: left;
-  margin-top: 10px;
+  margin-top: 1rem;
   font-weight: bold;
+  font-size: 1.1rem;
 }
-
 input, textarea {
   width: 100%;
-  padding: 8px;
-  margin-top: 4px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  border: 2px solid #ffcc80;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fffaf0;
+}
+textarea {
+  resize: vertical;
+  height: 120px;
 }
 
 button {
-  margin-top: 15px;
-  background-color: #ff6f61;
+  background-color: #ff7043;
   color: white;
+  padding: 1rem;
   border: none;
-  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
   cursor: pointer;
-  border-radius: 6px;
-  font-size: 16px;
+  width: 100%;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
 }
-
 button:hover {
-  background-color: #ff3b2e;
+  background-color: #ff5722;
+  transform: translateY(-2px);
+}
+button:active {
+  transform: translateY(0);
 }
 
-.message-box {
-  display: none;
+/* Samples section */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+.cards .card {
+  background: #fffaf0;
+  border: 2px solid #ffcc80;
+  border-radius: 14px;
+  width: 200px;
   text-align: center;
-  margin-top: 10px;
-  padding: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+.cards .card:hover {
+  transform: translateY(-5px);
+}
+.cards .card img {
+  width: 100%;
+  border-radius: 10px;
+}
+.cards .card p {
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Testimonials */
+.testimonial {
+  background: #fff8e1;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 5px solid #ffb300;
   border-radius: 6px;
+  animation: fadeInUp 1s ease;
+}
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* QR Section */
+.qr-gen h2 {
+  text-align: center;
+}
+#qrcode {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  padding: 10px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.qr-gen p {
+  text-align: center;
+  font-size: 1.1rem;
   font-weight: bold;
 }
 
-.success { background: #d4edda; color: #155724; }
-.error { background: #f8d7da; color: #721c24; }
-
-.qr-gen {
-  margin-top: 30px;
-}
-
+/* Footer */
 footer {
-  margin-top: 40px;
-  padding: 15px;
-  background: #f1f1f1;
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: #777;
+  background: #ffecb3;
+  border-top: 3px dashed #ffcc80;
 }
