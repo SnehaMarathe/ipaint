@@ -160,7 +160,7 @@
       e.preventDefault();
       submitBtn.disabled = true;
       formMessage.style.display = "none";
-
+    
       const wishData = {
         toName: form.toName.value.trim(),
         toAddress: form.toAddress.value.trim(),
@@ -169,7 +169,7 @@
         message: form.message.value.trim(),
         timestamp: serverTimestamp()
       };
-
+    
       try {
         await addDoc(collection(db, 'wishes'), wishData);
         formMessage.textContent = "🎉 Your wish has been sent successfully!";
@@ -177,13 +177,17 @@
         formMessage.style.display = "block";
         form.reset();
       } catch (error) {
-        formMessage.textContent = "❌ Failed to send wish. Please try again.";
+        // Show the exact Firebase error message
+        formMessage.textContent = `❌ Error: ${error.code || 'unknown'} — ${error.message}`;
         formMessage.className = "message-box error";
         formMessage.style.display = "block";
-        console.error(error);
+        console.error("Firestore write error:", error);
       } finally {
         submitBtn.disabled = false;
       }
+    
+      setTimeout(() => formMessage.style.display = "none", 8000);
+    });
 
       setTimeout(() => formMessage.style.display = "none", 4000);
     });
