@@ -4,24 +4,88 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ipaint.in – Send Joyful Wishes to Children</title>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      color: #333;
+      text-align: center;
+    }
+    header {
+      padding: 20px;
+    }
+    header h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.5rem;
+      color: #ff4081;
+    }
+    .container {
+      background: white;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 0.6s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    button {
+      background: linear-gradient(45deg, #ff4081, #ff80ab);
+      color: white;
+      font-weight: bold;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.05); }
     .message-box {
       display: none;
-      text-align: center;
       margin-top: 10px;
       padding: 10px;
-      border-radius: 6px;
+      border-radius: 8px;
       font-weight: bold;
+      animation: fadeIn 0.3s ease-in;
     }
     .success { background: #d4edda; color: #155724; }
     .error { background: #f8d7da; color: #721c24; }
+    .qr-gen {
+      margin: 20px auto;
+      padding: 15px;
+      background: #fff3cd;
+      border-radius: 10px;
+      max-width: 300px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    footer {
+      margin: 20px 0;
+      font-size: 0.9rem;
+      color: #777;
+    }
   </style>
 </head>
 <body>
-  <div class="postcard-bg">
-    <img src="images/postcard-bg.jpg" alt="Postcard texture background">
-  </div>
 
   <header>
     <h1>📮 ipaint.in</h1>
@@ -46,7 +110,7 @@
       <label for="message">Your Motivational Message</label>
       <textarea id="message" name="message" required></textarea>
 
-      <button type="submit">💌 Imagine & Post My Wish</button>
+      <button type="submit" id="submitBtn">💌 Imagine & Post My Wish</button>
       <div id="formMessage" class="message-box"></div>
     </form>
   </div>
@@ -70,10 +134,10 @@
     });
   </script>
 
-  <!-- Firebase v9 modular SDK -->
+  <!-- Firebase v9 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
@@ -85,44 +149,43 @@
       measurementId: "G-NE05L2CS5Y"
     };
 
-    console.log("Initializing Firebase...");
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    console.log("Firebase initialized:", app);
 
-    document.getElementById('wishForm').addEventListener('submit', async (e) => {
+    const form = document.getElementById('wishForm');
+    const formMessage = document.getElementById('formMessage');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formMessage = document.getElementById('formMessage');
-      
+      submitBtn.disabled = true;
+      formMessage.style.display = "none";
+
       const wishData = {
-        toName: document.getElementById('toName').value.trim(),
-        toAddress: document.getElementById('toAddress').value.trim(),
-        fromName: document.getElementById('fromName').value.trim(),
-        mobileNumber: document.getElementById('mobileNumber').value.trim(),
-        message: document.getElementById('message').value.trim(),
-        timestamp: new Date()
+        toName: form.toName.value.trim(),
+        toAddress: form.toAddress.value.trim(),
+        fromName: form.fromName.value.trim(),
+        mobileNumber: form.mobileNumber.value.trim(),
+        message: form.message.value.trim(),
+        timestamp: serverTimestamp()
       };
 
-      console.log("Attempting Firestore write...", wishData);
-
       try {
-        const docRef = await addDoc(collection(db, 'wishes'), wishData);
-        console.log("✅ Document written with ID:", docRef.id);
-
-        formMessage.textContent = "✅ Your wish has been sent successfully!";
+        await addDoc(collection(db, 'wishes'), wishData);
+        formMessage.textContent = "🎉 Your wish has been sent successfully!";
         formMessage.className = "message-box success";
         formMessage.style.display = "block";
-        document.getElementById('wishForm').reset();
+        form.reset();
       } catch (error) {
-        console.error("❌ Firestore Error:", error);
-        formMessage.textContent = "❌ Failed to send wish. Check console for details.";
+        formMessage.textContent = "❌ Failed to send wish. Please try again.";
         formMessage.className = "message-box error";
         formMessage.style.display = "block";
+        console.error(error);
+      } finally {
+        submitBtn.disabled = false;
       }
 
-      setTimeout(() => {
-        formMessage.style.display = "none";
-      }, 4000);
+      setTimeout(() => formMessage.style.display = "none", 4000);
     });
   </script>
 </body>
