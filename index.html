@@ -1,226 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ipaint.in – Send Joyful Wishes to Children</title>
-<link rel="stylesheet" href="style.css">
-<style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f5f0e6;
-    margin: 0;
-    padding: 0;
-    color: #333;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ipaint.in – Send Joyful Wishes to Children</title>
 
-  .postcard {
-    max-width: 1000px;
-    margin: 2rem auto;
-    background-color: #fff8f0;
-    border: 2px solid #ccc;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    display: flex;
-    overflow: hidden;
-  }
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Segoe+UI&display=swap" rel="stylesheet">
 
-  /* Left side: message area */
-  .postcard-left {
-    flex: 1;
-    padding: 2rem;
-    background: url('postcard-bg.jpg') no-repeat center/cover;
-  }
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('paper-texture.jpg') repeat;
+      margin: 0;
+      padding: 0;
+    }
 
-  .postcard-left h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #d35400;
-  }
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(90deg, #ffe0b2, #ffcc80);
+      border-bottom: 4px dashed #ffb74d;
+    }
 
-  label {
-    display: block;
-    margin-top: 1rem;
-    font-weight: bold;
-  }
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.5rem;
+      margin: 0;
+      color: #ff7043;
+    }
 
-  input, textarea {
-    width: 100%;
-    padding: 0.75rem;
-    margin-top: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-family: inherit;
-  }
+    header p {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      color: #555;
+    }
 
-  textarea {
-    resize: vertical;
-    height: 120px;
-  }
+    .postcard {
+      background-color: #fffdf5;
+      border: 4px dashed #ffcc80;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: 2rem auto;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+      gap: 2rem;
+    }
 
-  button {
-    background-color: #ff7043;
-    color: white;
-    padding: 1rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    margin-top: 1.5rem;
-    cursor: pointer;
-    width: 100%;
-  }
+    .postcard-left {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .message-box {
-    display: none;
-    text-align: center;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 6px;
-    font-weight: bold;
-  }
+    .postcard-right {
+      flex: 1;
+      border-left: 2px solid #ddd;
+      padding-left: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* stamp at top, QR at bottom */
+      align-items: center;
+    }
 
-  .success { background: #d4edda; color: #155724; }
-  .error { background: #f8d7da; color: #721c24; }
+    .stamp {
+      width: 80px;
+      margin-top: 0.5rem;
+      opacity: 0.85;
+    }
 
-  /* Right side: stamp + QR */
-  .postcard-right {
-    flex: 0.5;
-    border-left: 2px solid #ddd;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    background: #fffdf8;
-  }
+    label {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
 
-  .stamp {
-    width: 80px;
-    opacity: 0.9;
-    margin-bottom: auto;
-  }
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
 
-  .qr-gen {
-    text-align: center;
-    margin-top: auto;
-  }
+    textarea {
+      resize: vertical;
+      height: 120px;
+    }
 
-  .qr-gen #qrcode {
-    display: inline-block;
-    margin: 1rem 0;
-  }
+    button {
+      background-color: #ff7043;
+      color: white;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-  footer {
-    text-align: center;
-    padding: 1rem;
-    font-size: 0.9rem;
-    color: #777;
-  }
-</style>
+    button:hover {
+      background-color: #f4511e;
+    }
+
+    .qr-gen {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .qr-gen #qrcode {
+      display: inline-block;
+      margin: 1rem 0;
+    }
+
+    .qr-gen p {
+      font-size: 1.1rem;
+      color: #444;
+      margin-top: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .message-box {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+
+    /* Testimonials */
+    .testimonials {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 1.5rem;
+      background: #fff8e1;
+      border-radius: 12px;
+      border: 2px dashed #ffcc80;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .testimonials h2 {
+      font-family: 'Pacifico', cursive;
+      color: #ff7043;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial {
+      margin-bottom: 1rem;
+      font-style: italic;
+      color: #555;
+    }
+
+    .testimonial span {
+      display: block;
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
 
-<div class="postcard">
-  <!-- Left side: message form -->
-  <div class="postcard-left">
+  <header>
     <h1>📮 ipaint.in</h1>
     <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness!</p>
-    <form id="wishForm">
-      <label for="toName">To: Full Name</label>
-      <input type="text" id="toName" name="toName" required />
+  </header>
 
-      <label for="toAddress">To: Full Address</label>
-      <input type="text" id="toAddress" name="toAddress" required />
+  <div class="postcard">
+    <!-- Left Side: Form -->
+    <div class="postcard-left">
+      <h2>✨ Write Your Magical Wish</h2>
+      <form id="wishForm">
+        <label for="toName">To: Full Name</label>
+        <input type="text" id="toName" name="toName" required />
 
-      <label for="fromName">From: Your Name</label>
-      <input type="text" id="fromName" name="fromName" required />
+        <label for="toAddress">To: Full Address</label>
+        <input type="text" id="toAddress" name="toAddress" required />
 
-      <label for="mobileNumber">From: Mobile Number</label>
-      <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}" placeholder="10-digit number"/>
+        <label for="fromName">From: Your Name</label>
+        <input type="text" id="fromName" name="fromName" required />
 
-      <label for="message">Your Motivational Message</label>
-      <textarea id="message" name="message" required></textarea>
+        <label for="mobileNumber">From: Mobile Number</label>
+        <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}" placeholder="10-digit number"/>
 
-      <button type="submit">💌 Imagine & Post My Wish</button>
-      <div id="formMessage" class="message-box"></div>
-    </form>
-  </div>
+        <label for="message">Your Motivational Message</label>
+        <textarea id="message" name="message" required></textarea>
 
-  <!-- Right side: stamp + QR -->
-  <div class="postcard-right">
-    <img src="stamp.png" alt="Postage Stamp" class="stamp">
-    <div class="qr-gen">
-      <h2>Scan & Pay ₹25</h2>
-      <div id="qrcode"></div>
-      <p>UPI ID: <strong>9822571038@upi</strong></p>
+        <button type="submit">💌 Imagine & Post My Wish</button>
+        <div id="formMessage" class="message-box"></div>
+      </form>
+    </div>
+
+    <!-- Right Side: Stamp + QR -->
+    <div class="postcard-right">
+      <img src="stamp.png" alt="Postage Stamp" class="stamp">
+      <div class="qr-gen">
+        <h2>Scan & Pay ₹25</h2>
+        <div id="qrcode"></div>
+        <p>UPI ID: <strong>9822571038@upi</strong></p>
+      </div>
     </div>
   </div>
-</div>
 
-<footer>
-  &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
-</footer>
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>💬 What People Are Saying</h2>
+    <div class="testimonial">
+      <p>"My daughter loved receiving her postcard — it made her week!"</p>
+      <span>- Priya S.</span>
+    </div>
+    <div class="testimonial">
+      <p>"A small act, a big smile — beautiful initiative!"</p>
+      <span>- Arjun K.</span>
+    </div>
+    <div class="testimonial">
+      <p>"Such a thoughtful way to encourage creativity in children."</p>
+      <span>- Neha R.</span>
+    </div>
+  </section>
 
-<!-- QRCode.js -->
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-<script>
-  window.addEventListener("DOMContentLoaded", function() {
+  <footer>
+    &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
+  </footer>
+
+  <!-- QRCode.js -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script>
     new QRCode(document.getElementById("qrcode"), {
       text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
-      width: 150,
-      height: 150
+      width: 160,
+      height: 160
     });
-  });
-</script>
+  </script>
 
-<!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
-    authDomain: "ipaint-7b2a5.firebaseapp.com",
-    projectId: "ipaint-7b2a5",
-    storageBucket: "ipaint-7b2a5.appspot.com",
-    messagingSenderId: "470124187831",
-    appId: "1:470124187831:web:831554ab7218ac62dbbd32",
-    measurementId: "G-NE05L2CS5Y"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  document.getElementById('wishForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formMessage = document.getElementById('formMessage');
-    
-    const wishData = {
-      toName: document.getElementById('toName').value.trim(),
-      toAddress: document.getElementById('toAddress').value.trim(),
-      fromName: document.getElementById('fromName').value.trim(),
-      mobileNumber: document.getElementById('mobileNumber').value.trim(),
-      message: document.getElementById('message').value.trim(),
-      timestamp: new Date()
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
+      authDomain: "ipaint-7b2a5.firebaseapp.com",
+      projectId: "ipaint-7b2a5",
+      storageBucket: "ipaint-7b2a5.appspot.com",
+      messagingSenderId: "470124187831",
+      appId: "1:470124187831:web:831554ab7218ac62dbbd32",
+      measurementId: "G-NE05L2CS5Y"
     };
 
-    try {
-      await addDoc(collection(db, 'wishes'), wishData);
-      formMessage.textContent = "✅ Your wish has been sent successfully!";
-      formMessage.className = "message-box success";
-      formMessage.style.display = "block";
-      document.getElementById('wishForm').reset();
-    } catch (error) {
-      formMessage.textContent = "❌ Failed to send wish. Please try again.";
-      formMessage.className = "message-box error";
-      formMessage.style.display = "block";
-    }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    setTimeout(() => {
-      formMessage.style.display = "none";
-    }, 4000);
-  });
-</script>
+    document.getElementById('wishForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formMessage = document.getElementById('formMessage');
+      
+      const wishData = {
+        toName: document.getElementById('toName').value.trim(),
+        toAddress: document.getElementById('toAddress').value.trim(),
+        fromName: document.getElementById('fromName').value.trim(),
+        mobileNumber: document.getElementById('mobileNumber').value.trim(),
+        message: document.getElementById('message').value.trim(),
+        timestamp: new Date()
+      };
 
+      try {
+        await addDoc(collection(db, 'wishes'), wishData);
+        formMessage.textContent = "✅ Your wish has been sent successfully!";
+        formMessage.className = "message-box success";
+        formMessage.style.display = "block";
+        document.getElementById('wishForm').reset();
+      } catch (error) {
+        formMessage.textContent = "❌ Failed to send wish. Please try again.";
+        formMessage.className = "message-box error";
+        formMessage.style.display = "block";
+      }
+
+      setTimeout(() => {
+        formMessage.style.display = "none";
+      }, 4000);
+    });
+  </script>
 </body>
 </html>
