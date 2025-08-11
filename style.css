@@ -1,3 +1,4 @@
+/* ---------- Base & Background ---------- */
 body {
   font-family: 'Segoe UI', sans-serif;
   background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
@@ -5,6 +6,7 @@ body {
   padding: 0;
 }
 
+/* ---------- Header ---------- */
 header {
   text-align: center;
   padding: 1.5rem;
@@ -25,6 +27,7 @@ header p {
   color: #555;
 }
 
+/* ---------- Postcard Layout ---------- */
 .postcard {
   background-color: #fffdf5;
   border: 6px solid #e0c097;
@@ -51,7 +54,7 @@ header p {
   padding-left: 1.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* stamp at top, QR at bottom */
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -63,6 +66,7 @@ header p {
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
 
+/* ---------- Form ---------- */
 label {
   margin-top: 1rem;
   font-weight: bold;
@@ -100,6 +104,7 @@ button:hover {
   background-color: #f4511e;
 }
 
+/* ---------- QR Code ---------- */
 .qr-gen {
   text-align: center;
   margin-bottom: 1rem;
@@ -116,13 +121,7 @@ button:hover {
   margin-top: 0.5rem;
 }
 
-footer {
-  text-align: center;
-  padding: 2rem;
-  font-size: 0.9rem;
-  color: #777;
-}
-
+/* ---------- Messages ---------- */
 .message-box {
   display: none;
   text-align: center;
@@ -135,33 +134,55 @@ footer {
 .success { background: #d4edda; color: #155724; }
 .error { background: #f8d7da; color: #721c24; }
 
-/* Testimonials */
+/* ---------- Testimonials (Old Style Restored) ---------- */
 .testimonials {
-  max-width: 800px;
-  margin: 3rem auto;
-  padding: 1.5rem;
   background: #fff8e1;
+  padding: 2rem;
   border-radius: 12px;
-  border: 2px dashed #ffcc80;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  text-align: center;
+  max-width: 900px;
+  margin: 3rem auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .testimonials h2 {
+  text-align: center;
   font-family: 'Pacifico', cursive;
+  font-size: 2rem;
   color: #ff7043;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .testimonial {
-  margin-bottom: 1rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.testimonial:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.testimonial p {
   font-style: italic;
-  color: #555;
+  color: #444;
 }
 
 .testimonial span {
   display: block;
-  margin-top: 0.3rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #666;
   font-size: 0.9rem;
-  color: #888;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: #777;
 }
