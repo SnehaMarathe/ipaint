@@ -67,7 +67,7 @@
       padding-left: 1.5rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
     }
 
@@ -117,31 +117,6 @@
 
     button:hover {
       background-color: #f4511e;
-    }
-
-    /* ---------- QR Code ---------- */
-    .qr-gen {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .qr-gen #qrcode {
-      display: inline-block;
-      margin: 1rem 0;
-    }
-
-    .qr-gen p {
-      font-size: 1.1rem;
-      color: #444;
-      margin-top: 0.5rem;
-    }
-
-    .upi-banner img.promo-banner {
-      width: 180px;
-      height: 200px;
-      object-fit: contain;
-      display: inline-block;
-      margin: 1rem 0;
     }
 
     /* ---------- Messages ---------- */
@@ -225,6 +200,9 @@
       }
     }
   </style>
+
+  <!-- Razorpay Checkout script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
@@ -255,25 +233,19 @@
         <label for="message">Your Motivational Message</label>
         <textarea id="message" name="message" required></textarea>
 
-        <button type="submit">💌 Imagine & Post My Wish</button>
+        <button type="button" id="payButton">💌 Imagine & Post My Wish</button>
         <div id="formMessage" class="message-box"></div>
       </form>
     </div>
 
-    <!-- Right Side: QR Code -->
+    <!-- Right Side: Removed QR Code, kept banner -->
     <div class="postcard-right">
-      <div class="qr-gen">
-        <h2>Scan & Pay ₹15</h2>
-        <div id="qrcode"></div>
-      </div>
-
-        <!-- New Banner Image -->
+      <!-- New Banner Image -->
       <div class="upi-banner">
         <img src="girl.png" 
              alt="From your heart to their hands — iPaint your wishes" 
              class="promo-banner">
       </div>
-      
     </div>
   </div>
 
@@ -298,16 +270,6 @@
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
   </footer>
 
-  <!-- QRCode.js -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-  <script>
-    new QRCode(document.getElementById("qrcode"), {
-      text: "upi://pay?pa=snehakarmarkar-2@okaxis&am=15&cu=INR",
-      width: 160,
-      height: 160
-    });
-  </script>
-
   <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
@@ -326,34 +288,66 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    document.getElementById('wishForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formMessage = document.getElementById('formMessage');
-      
+    const payButton = document.getElementById('payButton');
+    const formMessage = document.getElementById('formMessage');
+
+    payButton.addEventListener('click', () => {
+      formMessage.style.display = "none";
+
+      // Validate form before payment
+      const form = document.getElementById('wishForm');
+      if (!form.reportValidity()) {
+        return;
+      }
+
       const wishData = {
         toName: document.getElementById('toName').value.trim(),
         toAddress: document.getElementById('toAddress').value.trim(),
         fromName: document.getElementById('fromName').value.trim(),
         mobileNumber: document.getElementById('mobileNumber').value.trim(),
-        message: document.getElementById('message').value.trim(),
-        timestamp: new Date()
+        message: document.getElementById('message').value.trim()
       };
 
-      try {
-        await addDoc(collection(db, 'wishes'), wishData);
-        formMessage.textContent = "✅ Your wish has been sent successfully!";
-        formMessage.className = "message-box success";
-        formMessage.style.display = "block";
-        document.getElementById('wishForm').reset();
-      } catch (error) {
-        formMessage.textContent = "❌ Failed to send wish. Please try again.";
-        formMessage.className = "message-box error";
-        formMessage.style.display = "block";
-      }
+      // Razorpay options
+      const options = {
+        key: "rzp_live_qFVcFW1dSmAW0M", // "rzp_test_2wFKfqydF2XePp", // Replace with your Razorpay API key
+        amount: 1500, // Amount in paise = ₹15.00
+        currency: "INR",
+        name: "iPaint Wishes",
+        description: "Send a magical wish",
+        handler: async function (response) {
+          // On successful payment, save to Firebase
+          try {
+            await addDoc(collection(db, 'wishes'), {
+              ...wishData,
+              paymentId: response.razorpay_payment_id,
+              timestamp: new Date()
+            });
+            formMessage.textContent = "✅ Your wish has been sent successfully!";
+            formMessage.className = "message-box success";
+            formMessage.style.display = "block";
+            form.reset();
+          } catch (error) {
+            formMessage.textContent = "❌ Payment succeeded but failed to save your wish. Contact support.";
+            formMessage.className = "message-box error";
+            formMessage.style.display = "block";
+          }
+        },
+        modal: {
+          ondismiss: function() {
+            formMessage.textContent = "⚠️ Payment cancelled. Please try again.";
+            formMessage.className = "message-box error";
+            formMessage.style.display = "block";
+          }
+        },
+        prefill: {
+          name: wishData.fromName,
+          contact: wishData.mobileNumber
+        }
+      };
 
-      setTimeout(() => {
-        formMessage.style.display = "none";
-      }, 4000);
+      const rzp = new Razorpay(options);
+      rzp.open();
     });
   </script>
 </body>
