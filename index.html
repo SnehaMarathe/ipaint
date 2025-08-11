@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Segoe+UI&display=swap" rel="stylesheet">
 
   <style>
-    /* ---------- Base & Background ---------- */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
@@ -17,7 +16,6 @@
       padding: 0;
     }
 
-    /* ---------- Header ---------- */
     header {
       text-align: center;
       padding: 1.5rem;
@@ -38,7 +36,6 @@
       color: #555;
     }
 
-    /* ---------- Postcard Layout ---------- */
     .postcard {
       background-color: #fffdf5;
       border: 6px solid #e0c097;
@@ -80,7 +77,6 @@
       box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
     }
 
-    /* ---------- Form ---------- */
     label {
       margin-top: 1rem;
       font-weight: bold;
@@ -118,7 +114,6 @@
       background-color: #f4511e;
     }
 
-    /* ---------- Messages ---------- */
     .message-box {
       display: none;
       text-align: center;
@@ -131,7 +126,6 @@
     .success { background: #d4edda; color: #155724; }
     .error { background: #f8d7da; color: #721c24; }
 
-    /* ---------- Testimonials ---------- */
     .testimonials {
       background: #fff8e1;
       padding: 2rem;
@@ -176,7 +170,6 @@
       font-size: 0.9rem;
     }
 
-    /* ---------- Footer ---------- */
     footer {
       text-align: center;
       padding: 2rem;
@@ -184,7 +177,6 @@
       color: #777;
     }
 
-    /* ---------- Responsive ---------- */
     @media (max-width: 768px) {
       .postcard {
         flex-direction: column;
@@ -200,7 +192,13 @@
       }
     }
 
-    /* ---------- Banner Images ---------- */
+    .upi-banner {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    
     .promo-banner {
       max-width: 230px;
       width: 100%;
@@ -210,30 +208,52 @@
       object-fit: contain;
     }
 
-    .image-stack {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
+    /* Price badge and side tag */
+    .price-badge {
+      background-color: #ff7043;
+      color: white;
+      font-size: 0.85rem;
+      padding: 4px 8px;
+      border-radius: 12px;
+      margin-left: 10px;
+      vertical-align: middle;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .price-tag {
+      background: #fff3e0;
+      border: 2px dashed #ff7043;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #d84315;
+      text-align: center;
+      font-size: 0.95rem;
+      max-width: 200px;
+      margin-top: 1rem;
     }
   </style>
 
-  <!-- Razorpay Checkout script -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
   <header>
     <h1>📮 From your heart, into their hands — iPaint your wishes </h1>
+    <h3 style="margin-top:0.5rem; color:#d84315; font-weight:600;">
+      💌 Postcard with greetings delivered anywhere in India — only ₹15
+    </h3>
     <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness!</p>
   </header>
 
   <div class="postcard">
     <img src="stamp.png" alt="Postage Stamp" class="stamp">
 
-    <!-- Left Side: Form -->
     <div class="postcard-left">
-      <h2>✨ Let Your Magical Wishes Fly </h2>
+      <h2>✨ Let Your Magical Wishes Fly 
+        <span class="price-badge">Only ₹15!</span>
+      </h2>
       <form id="wishForm">
         <label for="toName">To: Full Name</label>
         <input type="text" id="toName" name="toName" required />
@@ -251,21 +271,23 @@
         <textarea id="message" name="message" required></textarea>
 
         <button type="button" id="payButton">💌 Imagine &amp; Post My Wish</button>
+        <small style="display:block;margin-top:0.5rem;color:#777;">
+          📮 We’ll print & post your postcard for just ₹15 anywhere in India.
+        </small>
         <div id="formMessage" class="message-box"></div>
       </form>
     </div>
 
-    <!-- Right Side: Banner Images -->
     <div class="postcard-right">
-      <div class="image-stack">
+      <div class="upi-banner">
         <img src="girl.png" alt="From your heart to their hands — iPaint your wishes" class="promo-banner" />
-        <!img src="sample1.png" alt="Sample Postcard 1" class="promo-banner" />
-        <!img src="sample2.png" alt="Sample Postcard 2" class="promo-banner" />
+      </div>
+      <div class="price-tag">
+        💌 Post a real postcard for just <strong>₹15</strong>
       </div>
     </div>
   </div>
 
-  <!-- Testimonials Section -->
   <section class="testimonials">
     <h2>💬 What People Are Saying</h2>
     <div class="testimonial">
@@ -286,7 +308,6 @@
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
   </footer>
 
-  <!-- Firebase + Razorpay Integration -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
@@ -309,8 +330,6 @@
 
     payButton.addEventListener('click', () => {
       formMessage.style.display = "none";
-
-      // Validate form before payment
       const form = document.getElementById('wishForm');
       if (!form.reportValidity()) return;
 
@@ -323,8 +342,8 @@
       };
 
       const options = {
-        key: "rzp_live_qFVcFW1dSmAW0M",  // Replace with your Razorpay API key
-        amount: 1500, // 15 INR in paise
+        key: "rzp_live_qFVcFW1dSmAW0M",
+        amount: 1500,
         currency: "INR",
         name: "iPaint Wishes",
         description: "Send a magical wish",
