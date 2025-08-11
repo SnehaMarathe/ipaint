@@ -1,4 +1,3 @@
-/* Google Fonts for warmth & playfulness */
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Caveat:wght@400;600&display=swap');
 
 body {
@@ -8,24 +7,6 @@ body {
   padding: 0;
   color: #4e342e;
   background-attachment: fixed;
-  overflow-x: hidden;
-}
-
-/* Faint animated floating hearts */
-body::before {
-  content: "💌 💖 💫";
-  position: fixed;
-  top: -50px;
-  left: 0;
-  width: 100%;
-  font-size: 2rem;
-  animation: floatHearts 12s linear infinite;
-  opacity: 0.1;
-}
-@keyframes floatHearts {
-  0% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(40px) translateX(20px); }
-  100% { transform: translateY(0) translateX(0); }
 }
 
 .postcard-bg {
@@ -34,13 +15,26 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  background: url('postcard-bg.jpg') repeat;
   opacity: 0.06;
+  z-index: -1;
 }
-.postcard-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+body::before {
+  content: "💌";
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 2.5rem;
+  opacity: 0.7;
+}
+body::after {
+  content: "📮";
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  font-size: 2.5rem;
+  opacity: 0.7;
 }
 
 header {
@@ -57,39 +51,54 @@ header h1 {
 }
 header p {
   font-size: 1.2rem;
-  max-width: 600px;
-  margin: 0.5rem auto 0;
+  margin-top: 0.5rem;
 }
 
 .container, .samples, .testimonials, .qr-gen {
   max-width: 800px;
-  background-color: rgba(255, 255, 255, 0.97);
+  background: #fffefa;
   padding: 2rem;
   margin: 2rem auto;
-  border-radius: 16px;
-  border: 3px dashed #ffcc80;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
+  border-radius: 20px;
+  border: 3px dashed #ffd180;
+  box-shadow: 6px 6px 0 #ffcc80;
+  position: relative;
 }
-.container:hover, .samples:hover, .testimonials:hover, .qr-gen:hover {
-  transform: scale(1.01);
+.container::before {
+  content: "💖";
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  font-size: 2rem;
+}
+.container::after {
+  content: "✏️";
+  position: absolute;
+  bottom: -15px;
+  left: -15px;
+  font-size: 2rem;
 }
 
 label {
   display: block;
   margin-top: 1rem;
   font-weight: bold;
-  font-size: 1.1rem;
 }
+
 input, textarea {
-  width: 100%;
-  padding: 0.8rem;
-  margin-top: 0.5rem;
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
   border: 2px solid #ffcc80;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-family: inherit;
-  background: #fffaf0;
+  border-radius: 12px;
+  padding: 0.75rem;
+  background: #fff8e1;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #ff8a65;
+  box-shadow: 0 0 8px rgba(255,138,101,0.5);
 }
 textarea {
   resize: vertical;
@@ -101,23 +110,19 @@ button {
   color: white;
   padding: 1rem;
   border: none;
-  border-radius: 10px;
-  font-size: 1.1rem;
+  border-radius: 20px;
+  font-size: 1.2rem;
   margin-top: 1.5rem;
   cursor: pointer;
+  font-family: 'Pacifico', cursive;
   width: 100%;
-  transition: background 0.3s ease, transform 0.2s ease;
-  font-weight: bold;
+  transition: transform 0.2s ease, background 0.3s;
 }
 button:hover {
   background-color: #ff5722;
-  transform: translateY(-2px);
-}
-button:active {
-  transform: translateY(0);
+  transform: scale(1.05);
 }
 
-/* Samples section */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -125,66 +130,35 @@ button:active {
   justify-content: center;
 }
 .cards .card {
-  background: #fffaf0;
+  background: #fff8e1;
   border: 2px solid #ffcc80;
-  border-radius: 14px;
+  border-radius: 12px;
   width: 200px;
   text-align: center;
   padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-}
-.cards .card:hover {
-  transform: translateY(-5px);
+  box-shadow: 3px 3px 0 #ffd180;
+  transition: transform 0.2s ease;
 }
 .cards .card img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 8px;
 }
-.cards .card p {
-  margin-top: 0.5rem;
-  font-style: italic;
+.cards .card:hover {
+  transform: scale(1.05);
 }
 
-/* Testimonials */
 .testimonial {
-  background: #fff8e1;
+  background: #e3f2fd;
   padding: 1rem;
   margin: 1rem 0;
-  border-left: 5px solid #ffb300;
+  border-left: 4px solid #64b5f6;
   border-radius: 6px;
-  animation: fadeInUp 1s ease;
-}
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* QR Section */
-.qr-gen h2 {
-  text-align: center;
-}
-#qrcode {
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0;
-  padding: 10px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-.qr-gen p {
-  text-align: center;
   font-size: 1.1rem;
-  font-weight: bold;
 }
 
-/* Footer */
 footer {
   text-align: center;
   padding: 2rem;
   font-size: 0.9rem;
   color: #777;
-  background: #ffecb3;
-  border-top: 3px dashed #ffcc80;
 }
