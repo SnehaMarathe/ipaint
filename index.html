@@ -4,99 +4,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ipaint.in – Send Joyful Wishes to Children</title>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Pacifico&display=swap" rel="stylesheet">
+
+  <!-- Handwriting font -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Segoe+UI&display=swap" rel="stylesheet">
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #faf3e0;
+      background: url('paper-texture.jpg') repeat;
       margin: 0;
       padding: 0;
-      color: #333;
     }
-    .postcard-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.08;
-    }
-    .postcard-bg img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-    }
+
     header {
-      background: linear-gradient(90deg, #ffb74d, #ff8a65);
-      padding: 2rem;
       text-align: center;
-      border-bottom: 4px dashed rgba(255,255,255,0.6);
-      color: white;
-      animation: fadeIn 1s ease-in-out;
+      padding: 1.5rem;
+      background: linear-gradient(90deg, #ffe0b2, #ffcc80);
+      border-bottom: 4px dashed #ffb74d;
     }
+
     header h1 {
       font-family: 'Pacifico', cursive;
-      font-size: 3rem;
+      font-size: 2.5rem;
       margin: 0;
+      color: #ff7043;
     }
-    header .icon {
-      font-size: 3.2rem;
-      display: inline-block;
-      animation: bounce 1.2s infinite ease-in-out;
+
+    header p {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      color: #555;
     }
-    header .brand {
-      background: rgba(255,255,255,0.2);
-      padding: 0.3rem 1rem;
+
+    .postcard {
+      background-color: #fffdf5;
+      border: 4px dashed #ffcc80;
       border-radius: 12px;
-    }
-    header .tagline {
-      font-family: 'Caveat', cursive;
-      font-size: 1.5rem;
-      margin-top: 1rem;
-      line-height: 1.5;
-    }
-    header .highlight {
-      background: rgba(255,255,255,0.3);
-      padding: 0.2rem 0.5rem;
-      border-radius: 8px;
-    }
-    header .heart {
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-    .container, .samples, .testimonials, .qr-gen {
-      max-width: 800px;
-      background-color: rgba(255, 255, 255, 0.96);
-      padding: 2rem;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      max-width: 1000px;
       margin: 2rem auto;
-      border-radius: 12px;
-      border: 2px dashed #ffcc80;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+      gap: 2rem;
     }
+
+    .postcard-left {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .postcard-right {
+      flex: 1;
+      border-left: 2px solid #ddd;
+      padding-left: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     label {
-      display: block;
       margin-top: 1rem;
       font-weight: bold;
+      font-size: 0.95rem;
     }
+
     input, textarea {
       width: 100%;
       padding: 0.75rem;
-      margin-top: 0.5rem;
+      margin-top: 0.3rem;
       border: 1px solid #ccc;
       border-radius: 8px;
+      font-size: 0.95rem;
     }
+
     textarea {
       resize: vertical;
       height: 120px;
     }
+
     button {
       background-color: #ff7043;
       color: white;
@@ -106,44 +93,36 @@
       font-size: 1rem;
       margin-top: 1.5rem;
       cursor: pointer;
-      width: 100%;
-      transition: background 0.3s ease;
+      transition: background 0.3s;
     }
+
     button:hover {
       background-color: #f4511e;
     }
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
-    .cards .card {
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      width: 200px;
+
+    .qr-gen {
       text-align: center;
-      padding: 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-top: 1rem;
     }
-    .cards .card img {
-      width: 100%;
-      border-radius: 8px;
-    }
-    .testimonial {
-      background: #e3f2fd;
-      padding: 1rem;
+
+    .qr-gen #qrcode {
+      display: inline-block;
       margin: 1rem 0;
-      border-left: 4px solid #64b5f6;
-      border-radius: 6px;
     }
+
+    .qr-gen p {
+      font-size: 1.1rem;
+      color: #444;
+      margin-top: 0.5rem;
+    }
+
     footer {
       text-align: center;
       padding: 2rem;
       font-size: 0.9rem;
       color: #777;
     }
+
     .message-box {
       display: none;
       text-align: center;
@@ -152,83 +131,65 @@
       border-radius: 6px;
       font-weight: bold;
     }
+
     .success { background: #d4edda; color: #155724; }
     .error { background: #f8d7da; color: #721c24; }
   </style>
 </head>
 <body>
-  <div class="postcard-bg">
-    <img src="postcard-bg.jpg" alt="Postcard texture background">
-  </div>
 
   <header>
-    <h1>
-      <span class="icon">📮</span> <span class="brand">ipaint.in</span>
-    </h1>
-    <p class="tagline">
-      🌈 Transform your wishes into <span class="highlight">beautiful postcards</span> that spark joy,  
-      inspire dreams, and leave a <span class="heart">💖</span> of kindness in every child’s heart!
-    </p>
+    <h1>📮 ipaint.in</h1>
+    <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness!</p>
   </header>
 
-  <div class="container">
-    <h2>✨ Write Your Magical Wish</h2>
-    <form id="wishForm">
-      <label for="toName">To: Full Name</label>
-      <input type="text" id="toName" name="toName" required />
+  <div class="postcard">
+    <!-- Left Side: Form -->
+    <div class="postcard-left">
+      <h2>✨ Write Your Magical Wish</h2>
+      <form id="wishForm">
+        <label for="toName">To: Full Name</label>
+        <input type="text" id="toName" name="toName" required />
 
-      <label for="toAddress">To: Full Address</label>
-      <input type="text" id="toAddress" name="toAddress" required />
+        <label for="toAddress">To: Full Address</label>
+        <input type="text" id="toAddress" name="toAddress" required />
 
-      <label for="fromName">From: Your Name</label>
-      <input type="text" id="fromName" name="fromName" required />
+        <label for="fromName">From: Your Name</label>
+        <input type="text" id="fromName" name="fromName" required />
 
-      <label for="mobileNumber">From: Mobile Number</label>
-      <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}" placeholder="10-digit number"/>
+        <label for="mobileNumber">From: Mobile Number</label>
+        <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}" placeholder="10-digit number"/>
 
-      <label for="message">Your Motivational Message</label>
-      <textarea id="message" name="message" required></textarea>
+        <label for="message">Your Motivational Message</label>
+        <textarea id="message" name="message" required></textarea>
 
-      <button type="submit">💌 Imagine & Post My Wish</button>
-      <div id="formMessage" class="message-box"></div>
-    </form>
-  </div>
-
-  <section class="samples">
-    <h2>✉️ Sample Postcards</h2>
-    <div class="cards">
-      <div class="card"><img src="sample1.jpg" alt=""><p>Keep shining, superstar!</p></div>
-      <div class="card"><img src="sample2.jpg" alt=""><p>Adventure awaits—go explore!</p></div>
-      <div class="card"><img src="sample3.jpg" alt=""><p>Kindness is magic—spread it everywhere!</p></div>
+        <button type="submit">💌 Imagine & Post My Wish</button>
+        <div id="formMessage" class="message-box"></div>
+      </form>
     </div>
-  </section>
 
-  <section class="testimonials">
-    <h2>💬 What People Say</h2>
-    <div class="testimonial">"ipaint.in helped my daughter feel so special! She carried her postcard around for days." – Meera, Mumbai</div>
-    <div class="testimonial">"I love sending these to my nieces. It's a beautiful way to show love." – Ajay, Pune</div>
-    <div class="testimonial">"What a creative initiative! Made my kid's day truly unforgettable." – Priya, Bangalore</div>
-  </section>
-
-  <section class="qr-gen">
-    <h2>Scan & Pay ₹25</h2>
-    <div id="qrcode"></div>
-    <p>UPI ID: <strong>9822571038@upi</strong></p>
-  </section>
+    <!-- Right Side: QR Code -->
+    <div class="postcard-right">
+      <h2>Scan & Pay ₹25</h2>
+      <div class="qr-gen">
+        <div id="qrcode"></div>
+        <p>UPI ID: <strong>9822571038@upi</strong></p>
+      </div>
+      <img src="stamp.png" alt="Postage Stamp" style="margin-top: 1.5rem; width: 80px; opacity: 0.8;">
+    </div>
+  </div>
 
   <footer>
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
   </footer>
 
-  <!-- QRCode.js from CDN -->
+  <!-- QRCode.js -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script>
-    window.addEventListener("DOMContentLoaded", function() {
-      new QRCode(document.getElementById("qrcode"), {
-        text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
-        width: 180,
-        height: 180
-      });
+    new QRCode(document.getElementById("qrcode"), {
+      text: "upi://pay?pa=9822571038@upi&am=25&cu=INR",
+      width: 160,
+      height: 160
     });
   </script>
 
