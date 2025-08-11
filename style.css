@@ -1,12 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Caveat:wght@400;600&display=swap');
-
 body {
-  font-family: 'Caveat', cursive;
-  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #fff7e6 0%, #ffe0b2 100%);
   margin: 0;
   padding: 0;
-  color: #4e342e;
-  background-attachment: fixed;
+  color: #333;
 }
 
 .postcard-bg {
@@ -15,68 +12,66 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('postcard-bg.jpg') repeat;
-  opacity: 0.06;
   z-index: -1;
+  opacity: 0.06;
 }
-
-body::before {
-  content: "💌";
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  font-size: 2.5rem;
-  opacity: 0.7;
-}
-body::after {
-  content: "📮";
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  font-size: 2.5rem;
-  opacity: 0.7;
+.postcard-bg img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 header {
-  background: linear-gradient(90deg, #ffb74d, #ff8a65);
+  background: linear-gradient(90deg, #ffa726, #ff7043);
   padding: 2rem;
   text-align: center;
-  border-bottom: 4px dashed rgba(255,255,255,0.6);
+  border-bottom: 4px dashed rgba(255,255,255,0.5);
   color: white;
+  animation: fadeIn 1s ease-in-out;
 }
 header h1 {
   font-family: 'Pacifico', cursive;
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin: 0;
 }
-header p {
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
+header .icon {
+  font-size: 3.2rem;
+  display: inline-block;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+header .brand {
+  background: rgba(255,255,255,0.2);
+  padding: 0.3rem 1rem;
+  border-radius: 12px;
+}
+header .tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+header .highlight {
+  background: rgba(255,255,255,0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: 8px;
+}
+header .heart {
+  animation: pulse 1.5s infinite;
 }
 
 .container, .samples, .testimonials, .qr-gen {
   max-width: 800px;
-  background: #fffefa;
+  background-color: #fff;
   padding: 2rem;
   margin: 2rem auto;
-  border-radius: 20px;
-  border: 3px dashed #ffd180;
-  box-shadow: 6px 6px 0 #ffcc80;
-  position: relative;
+  border-radius: 12px;
+  border: 2px dashed #ffcc80;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.container::before {
-  content: "💖";
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  font-size: 2rem;
-}
-.container::after {
-  content: "✏️";
-  position: absolute;
-  bottom: -15px;
-  left: -15px;
-  font-size: 2rem;
+.container:hover, .samples:hover, .testimonials:hover, .qr-gen:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
 label {
@@ -86,41 +81,39 @@ label {
 }
 
 input, textarea {
-  font-family: 'Caveat', cursive;
-  font-size: 1.1rem;
-  border: 2px solid #ffcc80;
-  border-radius: 12px;
-  padding: 0.75rem;
-  background: #fff8e1;
   width: 100%;
+  padding: 0.75rem;
   margin-top: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fffdf9;
+  transition: border-color 0.2s;
 }
 input:focus, textarea:focus {
+  border-color: #ffa726;
   outline: none;
-  border-color: #ff8a65;
-  box-shadow: 0 0 8px rgba(255,138,101,0.5);
 }
+
 textarea {
   resize: vertical;
   height: 120px;
 }
 
 button {
-  background-color: #ff7043;
+  background: linear-gradient(90deg, #ff8a65, #ff7043);
   color: white;
   padding: 1rem;
   border: none;
-  border-radius: 20px;
-  font-size: 1.2rem;
+  border-radius: 8px;
+  font-size: 1rem;
   margin-top: 1.5rem;
   cursor: pointer;
-  font-family: 'Pacifico', cursive;
   width: 100%;
-  transition: transform 0.2s ease, background 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 button:hover {
-  background-color: #ff5722;
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .cards {
@@ -130,30 +123,29 @@ button:hover {
   justify-content: center;
 }
 .cards .card {
-  background: #fff8e1;
-  border: 2px solid #ffcc80;
+  background: #fff;
+  border: 1px solid #eee;
   border-radius: 12px;
   width: 200px;
   text-align: center;
   padding: 1rem;
-  box-shadow: 3px 3px 0 #ffd180;
-  transition: transform 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+.cards .card:hover {
+  transform: rotate(-1deg) scale(1.03);
 }
 .cards .card img {
   width: 100%;
   border-radius: 8px;
 }
-.cards .card:hover {
-  transform: scale(1.05);
-}
 
 .testimonial {
-  background: #e3f2fd;
+  background: #fff8e1;
   padding: 1rem;
   margin: 1rem 0;
-  border-left: 4px solid #64b5f6;
+  border-left: 4px solid #ffb74d;
   border-radius: 6px;
-  font-size: 1.1rem;
 }
 
 footer {
@@ -161,4 +153,28 @@ footer {
   padding: 2rem;
   font-size: 0.9rem;
   color: #777;
+}
+
+.message-box {
+  display: none;
+  text-align: center;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+.success { background: #d4edda; color: #155724; }
+.error { background: #f8d7da; color: #721c24; }
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
