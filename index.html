@@ -9,33 +9,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Segoe+UI&display=swap" rel="stylesheet">
 
   <style>
+    /* Existing styles remain unchanged */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
       margin: 0;
       padding: 0;
     }
-
     header {
       text-align: center;
       padding: 1.5rem;
       background: linear-gradient(90deg, #ffe0b2, #ffcc80);
       border-bottom: 4px dashed #ffb74d;
     }
-
     header h1 {
       font-family: 'Pacifico', cursive;
       font-size: 2.5rem;
       margin: 0;
       color: #ff7043;
     }
-
     header p {
       font-size: 1.1rem;
       margin-top: 0.5rem;
       color: #555;
     }
-
     .postcard {
       background-color: #fffdf5;
       border: 6px solid #e0c097;
@@ -50,13 +47,11 @@
       background-image: url('https://www.transparenttextures.com/patterns/beige-paper.png');
       position: relative;
     }
-
     .postcard-left {
       flex: 2;
       display: flex;
       flex-direction: column;
     }
-
     .postcard-right {
       flex: 1;
       border-left: 2px solid #ddd;
@@ -66,7 +61,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .stamp {
       width: 80px;
       position: absolute;
@@ -76,13 +70,11 @@
       transform: rotate(-3deg);
       box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
     }
-
     label {
       margin-top: 1rem;
       font-weight: bold;
       font-size: 0.95rem;
     }
-
     input, textarea {
       width: 100%;
       padding: 0.75rem;
@@ -92,12 +84,10 @@
       font-size: 0.95rem;
       background-color: #fffef8;
     }
-
     textarea {
       resize: vertical;
       height: 120px;
     }
-
     button {
       background-color: #ff7043;
       color: white;
@@ -109,11 +99,9 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-
     button:hover {
       background-color: #f4511e;
     }
-
     .message-box {
       display: none;
       text-align: center;
@@ -122,10 +110,8 @@
       border-radius: 6px;
       font-weight: bold;
     }
-
     .success { background: #d4edda; color: #155724; }
     .error { background: #f8d7da; color: #721c24; }
-
     .testimonials {
       background: #fff8e1;
       padding: 2rem;
@@ -134,7 +120,6 @@
       margin: 3rem auto;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
-
     .testimonials h2 {
       text-align: center;
       font-family: 'Pacifico', cursive;
@@ -142,7 +127,6 @@
       color: #ff7043;
       margin-bottom: 2rem;
     }
-
     .testimonial {
       background: white;
       padding: 1.5rem;
@@ -151,17 +135,14 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       transition: transform 0.2s, box-shadow 0.2s;
     }
-
     .testimonial:hover {
       transform: translateY(-4px);
       box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
-
     .testimonial p {
       font-style: italic;
       color: #444;
     }
-
     .testimonial span {
       display: block;
       margin-top: 0.5rem;
@@ -169,14 +150,12 @@
       color: #666;
       font-size: 0.9rem;
     }
-
     footer {
       text-align: center;
       padding: 2rem;
       font-size: 0.9rem;
       color: #777;
     }
-
     @media (max-width: 768px) {
       .postcard {
         flex-direction: column;
@@ -191,14 +170,12 @@
         display: block;
       }
     }
-
     .upi-banner {
       width: 100%;
       display: flex;
       justify-content: center;
       margin-top: 1rem;
     }
-    
     .promo-banner {
       max-width: 230px;
       width: 100%;
@@ -207,8 +184,6 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       object-fit: contain;
     }
-
-    /* Price badge and side tag */
     .price-badge {
       background-color: #ff7043;
       color: white;
@@ -220,7 +195,6 @@
       font-weight: bold;
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
-
     .price-tag {
       background: #fff3e0;
       border: 2px dashed #ff7043;
@@ -306,8 +280,12 @@
 
   <footer>
     &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
+    <div id="visitorCounter" style="margin-top:8px; font-size:0.9rem; color:#555;">
+      👀 Visitors: Loading...
+    </div>
   </footer>
 
+  <!-- Payment Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
@@ -380,6 +358,57 @@
       const rzp = new Razorpay(options);
       rzp.open();
     });
+  </script>
+
+  <!-- Visitor Counter Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
+      authDomain: "ipaint-7b2a5.firebaseapp.com",
+      projectId: "ipaint-7b2a5",
+      storageBucket: "ipaint-7b2a5.appspot.com",
+      messagingSenderId: "470124187831",
+      appId: "1:470124187831:web:831554ab7218ac62dbbd32",
+      measurementId: "G-NE05L2CS5Y"
+    };
+
+    const appCounter = initializeApp(firebaseConfig, "counterApp");
+    const dbCounter = getFirestore(appCounter);
+
+    const counterRef = doc(dbCounter, "analytics", "visitorCounter");
+
+    async function incrementVisitorCount() {
+      try {
+        const counterSnap = await getDoc(counterRef);
+        if (counterSnap.exists()) {
+          await updateDoc(counterRef, { count: increment(1) });
+        } else {
+          await setDoc(counterRef, { count: 1 });
+        }
+      } catch (err) {
+        console.error("Error updating visitor counter:", err);
+      }
+    }
+
+    // Listen for real-time updates
+    onSnapshot(counterRef, (docSnap) => {
+      if (docSnap.exists()) {
+        document.getElementById("visitorCounter").textContent =
+          `👀 Visitors: ${docSnap.data().count}`;
+      } else {
+        document.getElementById("visitorCounter").textContent =
+          "👀 Visitors: 0";
+      }
+    });
+
+    // Increment only once per session
+    if (!sessionStorage.getItem("visitorCounted")) {
+      incrementVisitorCount();
+      sessionStorage.setItem("visitorCounted", "true");
+    }
   </script>
 </body>
 </html>
