@@ -158,7 +158,7 @@ payButton.addEventListener('click', async () => {
   const upiId = "snehakarmarkar-2@okaxis"; // Replace with your UPI ID
   const name = encodeURIComponent("iPaint");
   const note = encodeURIComponent("Postcard ₹15");
-  const amount = "15";
+  const amount = "15.0";
   const url = `upi://pay?pa=${upiId}&pn=${name}&tn=${note}&am=${amount}&cu=INR`;
 
   // Open UPI payment
