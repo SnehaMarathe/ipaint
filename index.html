@@ -360,55 +360,64 @@
     });
   </script>
 
-  <!-- Visitor Counter Script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+<!-- Visitor Counter Script -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
-      authDomain: "ipaint-7b2a5.firebaseapp.com",
-      projectId: "ipaint-7b2a5",
-      storageBucket: "ipaint-7b2a5.appspot.com",
-      messagingSenderId: "470124187831",
-      appId: "1:470124187831:web:831554ab7218ac62dbbd32",
-      measurementId: "G-NE05L2CS5Y"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
+    authDomain: "ipaint-7b2a5.firebaseapp.com",
+    projectId: "ipaint-7b2a5",
+    storageBucket: "ipaint-7b2a5.appspot.com",
+    messagingSenderId: "470124187831",
+    appId: "1:470124187831:web:831554ab7218ac62dbbd32",
+    measurementId: "G-NE05L2CS5Y"
+  };
 
-    const appCounter = initializeApp(firebaseConfig, "counterApp");
-    const dbCounter = getFirestore(appCounter);
+  // Separate instance for counter to avoid conflicts with other scripts
+  const appCounter = initializeApp(firebaseConfig, "counterApp");
+  const dbCounter = getFirestore(appCounter);
 
-    const counterRef = doc(dbCounter, "analytics", "visitorCounter");
+  const counterElement = document.getElementById("visitorCounter");
+  const counterRef = doc(dbCounter, "analytics", "visitorCounter");
 
-    async function incrementVisitorCount() {
-      try {
-        const counterSnap = await getDoc(counterRef);
-        if (counterSnap.exists()) {
-          await updateDoc(counterRef, { count: increment(1) });
-        } else {
-          await setDoc(counterRef, { count: 1 });
-        }
-      } catch (err) {
-        console.error("Error updating visitor counter:", err);
-      }
-    }
-
-    // Listen for real-time updates
-    onSnapshot(counterRef, (docSnap) => {
-      if (docSnap.exists()) {
-        document.getElementById("visitorCounter").textContent =
-          `👀 Visitors: ${docSnap.data().count}`;
+  async function incrementVisitorCount() {
+    try {
+      const counterSnap = await getDoc(counterRef);
+      if (counterSnap.exists()) {
+        await updateDoc(counterRef, { count: increment(1) });
       } else {
-        document.getElementById("visitorCounter").textContent =
-          "👀 Visitors: 0";
+        await setDoc(counterRef, { count: 1 });
       }
-    });
-
-    // Increment only once per session
-    if (!sessionStorage.getItem("visitorCounted")) {
-      incrementVisitorCount();
-      sessionStorage.setItem("visitorCounted", "true");
+    } catch (err) {
+      console.error("Error updating visitor counter:", err);
+      counterElement.textContent = "👀 Visitors: Error loading";
     }
-  </script>
+  }
+
+  // Real-time updates
+  onSnapshot(
+    counterRef,
+    (docSnap) => {
+      if (docSnap.exists()) {
+        counterElement.textContent = `👀 Visitors: ${docSnap.data().count}`;
+      } else {
+        counterElement.textContent = "👀 Visitors: 0";
+      }
+    },
+    (error) => {
+      console.error("Error listening to counter:", error);
+      counterElement.textContent = "👀 Visitors: Error loading";
+    }
+  );
+
+  // Increment only once per session
+  if (!sessionStorage.getItem("visitorCounted")) {
+    incrementVisitorCount();
+    sessionStorage.setItem("visitorCounted", "true");
+  }
+</script>
+
 </body>
 </html>
