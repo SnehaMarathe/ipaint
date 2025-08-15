@@ -1,3 +1,4 @@
+/* Working Razor Pay with Auto capture */
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,179 +10,414 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Segoe+UI&display=swap" rel="stylesheet">
 
   <style>
-    /* All your existing styles remain unchanged */
+    /* Existing styles remain unchanged */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
       margin: 0;
       padding: 0;
     }
-    header { text-align: center; padding: 1.5rem; background: linear-gradient(90deg, #ffe0b2, #ffcc80); border-bottom: 4px dashed #ffb74d; }
-    header h1 { font-family: 'Pacifico', cursive; font-size: 2.5rem; margin: 0; color: #ff7043; }
-    header p { font-size: 1.1rem; margin-top: 0.5rem; color: #555; }
-    .postcard { background-color: #fffdf5; border: 6px solid #e0c097; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); max-width: 1000px; margin: 2rem auto; display: flex; flex-wrap: wrap; padding: 2rem; gap: 2rem; background-image: url('https://www.transparenttextures.com/patterns/beige-paper.png'); position: relative; }
-    .postcard-left { flex: 2; display: flex; flex-direction: column; }
-    .postcard-right { flex: 1; border-left: 2px solid #ddd; padding-left: 1.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-    .stamp { width: 80px; position: absolute; top: 15px; right: 15px; opacity: 0.9; transform: rotate(-3deg); box-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
-    label { margin-top: 1rem; font-weight: bold; font-size: 0.95rem; }
-    input, textarea { width: 100%; padding: 0.75rem; margin-top: 0.3rem; border: 1px solid #ccc; border-radius: 8px; font-size: 0.95rem; background-color: #fffef8; }
-    textarea { resize: vertical; height: 120px; }
-    button { background-color: #ff7043; color: white; padding: 1rem; border: none; border-radius: 8px; font-size: 1rem; margin-top: 1.5rem; cursor: pointer; transition: background 0.3s; }
-    button:hover { background-color: #f4511e; }
-    .message-box { display: none; text-align: center; margin-top: 10px; padding: 10px; border-radius: 6px; font-weight: bold; }
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(90deg, #ffe0b2, #ffcc80);
+      border-bottom: 4px dashed #ffb74d;
+    }
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.5rem;
+      margin: 0;
+      color: #ff7043;
+    }
+    header p {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      color: #555;
+    }
+    .postcard {
+      background-color: #fffdf5;
+      border: 6px solid #e0c097;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      max-width: 1000px;
+      margin: 2rem auto;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+      gap: 2rem;
+      background-image: url('https://www.transparenttextures.com/patterns/beige-paper.png');
+      position: relative;
+    }
+    .postcard-left {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+    }
+    .postcard-right {
+      flex: 1;
+      border-left: 2px solid #ddd;
+      padding-left: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .stamp {
+      width: 80px;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      opacity: 0.9;
+      transform: rotate(-3deg);
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    }
+    label {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background-color: #fffef8;
+    }
+    textarea {
+      resize: vertical;
+      height: 120px;
+    }
+    button {
+      background-color: #ff7043;
+      color: white;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #f4511e;
+    }
+    .message-box {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
     .success { background: #d4edda; color: #155724; }
     .error { background: #f8d7da; color: #721c24; }
-    .testimonials { background: #fff8e1; padding: 2rem; border-radius: 12px; max-width: 900px; margin: 3rem auto; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    .testimonials h2 { text-align: center; font-family: 'Pacifico', cursive; font-size: 2rem; color: #ff7043; margin-bottom: 2rem; }
-    .testimonial { background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; }
-    .testimonial:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-    .testimonial p { font-style: italic; color: #444; }
-    .testimonial span { display: block; margin-top: 0.5rem; font-weight: bold; color: #666; font-size: 0.9rem; }
-    footer { text-align: center; padding: 2rem; font-size: 0.9rem; color: #777; }
-    @media (max-width: 768px) { .postcard { flex-direction: column; } .postcard-right { border-left: none; padding-left: 0; } .stamp { position: static; margin: 0 auto; display: block; } }
-    .upi-banner { width: 100%; display: flex; justify-content: center; margin-top: 1rem; }
-    .promo-banner { max-width: 230px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); object-fit: contain; }
-    .price-badge { background-color: #ff7043; color: white; font-size: 0.85rem; padding: 4px 8px; border-radius: 12px; margin-left: 10px; vertical-align: middle; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-    .price-tag { background: #fff3e0; border: 2px dashed #ff7043; padding: 8px 12px; border-radius: 8px; font-weight: bold; color: #d84315; text-align: center; font-size: 0.95rem; max-width: 200px; margin-top: 1rem; }
+    .testimonials {
+      background: #fff8e1;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 900px;
+      margin: 3rem auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .testimonials h2 {
+      text-align: center;
+      font-family: 'Pacifico', cursive;
+      font-size: 2rem;
+      color: #ff7043;
+      margin-bottom: 2rem;
+    }
+    .testimonial {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .testimonial:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    .testimonial p {
+      font-style: italic;
+      color: #444;
+    }
+    .testimonial span {
+      display: block;
+      margin-top: 0.5rem;
+      font-weight: bold;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+    @media (max-width: 768px) {
+      .postcard {
+        flex-direction: column;
+      }
+      .postcard-right {
+        border-left: none;
+        padding-left: 0;
+      }
+      .stamp {
+        position: static;
+        margin: 0 auto;
+        display: block;
+      }
+    }
+    .upi-banner {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .promo-banner {
+      max-width: 230px;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      object-fit: contain;
+    }
+    .price-badge {
+      background-color: #ff7043;
+      color: white;
+      font-size: 0.85rem;
+      padding: 4px 8px;
+      border-radius: 12px;
+      margin-left: 10px;
+      vertical-align: middle;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    .price-tag {
+      background: #fff3e0;
+      border: 2px dashed #ff7043;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #d84315;
+      text-align: center;
+      font-size: 0.95rem;
+      max-width: 200px;
+      margin-top: 1rem;
+    }
   </style>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
-<header>
-  <h1>📮 From your heart, into their hands — iPaint your wishes </h1>
-  <h3 style="margin-top:0.5rem; color:#d84315; font-weight:600;">
-    💌 Postcard with greetings delivered anywhere in India — only ₹15
-  </h3>
-  <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness!</p>
-</header>
+  <header>
+    <h1>📮 From your heart, into their hands — iPaint your wishes </h1>
+    <h3 style="margin-top:0.5rem; color:#d84315; font-weight:600;">
+      💌 Postcard with greetings delivered anywhere in India — only ₹15
+    </h3>
+    <p>Send imagination-inspired postcards to children — spark joy, fuel dreams, and leave a mark of kindness!</p>
+  </header>
 
-<div class="postcard">
-  <img src="stamp.png" alt="Postage Stamp" class="stamp">
+  <div class="postcard">
+    <img src="stamp.png" alt="Postage Stamp" class="stamp">
 
-  <div class="postcard-left">
-    <h2>✨ Let Your Magical Wishes Fly 
-      <span class="price-badge">Only ₹15!</span>
-    </h2>
-    <form id="wishForm">
-      <label for="toName">To: Full Name</label>
-      <input type="text" id="toName" name="toName" required />
+    <div class="postcard-left">
+      <h2>✨ Let Your Magical Wishes Fly 
+        <span class="price-badge">Only ₹15!</span>
+      </h2>
+      <form id="wishForm">
+        <label for="toName">To: Full Name</label>
+        <input type="text" id="toName" name="toName" required />
 
-      <label for="toAddress">To: Full Address</label>
-      <input type="text" id="toAddress" name="toAddress" required />
+        <label for="toAddress">To: Full Address</label>
+        <input type="text" id="toAddress" name="toAddress" required />
 
-      <label for="fromName">From: Your Name</label>
-      <input type="text" id="fromName" name="fromName" required />
+        <label for="fromName">From: Your Name</label>
+        <input type="text" id="fromName" name="fromName" required />
 
-      <label for="mobileNumber">From: Mobile Number</label>
-      <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}" placeholder="10-digit number"/>
+        <label for="mobileNumber">From: Mobile Number</label>
+        <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}" placeholder="10-digit number"/>
 
-      <label for="message">Your Motivational Message</label>
-      <textarea id="message" name="message" required></textarea>
+        <label for="message">Your Motivational Message</label>
+        <textarea id="message" name="message" required></textarea>
 
-      <button type="button" id="payButton">💌 Pay via Google Pay / UPI</button>
-      <small style="display:block;margin-top:0.5rem;color:#777;">
-        📮 We’ll print & post your postcard for just ₹15 anywhere in India.
-      </small>
-      <div id="formMessage" class="message-box"></div>
-    </form>
-  </div>
-
-  <div class="postcard-right">
-    <div class="upi-banner">
-      <img src="girl.png" alt="From your heart to their hands — iPaint your wishes" class="promo-banner" />
+        <button type="button" id="payButton">💌 Imagine &amp; Post My Wish</button>
+        <small style="display:block;margin-top:0.5rem;color:#777;">
+          📮 We’ll print & post your postcard for just ₹15 anywhere in India.
+        </small>
+        <div id="formMessage" class="message-box"></div>
+      </form>
     </div>
-    <div class="price-tag">
-      💌 Post a real postcard for just <strong>₹15</strong>
+
+    <div class="postcard-right">
+      <div class="upi-banner">
+        <img src="girl.png" alt="From your heart to their hands — iPaint your wishes" class="promo-banner" />
+      </div>
+      <div class="price-tag">
+        💌 Post a real postcard for just <strong>₹15</strong>
+      </div>
     </div>
   </div>
-</div>
 
-<section class="testimonials">
-  <h2>💬 What People Are Saying</h2>
-  <div class="testimonial">
-    <p>"Such a heartwarming initiative! My little cousin was thrilled to receive his postcard."</p>
-    <span>– Anjali M.</span>
-  </div>
-  <div class="testimonial">
-    <p>"A simple way to make a big difference in a child’s day."</p>
-    <span>– Rohan S.</span>
-  </div>
-  <div class="testimonial">
-    <p>"It felt so special to send a personal message that could inspire."</p>
-    <span>– Priya K.</span>
-  </div>
-</section>
+  <section class="testimonials">
+    <h2>💬 What People Are Saying</h2>
+    <div class="testimonial">
+      <p>"Such a heartwarming initiative! My little cousin was thrilled to receive his postcard."</p>
+      <span>– Anjali M.</span>
+    </div>
+    <div class="testimonial">
+      <p>"A simple way to make a big difference in a child’s day."</p>
+      <span>– Rohan S.</span>
+    </div>
+    <div class="testimonial">
+      <p>"It felt so special to send a personal message that could inspire."</p>
+      <span>– Priya K.</span>
+    </div>
+  </section>
 
-<footer>
-  &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
-  <div id="visitorCounter" style="margin-top:8px; font-size:0.9rem; color:#555;">
-    👀 Visitors: Loading...
-  </div>
-</footer>
+  <footer>
+    &copy; 2025 ipaint.in – Crafted with ❤️ to inspire smiles.
+    <div id="visitorCounter" style="margin-top:8px; font-size:0.9rem; color:#555;">
+      👀 Visitors: Loading...
+    </div>
+  </footer>
 
-<!-- Firestore + UPI Payment Script -->
+  <!-- Payment Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
+      authDomain: "ipaint-7b2a5.firebaseapp.com",
+      projectId: "ipaint-7b2a5",
+      storageBucket: "ipaint-7b2a5.appspot.com",
+      messagingSenderId: "470124187831",
+      appId: "1:470124187831:web:831554ab7218ac62dbbd32",
+      measurementId: "G-NE05L2CS5Y"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const payButton = document.getElementById('payButton');
+    const formMessage = document.getElementById('formMessage');
+
+    payButton.addEventListener('click', () => {
+      formMessage.style.display = "none";
+      const form = document.getElementById('wishForm');
+      if (!form.reportValidity()) return;
+
+      const wishData = {
+        toName: document.getElementById('toName').value.trim(),
+        toAddress: document.getElementById('toAddress').value.trim(),
+        fromName: document.getElementById('fromName').value.trim(),
+        mobileNumber: document.getElementById('mobileNumber').value.trim(),
+        message: document.getElementById('message').value.trim()
+      };
+
+      const options = {
+        key: "rzp_live_qFVcFW1dSmAW0M",
+        amount: 1500,
+        currency: "INR",
+        name: "iPaint Wishes",
+        description: "Send a magical wish",
+        handler: async function (response) {
+          try {
+            await addDoc(collection(db, 'wishes'), {
+              ...wishData,
+              paymentId: response.razorpay_payment_id,
+              timestamp: new Date()
+            });
+            formMessage.textContent = "✅ Your wish has been sent successfully!";
+            formMessage.className = "message-box success";
+            formMessage.style.display = "block";
+            form.reset();
+          } catch (error) {
+            formMessage.textContent = "❌ Payment succeeded but failed to save your wish. Contact support.";
+            formMessage.className = "message-box error";
+            formMessage.style.display = "block";
+          }
+        },
+        modal: {
+          ondismiss: function() {
+            formMessage.textContent = "⚠️ Payment cancelled. Please try again.";
+            formMessage.className = "message-box error";
+            formMessage.style.display = "block";
+          }
+        },
+        prefill: {
+          name: wishData.fromName,
+          contact: wishData.mobileNumber
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
+  </script>
+
+<!-- Visitor Counter Script -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
-  authDomain: "ipaint-7b2a5.firebaseapp.com",
-  projectId: "ipaint-7b2a5",
-  storageBucket: "ipaint-7b2a5.appspot.com",
-  messagingSenderId: "470124187831",
-  appId: "1:470124187831:web:831554ab7218ac62dbbd32",
-  measurementId: "G-NE05L2CS5Y"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const payButton = document.getElementById('payButton');
-const formMessage = document.getElementById('formMessage');
-
-payButton.addEventListener('click', async () => {
-  formMessage.style.display = "none";
-  const form = document.getElementById('wishForm');
-  if (!form.reportValidity()) return;
-
-  const wishData = {
-    toName: document.getElementById('toName').value,
-    toAddress: document.getElementById('toAddress').value,
-    fromName: document.getElementById('fromName').value,
-    mobileNumber: document.getElementById('mobileNumber').value,
-    message: document.getElementById('message').value,
-    timestamp: new Date()
+  const firebaseConfig = {
+    apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
+    authDomain: "ipaint-7b2a5.firebaseapp.com",
+    projectId: "ipaint-7b2a5",
+    storageBucket: "ipaint-7b2a5.appspot.com",
+    messagingSenderId: "470124187831",
+    appId: "1:470124187831:web:831554ab7218ac62dbbd32",
+    measurementId: "G-NE05L2CS5Y"
   };
 
-  // Generate UPI payment URL
-  const upiId = "snehakarmarkar-2@okaxis"; // Replace with your UPI ID
-  const name = encodeURIComponent("iPaint");
-  const note = encodeURIComponent("Postcard ₹15");
-  const amount = "15.0";
-  const url = `upi://pay?pa=${upiId}&pn=${name}&tn=${note}&am=${amount}&cu=INR`;
+  // Separate instance for counter to avoid conflicts with other scripts
+  const appCounter = initializeApp(firebaseConfig, "counterApp");
+  const dbCounter = getFirestore(appCounter);
 
-  // Open UPI payment
-  window.location.href = url;
+  const counterElement = document.getElementById("visitorCounter");
+  const counterRef = doc(dbCounter, "analytics", "visitorCounter");
 
-  // Save wish to Firestore
-  try {
-    await addDoc(collection(db, "wishes"), wishData);
-    formMessage.innerText = "💌 Your wish has been saved! Complete the payment via Google Pay.";
-    formMessage.className = "message-box success";
-    formMessage.style.display = "block";
-    form.reset();
-  } catch (error) {
-    console.error(error);
-    formMessage.innerText = "❌ Error saving your wish. Please try again.";
-    formMessage.className = "message-box error";
-    formMessage.style.display = "block";
+  async function incrementVisitorCount() {
+    try {
+      const counterSnap = await getDoc(counterRef);
+      if (counterSnap.exists()) {
+        await updateDoc(counterRef, { count: increment(1) });
+      } else {
+        await setDoc(counterRef, { count: 1 });
+      }
+    } catch (err) {
+      console.error("Error updating visitor counter:", err);
+      counterElement.textContent = "👀 Visitors: Error loading";
+    }
   }
-});
 
-// Visitor counter (simplified demo)
-const visitorCounter = document.getElementById('visitorCounter');
-visitorCounter.innerText = "👀 Visitors: " + Math.floor(Math.random()*5000+1);
+  // Real-time updates
+  onSnapshot(
+    counterRef,
+    (docSnap) => {
+      if (docSnap.exists()) {
+        counterElement.textContent = `👀 Visitors: ${docSnap.data().count}`;
+      } else {
+        counterElement.textContent = "👀 Visitors: 0";
+      }
+    },
+    (error) => {
+      console.error("Error listening to counter:", error);
+      counterElement.textContent = "👀 Visitors: Error loading";
+    }
+  );
+
+  // Increment only once per session
+  if (!sessionStorage.getItem("visitorCounted")) {
+    incrementVisitorCount();
+    sessionStorage.setItem("visitorCounted", "true");
+  }
 </script>
 
 </body>
