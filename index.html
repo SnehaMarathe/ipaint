@@ -362,8 +362,14 @@
 
 <!-- Visitor Counter Script -->
 <script type="module">
+  import { 
+    getFirestore, 
+    doc, 
+    setDoc, 
+    increment, 
+    onSnapshot 
+  } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
@@ -375,28 +381,28 @@
     measurementId: "G-NE05L2CS5Y"
   };
 
-  // Separate instance for counter to avoid conflicts with other scripts
-  const appCounter = initializeApp(firebaseConfig, "counterApp");
-  const dbCounter = getFirestore(appCounter);
+  // ✅ Reuse same app instance (do not initialize twice)
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
   const counterElement = document.getElementById("visitorCounter");
-  const counterRef = doc(dbCounter, "analytics", "visitorCounter");
+  const counterRef = doc(db, "analytics", "visitorCounter");
 
   async function incrementVisitorCount() {
     try {
-      const counterSnap = await getDoc(counterRef);
-      if (counterSnap.exists()) {
-        await updateDoc(counterRef, { count: increment(1) });
-      } else {
-        await setDoc(counterRef, { count: 1 });
-      }
+      // ✅ Safely increment even if doc doesn't exist yet
+      await setDoc(
+        counterRef,
+        { count: increment(1) },
+        { merge: true }
+      );
     } catch (err) {
       console.error("Error updating visitor counter:", err);
       counterElement.textContent = "👀 Visitors: Error loading";
     }
   }
 
-  // Real-time updates
+  // ✅ Listen for real-time updates
   onSnapshot(
     counterRef,
     (docSnap) => {
@@ -412,7 +418,7 @@
     }
   );
 
-  // Increment only once per session
+  // ✅ Increment only once per session
   if (!sessionStorage.getItem("visitorCounted")) {
     incrementVisitorCount();
     sessionStorage.setItem("visitorCounted", "true");
