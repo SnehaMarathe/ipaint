@@ -285,10 +285,13 @@
     </div>
   </footer>
 
-  <!-- Payment Script -->
+  <!-- Combined Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { 
+      getFirestore, collection, addDoc, 
+      doc, setDoc, increment, onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
@@ -303,6 +306,9 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    /* -------------------------
+       PAYMENT HANDLER
+    ------------------------- */
     const payButton = document.getElementById('payButton');
     const formMessage = document.getElementById('formMessage');
 
@@ -358,72 +364,37 @@
       const rzp = new Razorpay(options);
       rzp.open();
     });
-  </script>
 
-<!-- Visitor Counter Script -->
-<script type="module">
-  import { 
-    getFirestore, 
-    doc, 
-    setDoc, 
-    increment, 
-    onSnapshot 
-  } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    /* -------------------------
+       VISITOR COUNTER
+    ------------------------- */
+    const counterElement = document.getElementById("visitorCounter");
+    const counterRef = doc(db, "analytics", "visitorCounter");
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyC4Bu2kuNR1F_YzaS1ZujUOHOytuye2_F8",
-    authDomain: "ipaint-7b2a5.firebaseapp.com",
-    projectId: "ipaint-7b2a5",
-    storageBucket: "ipaint-7b2a5.appspot.com",
-    messagingSenderId: "470124187831",
-    appId: "1:470124187831:web:831554ab7218ac62dbbd32",
-    measurementId: "G-NE05L2CS5Y"
-  };
-
-  // ✅ Reuse same app instance (do not initialize twice)
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const counterElement = document.getElementById("visitorCounter");
-  const counterRef = doc(db, "analytics", "visitorCounter");
-
-  async function incrementVisitorCount() {
-    try {
-      // ✅ Safely increment even if doc doesn't exist yet
-      await setDoc(
-        counterRef,
-        { count: increment(1) },
-        { merge: true }
-      );
-    } catch (err) {
-      console.error("Error updating visitor counter:", err);
-      counterElement.textContent = "👀 Visitors: Error loading";
+    async function incrementVisitorCount() {
+      try {
+        await setDoc(counterRef, { count: increment(1) }, { merge: true });
+      } catch (err) {
+        console.error("Error updating visitor counter:", err);
+        counterElement.textContent = "👀 Visitors: Error loading";
+      }
     }
-  }
 
-  // ✅ Listen for real-time updates
-  onSnapshot(
-    counterRef,
-    (docSnap) => {
+    // Listen for real-time updates
+    onSnapshot(counterRef, (docSnap) => {
       if (docSnap.exists()) {
         counterElement.textContent = `👀 Visitors: ${docSnap.data().count}`;
       } else {
         counterElement.textContent = "👀 Visitors: 0";
       }
-    },
-    (error) => {
-      console.error("Error listening to counter:", error);
-      counterElement.textContent = "👀 Visitors: Error loading";
-    }
-  );
+    });
 
-  // ✅ Increment only once per session
-  if (!sessionStorage.getItem("visitorCounted")) {
-    incrementVisitorCount();
-    sessionStorage.setItem("visitorCounted", "true");
-  }
-</script>
+    // Increment once per session
+    if (!sessionStorage.getItem("visitorCounted")) {
+      incrementVisitorCount();
+      sessionStorage.setItem("visitorCounted", "true");
+    }
+  </script>
 
 </body>
 </html>
