@@ -290,7 +290,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { 
       getFirestore, collection, addDoc, 
-      doc, setDoc, increment, onSnapshot 
+      doc, setDoc, increment, onSnapshot, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -373,11 +373,10 @@
 
     async function incrementVisitorCount() {
       try {
-        await setDoc(
-          counterRef,
-          { count: increment(1) },
-          { merge: true }
-        );
+        await setDoc(counterRef, { 
+          count: increment(1), 
+          lastUpdate: serverTimestamp() 
+        }, { merge: true });
       } catch (err) {
         console.error("Error updating visitor counter:", err);
         counterElement.textContent = "👀 Visitors: Error loading";
