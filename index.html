@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Segoe+UI&display=swap" rel="stylesheet">
 
   <style>
-    /* ✅ All your original CSS preserved */
+    /* ✅ Original CSS preserved */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
@@ -232,6 +232,9 @@
         <label for="toName">To: Full Name</label>
         <input type="text" id="toName" name="toName" required />
 
+        <label for="toAge">To: Age</label>
+        <input type="number" id="toAge" name="toAge" required min="1" max="120" placeholder="Age in years"/>
+
         <label for="toAddress">To: Full Address</label>
         <input type="text" id="toAddress" name="toAddress" required />
 
@@ -241,7 +244,7 @@
         <label for="mobileNumber">From: Mobile Number</label>
         <input type="tel" id="mobileNumber" name="mobileNumber" required pattern="[0-9]{10}" placeholder="10-digit number"/>
 
-        <label for="message">Your Motivational Message</label>
+        <label for="message">Your Motivational Message (Max 20 words)</label>
         <textarea id="message" name="message" required></textarea>
 
         <button type="button" id="payButton">💌 Imagine &amp; Post My Wish</button>
@@ -285,7 +288,7 @@
     </div>
   </footer>
 
-  <!-- ✅ Single Firebase Init + Shared DB -->
+  <!-- ✅ Firebase + Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { 
@@ -317,12 +320,23 @@
       const form = document.getElementById('wishForm');
       if (!form.reportValidity()) return;
 
+      // ✅ Check word limit (max 20 words)
+      const messageText = document.getElementById('message').value.trim();
+      const wordCount = messageText.split(/\s+/).filter(Boolean).length;
+      if (wordCount > 20) {
+        formMessage.textContent = "⚠️ Message must not exceed 20 words.";
+        formMessage.className = "message-box error";
+        formMessage.style.display = "block";
+        return;
+      }
+
       const wishData = {
         toName: document.getElementById('toName').value.trim(),
+        toAge: document.getElementById('toAge').value.trim(),
         toAddress: document.getElementById('toAddress').value.trim(),
         fromName: document.getElementById('fromName').value.trim(),
         mobileNumber: document.getElementById('mobileNumber').value.trim(),
-        message: document.getElementById('message').value.trim()
+        message: messageText
       };
 
       const options = {
