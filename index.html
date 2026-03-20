@@ -8,33 +8,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Libre+Franklin:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --ink: #0D0D0B;
-  --canvas: #F7F3EC;
-  --parchment: #EDE8DC;
-  --warm-mid: #C4B99A;
-  --gold: #C9973A;
-  --rust: #B5451B;
-  --teal: #1B7A6E;
-  --green: #2D7A3A;
-  --muted: #7A7060;
+  --ink: #0D0D0B; --canvas: #F7F3EC; --parchment: #EDE8DC; --warm-mid: #C4B99A;
+  --gold: #C9973A; --rust: #B5451B; --teal: #1B7A6E; --muted: #7A7060;
   --serif: 'Playfair Display', Georgia, serif;
   --mono: 'DM Mono', monospace;
   --sans: 'Libre Franklin', sans-serif;
 }
-
 html { scroll-behavior: smooth; }
 body { background: var(--canvas); color: var(--ink); font-family: var(--sans); font-weight: 300; min-height: 100vh; }
 
 /* ── MASTHEAD ── */
-.masthead {
-  border-bottom: 3px double var(--warm-mid);
-  padding: 1rem 2.5rem;
-  display: flex; justify-content: space-between; align-items: center;
-  background: var(--canvas);
-  position: sticky; top: 0; z-index: 100;
-}
+.masthead { border-bottom: 3px double var(--warm-mid); padding: 1rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--canvas); position: sticky; top: 0; z-index: 100; }
 .logo { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.03em; }
 .logo .i { color: var(--rust); font-style: italic; }
 .masthead-center { text-align: center; }
@@ -45,59 +30,37 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
 
 /* ── TICKER ── */
-.ticker {
-  background: var(--ink); padding: 0.45rem 0;
-  overflow: hidden; white-space: nowrap;
-  border-bottom: 1px solid var(--warm-mid);
-}
-.ticker-track { display: inline-flex; animation: scroll 50s linear infinite; }
+.ticker { background: var(--ink); padding: 0.45rem 0; overflow: hidden; white-space: nowrap; border-bottom: 1px solid var(--warm-mid); }
+.ticker-track { display: inline-flex; animation: scroll 60s linear infinite; }
 @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.ticker-item {
-  font-family: var(--mono); font-size: 0.62rem; color: var(--warm-mid);
-  letter-spacing: 0.08em; padding: 0 2rem; border-right: 1px solid #333;
-}
+.ticker-item { font-family: var(--mono); font-size: 0.62rem; color: var(--warm-mid); letter-spacing: 0.08em; padding: 0 2rem; border-right: 1px solid #333; }
 .ticker-item .sym { color: var(--gold); }
 
-/* ── CATEGORY TABS ── */
-.cat-bar {
-  background: var(--parchment); border-bottom: 1px solid var(--warm-mid);
-  padding: 0 2.5rem; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
-}
+/* ── TABS ── */
+.cat-bar { background: var(--parchment); border-bottom: 1px solid var(--warm-mid); padding: 0 2.5rem; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
 .cat-bar::-webkit-scrollbar { display: none; }
-.cat-btn {
-  font-family: var(--mono); font-size: 0.62rem; font-weight: 400;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
-  background: none; border: none; border-bottom: 2px solid transparent;
-  padding: 0.75rem 1.1rem; cursor: pointer; transition: all 0.18s; white-space: nowrap;
-}
+.cat-btn { font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 0.75rem 1.1rem; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
 .cat-btn:hover { color: var(--ink); }
 .cat-btn.active { color: var(--ink); border-bottom-color: var(--rust); font-weight: 500; }
 
-/* ── SEARCH BAR ── */
-.search-bar {
-  padding: 0.9rem 2.5rem; border-bottom: 1px solid var(--parchment);
-  display: flex; gap: 0.6rem; align-items: center; background: var(--canvas);
-}
-.search-input {
-  flex: 1; font-family: var(--sans); font-size: 0.85rem; font-weight: 300;
-  color: var(--ink); background: var(--parchment); border: 1px solid var(--warm-mid);
-  border-radius: 2px; padding: 0.6rem 1rem; outline: none; transition: border-color 0.2s;
-}
+/* ── SEARCH ── */
+.search-bar { padding: 0.9rem 2.5rem; border-bottom: 1px solid var(--parchment); display: flex; gap: 0.6rem; align-items: center; background: var(--canvas); }
+.search-input { flex: 1; font-family: var(--sans); font-size: 0.85rem; font-weight: 300; color: var(--ink); background: var(--parchment); border: 1px solid var(--warm-mid); border-radius: 2px; padding: 0.6rem 1rem; outline: none; transition: border-color 0.2s; }
 .search-input::placeholder { color: var(--warm-mid); }
 .search-input:focus { border-color: var(--gold); }
-.search-btn {
-  font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--canvas);
-  background: var(--rust); border: none; padding: 0.6rem 1.4rem;
-  border-radius: 2px; cursor: pointer; transition: all 0.2s;
-  display: flex; align-items: center; gap: 0.5rem;
-}
+.search-btn { font-family: var(--mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--canvas); background: var(--rust); border: none; padding: 0.6rem 1.4rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
 .search-btn:hover { background: var(--ink); }
 .search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .spin { width: 12px; height: 12px; border: 1.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
 .search-btn.loading .spin { display: block; }
 .search-btn.loading .btn-txt { display: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── SOURCE BADGES ── */
+.source-bar { padding: 0.5rem 2.5rem; background: var(--canvas); border-bottom: 1px solid var(--parchment); display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+.source-label { font-family: var(--mono); font-size: 0.55rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-right: 0.3rem; }
+.source-badge { font-family: var(--mono); font-size: 0.55rem; color: var(--muted); background: var(--parchment); border: 1px solid var(--warm-mid); padding: 0.15rem 0.5rem; border-radius: 2px; letter-spacing: 0.05em; }
+.source-badge.active { color: var(--teal); border-color: rgba(27,122,110,0.4); background: rgba(27,122,110,0.06); }
 
 /* ── PAPER ── */
 .paper { max-width: 1360px; margin: 0 auto; padding: 2rem 2.5rem; }
@@ -108,40 +71,26 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
 .loader-text { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--muted); margin-bottom: 0.4rem; }
 .loader-sub { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); }
 .progress-bar { width: 200px; height: 2px; background: var(--parchment); margin: 1rem auto 0; border-radius: 2px; overflow: hidden; }
-.progress-fill { height: 100%; width: 0%; background: var(--rust); transition: width 0.5s ease; }
+.progress-fill { height: 100%; width: 0%; background: var(--rust); transition: width 0.4s ease; }
 
 /* ── FEED ── */
 .feed { transition: opacity 0.3s; }
 .feed.fading { opacity: 0; }
 
 /* ── TOP ARTICLE ── */
-.top-article {
-  display: grid; grid-template-columns: 1.5fr 1fr;
-  gap: 2.5rem; border-bottom: 2px solid var(--ink);
-  padding-bottom: 2rem; margin-bottom: 2rem;
-}
-.article-tag {
-  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--rust);
-  display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;
-}
-.lol-pill {
-  background: rgba(181,69,27,0.1); border: 1px solid rgba(181,69,27,0.25);
-  color: var(--rust); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.56rem;
-}
-.top-headline {
-  font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.6rem);
-  font-weight: 700; line-height: 1.12; letter-spacing: -0.025em;
-  margin-bottom: 0.8rem; cursor: pointer; transition: color 0.2s;
-}
+.top-article { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; border-bottom: 2px solid var(--ink); padding-bottom: 2rem; margin-bottom: 2rem; }
+.article-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+.lol-pill { background: rgba(181,69,27,0.1); border: 1px solid rgba(181,69,27,0.25); color: var(--rust); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.56rem; }
+.source-pill { background: rgba(27,122,110,0.08); border: 1px solid rgba(27,122,110,0.2); color: var(--teal); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.56rem; }
+.top-headline { font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.6rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.025em; margin-bottom: 0.8rem; cursor: pointer; transition: color 0.2s; }
 .top-headline:hover { color: var(--rust); }
 .top-deck { font-size: 0.95rem; font-weight: 300; line-height: 1.8; color: var(--muted); margin-bottom: 1rem; font-style: italic; }
-.article-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); letter-spacing: 0.08em; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.article-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
 .lol-badge { background: var(--rust); color: var(--canvas); font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px; font-size: 0.6rem; }
 .src-link { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(27,122,110,0.3); }
 .src-link:hover { border-bottom-color: var(--teal); }
 
-/* ── ASIDE STACK ── */
+/* ── ASIDE ── */
 .aside-stack { display: flex; flex-direction: column; }
 .aside-item { border-bottom: 1px solid var(--parchment); padding: 0.9rem 0.8rem; cursor: pointer; transition: background 0.15s; border-radius: 2px; }
 .aside-item:hover { background: var(--parchment); }
@@ -160,6 +109,7 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
 .news-card { background: var(--canvas); padding: 1.4rem 1.2rem; cursor: pointer; transition: background 0.2s; }
 .news-card:hover { background: var(--parchment); }
 .card-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+.card-source { font-family: var(--mono); font-size: 0.52rem; color: var(--teal); margin-bottom: 0.4rem; letter-spacing: 0.06em; }
 .card-headline { font-family: var(--serif); font-size: 1.0rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.55rem; }
 .card-deck { font-size: 0.75rem; font-weight: 300; color: var(--muted); line-height: 1.65; margin-bottom: 0.8rem; font-style: italic; }
 .card-footer { display: flex; justify-content: space-between; align-items: center; }
@@ -169,7 +119,7 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
 .lol-fill { height: 100%; background: var(--rust); border-radius: 2px; }
 .lol-bar-num { font-family: var(--mono); font-size: 0.52rem; color: var(--warm-mid); }
 
-/* ── EMPTY ── */
+/* ── EMPTY / ERROR ── */
 .empty { display: none; padding: 4rem 2rem; text-align: center; }
 .empty.show { display: block; }
 .empty-head { font-family: var(--serif); font-size: 1.2rem; font-style: italic; color: var(--muted); margin-bottom: 0.5rem; }
@@ -192,19 +142,18 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
 .read-original { display: inline-block; margin-top: 1rem; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--canvas); background: var(--rust); padding: 0.5rem 1.2rem; border-radius: 2px; text-decoration: none; }
 .read-original:hover { background: var(--ink); }
 
-/* ── BOTTOM BAR ── */
+/* ── BOTTOM ── */
 .bottom-bar { border-top: 3px double var(--warm-mid); padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--parchment); }
 .bottom-copy { font-family: var(--mono); font-size: 0.58rem; color: var(--warm-mid); letter-spacing: 0.08em; }
 .refresh-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust); background: none; border: 1px solid rgba(181,69,27,0.3); padding: 0.4rem 1rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; }
 .refresh-btn:hover { background: var(--rust); color: var(--canvas); }
 
 @media (max-width: 768px) {
-  .masthead { padding: 0.8rem 1.2rem; }
+  .masthead, .cat-bar, .search-bar, .source-bar, .bottom-bar { padding-left: 1.2rem; padding-right: 1.2rem; }
   .top-article { grid-template-columns: 1fr; }
   .aside-stack { display: none; }
   .cards-grid { grid-template-columns: repeat(2, 1fr); }
   .paper { padding: 1.5rem 1.2rem; }
-  .cat-bar, .search-bar, .bottom-bar { padding-left: 1.2rem; padding-right: 1.2rem; }
 }
 </style>
 </head>
@@ -222,39 +171,52 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
 
 <!-- TICKER -->
 <div class="ticker">
-  <div class="ticker-track">
-    <span class="ticker-item"><span class="sym">BREAKING</span> Man Sues Neighbor for Staring at His Lawn Too Aggressively</span>
-    <span class="ticker-item"><span class="sym">JUST IN</span> Scientists Confirm Cats Have Always Known Exactly What They're Doing</span>
-    <span class="ticker-item"><span class="sym">UPDATE</span> Town Names Pothole After Mayor, Says It Captures His Spirit</span>
-    <span class="ticker-item"><span class="sym">ALERT</span> Dog Wins Third Consecutive Mayoral Election in Landslide</span>
-    <span class="ticker-item"><span class="sym">REPORT</span> Study Finds 9 of 10 Dentists Simply Invented the 10th Dentist</span>
-    <span class="ticker-item"><span class="sym">EXCLUSIVE</span> Man Survives Encounter by Aggressively Humming ABBA</span>
-    <span class="ticker-item"><span class="sym">BREAKING</span> Man Sues Neighbor for Staring at His Lawn Too Aggressively</span>
-    <span class="ticker-item"><span class="sym">JUST IN</span> Scientists Confirm Cats Have Always Known Exactly What They're Doing</span>
-    <span class="ticker-item"><span class="sym">UPDATE</span> Town Names Pothole After Mayor, Says It Captures His Spirit</span>
-    <span class="ticker-item"><span class="sym">ALERT</span> Dog Wins Third Consecutive Mayoral Election in Landslide</span>
-    <span class="ticker-item"><span class="sym">REPORT</span> Study Finds 9 of 10 Dentists Simply Invented the 10th Dentist</span>
-    <span class="ticker-item"><span class="sym">EXCLUSIVE</span> Man Survives Encounter by Aggressively Humming ABBA</span>
+  <div class="ticker-track" id="tickerTrack">
+    <span class="ticker-item"><span class="sym">BREAKING ✦</span> Man Sues Neighbour for Staring at His Lawn Too Aggressively</span>
+    <span class="ticker-item"><span class="sym">JUST IN ✦</span> Scientists Confirm Cats Have Always Known Exactly What They're Doing</span>
+    <span class="ticker-item"><span class="sym">UPDATE ✦</span> Town Names Pothole After Mayor, Says It Perfectly Captures His Legacy</span>
+    <span class="ticker-item"><span class="sym">ALERT ✦</span> Dog Wins Third Consecutive Mayoral Election by Landslide, Accepts in Barks</span>
+    <span class="ticker-item"><span class="sym">REPORT ✦</span> Man Attempts to Return Biscuits to Shop, Gets Offered Job as Quality Tester</span>
+    <span class="ticker-item"><span class="sym">EXCLUSIVE ✦</span> Autorickshaw Driver Solves Delhi Traffic Using Only Intuition and Destiny</span>
+    <span class="ticker-item"><span class="sym">BREAKING ✦</span> Man Sues Neighbour for Staring at His Lawn Too Aggressively</span>
+    <span class="ticker-item"><span class="sym">JUST IN ✦</span> Scientists Confirm Cats Have Always Known Exactly What They're Doing</span>
+    <span class="ticker-item"><span class="sym">UPDATE ✦</span> Town Names Pothole After Mayor, Says It Perfectly Captures His Legacy</span>
+    <span class="ticker-item"><span class="sym">ALERT ✦</span> Dog Wins Third Consecutive Mayoral Election by Landslide, Accepts in Barks</span>
+    <span class="ticker-item"><span class="sym">REPORT ✦</span> Man Attempts to Return Biscuits to Shop, Gets Offered Job as Quality Tester</span>
+    <span class="ticker-item"><span class="sym">EXCLUSIVE ✦</span> Autorickshaw Driver Solves Delhi Traffic Using Only Intuition and Destiny</span>
   </div>
 </div>
 
 <!-- CATEGORY TABS -->
 <div class="cat-bar">
-  <button class="cat-btn active" data-cat="WTF" data-subs="nottheonion,Whatcouldgowrong">😳 WTF</button>
-  <button class="cat-btn" data-cat="Florida Man" data-subs="FloridaMan,nottheonion">🌴 Florida Man</button>
-  <button class="cat-btn" data-cat="Animals" data-subs="AnimalsBeingDerps,AnimalsBeingBros">🐾 Animals</button>
-  <button class="cat-btn" data-cat="Weird Science" data-subs="shittyaskscience,nottheonion">🧪 Weird Science</button>
-  <button class="cat-btn" data-cat="Politics" data-subs="PoliticalHumor,nottheonion">🤡 Politics</button>
-  <button class="cat-btn" data-cat="Tech Fails" data-subs="techsupportgore,softwaregore">💻 Tech Fails</button>
-  <button class="cat-btn" data-cat="Bizarre World" data-subs="nottheonion,interestingasfuck">🌏 Bizarre World</button>
-  <button class="cat-btn" data-cat="Desi WTF" data-subs="india,unitedstatesofindia">🇮🇳 Desi WTF</button>
-  <button class="cat-btn" data-cat="Epic Fails" data-subs="tifu,idontworkherelady">🤦 Epic Fails</button>
-  <button class="cat-btn" data-cat="Food Crimes" data-subs="WeWantPlates,StupidFood">🍕 Food Crimes</button>
+  <button class="cat-btn active" data-cat="India WTF">🇮🇳 India WTF</button>
+  <button class="cat-btn" data-cat="Bollywood">🎬 Bollywood</button>
+  <button class="cat-btn" data-cat="Cricket Drama">🏏 Cricket Drama</button>
+  <button class="cat-btn" data-cat="Desi Tech">💻 Desi Tech</button>
+  <button class="cat-btn" data-cat="World WTF">🌍 World WTF</button>
+  <button class="cat-btn" data-cat="Florida Man">🌴 Florida Man</button>
+  <button class="cat-btn" data-cat="Animals">🐾 Animals</button>
+  <button class="cat-btn" data-cat="Food Crimes">🍕 Food Crimes</button>
+  <button class="cat-btn" data-cat="Epic Fails">🤦 Epic Fails</button>
+  <button class="cat-btn" data-cat="Weird Science">🧪 Weird Science</button>
+</div>
+
+<!-- SOURCE BAR -->
+<div class="source-bar">
+  <span class="source-label">Sources:</span>
+  <span class="source-badge" id="badge-toi">Times of India</span>
+  <span class="source-badge" id="badge-ndtv">NDTV</span>
+  <span class="source-badge" id="badge-hindu">The Hindu</span>
+  <span class="source-badge" id="badge-ie">Indian Express</span>
+  <span class="source-badge" id="badge-it">India Today</span>
+  <span class="source-badge" id="badge-bs">Business Standard</span>
+  <span class="source-badge" id="badge-reddit">Reddit</span>
+  <span class="source-badge" id="badge-hn">Hacker News</span>
 </div>
 
 <!-- SEARCH BAR -->
 <div class="search-bar">
-  <input type="text" class="search-input" id="searchInput" placeholder="Search the chaos… e.g. 'goat mayor' or 'pizza lawsuit'" />
+  <input type="text" class="search-input" id="searchInput" placeholder="Search the chaos… e.g. 'goat mayor' or 'Bengaluru traffic jugaad'" />
   <button class="search-btn" id="searchBtn" onclick="loadNews()">
     <div class="spin"></div>
     <span class="btn-txt">✦ Find Chaos</span>
@@ -264,13 +226,13 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
 <!-- PAPER -->
 <main class="paper">
   <div class="loader" id="loader">
-    <div class="loader-text" id="loaderText">Trawling the internet for maximum absurdity…</div>
-    <div class="loader-sub" id="loaderSub">Filtering the merely strange · keeping only the unhinged</div>
+    <div class="loader-text" id="loaderText">Trawling India for maximum absurdity…</div>
+    <div class="loader-sub" id="loaderSub">Checking TOI · NDTV · The Hindu · India Today and more</div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   </div>
   <div class="empty" id="emptyState">
-    <div class="empty-head">The chaos escaped.</div>
-    <div class="empty-sub">Try a different topic — the absurdity is always out there.</div>
+    <div class="empty-head">The chaos is loading elsewhere.</div>
+    <div class="empty-sub">Try a different topic or refresh — India always delivers.</div>
   </div>
   <div class="feed" id="feed">
     <div class="top-article" id="topArticle"></div>
@@ -279,9 +241,9 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
   </div>
 </main>
 
-<!-- BOTTOM BAR -->
+<!-- BOTTOM -->
 <div class="bottom-bar">
-  <span class="bottom-copy">iPaint · Funny & Maverick News · Real stories from around the internet · No API keys · No filter</span>
+  <span class="bottom-copy">iPaint · Funny & Maverick News · TOI · NDTV · The Hindu · IE · India Today · Reddit · HN · No API keys</span>
   <button class="refresh-btn" onclick="loadNews()">↻ More Chaos</button>
 </div>
 
@@ -295,79 +257,111 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
     <div class="modal-body" id="mBody"></div>
     <div class="modal-divider"></div>
     <div class="modal-source-note" id="mSource"></div>
-    <a class="read-original" id="mLink" href="#" target="_blank">Read the Full Chaos →</a>
+    <a class="read-original" id="mLink" href="#" target="_blank">Read the Full Story →</a>
   </div>
 </div>
 
 <script>
 // ─────────────────────────────────────────────────────────────────
 // iPaint — Funny & Maverick News
-// Same parchment aesthetic, same layout — new soul
-// Sources: Reddit JSON API + HackerNews Algolia (both CORS-safe, no key)
+// Sources: Indian RSS feeds via rss2json.com + Reddit + HN Algolia
+// All CORS-safe. No API keys needed.
 // ─────────────────────────────────────────────────────────────────
+
+const R2J = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+// ── ALL RSS SOURCES ───────────────────────────────────────────────
+const SOURCES = {
+  // Indian News
+  toi:    { name: 'Times of India',   badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeedstopstories.cms' },
+  toi2:   { name: 'Times of India',   badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms' },
+  ndtv:   { name: 'NDTV',            badge: 'badge-ndtv',  url: 'https://feeds.feedburner.com/NDTV-LatestNews' },
+  ndtv2:  { name: 'NDTV',            badge: 'badge-ndtv',  url: 'https://feeds.feedburner.com/ndtvnews-india-news' },
+  hindu:  { name: 'The Hindu',        badge: 'badge-hindu', url: 'https://www.thehindu.com/news/feeder/default.rss' },
+  hindu2: { name: 'The Hindu',        badge: 'badge-hindu', url: 'https://www.thehindu.com/entertainment/feeder/default.rss' },
+  ie:     { name: 'Indian Express',   badge: 'badge-ie',    url: 'https://indianexpress.com/feed/' },
+  it:     { name: 'India Today',      badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/home' },
+  it2:    { name: 'India Today',      badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/1206578' },
+  bs:     { name: 'Business Std.',    badge: 'badge-bs',    url: 'https://www.business-standard.com/rss/latest.rss' },
+  fp:     { name: 'Firstpost',        badge: 'badge-toi',   url: 'https://www.firstpost.com/commonfeeds/v1/mfp/recent-stories/rss.xml' },
+  zee:    { name: 'Zee News',         badge: 'badge-ndtv',  url: 'https://zeenews.india.com/rss/india-news.xml' },
+  // Bollywood
+  bwood:  { name: 'India Today Bwood',badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/1206582' },
+  bwood2: { name: 'TOI Bollywood',    badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeeds/1081479906.cms' },
+  // Sports/Cricket
+  cric:   { name: 'TOI Cricket',      badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeeds/4719148.cms' },
+  cric2:  { name: 'India Today Sport',badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/1206579' },
+  // Tech
+  tech:   { name: 'India Today Tech', badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/1206580' },
+  tech2:  { name: 'TOI Tech',         badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeeds/-2128672765.cms' },
+};
+
+// ── CATEGORY → SOURCES + REDDIT SUBS ─────────────────────────────
+const CAT_CONFIG = {
+  'India WTF':     { sources: ['toi','ndtv','hindu','ie','it','ze','fp'],    subs: ['india','unitedstatesofindia'],      hn: false },
+  'Bollywood':     { sources: ['bwood','bwood2','it','toi'],                 subs: ['bollywood','india'],                hn: false },
+  'Cricket Drama': { sources: ['cric','cric2','toi','ndtv'],                 subs: ['Cricket','india'],                  hn: false },
+  'Desi Tech':     { sources: ['tech','tech2','ie','bs'],                    subs: ['india','developersIndia'],          hn: true  },
+  'World WTF':     { sources: ['toi2','ndtv2','hindu','ie'],                 subs: ['nottheonion','worldnews'],          hn: false },
+  'Florida Man':   { sources: ['toi2','ndtv2'],                              subs: ['FloridaMan','nottheonion'],         hn: false },
+  'Animals':       { sources: ['toi','ndtv'],                                subs: ['AnimalsBeingDerps','AnimalsBeingBros'], hn: false },
+  'Food Crimes':   { sources: ['toi','it'],                                  subs: ['WeWantPlates','StupidFood'],        hn: false },
+  'Epic Fails':    { sources: ['toi','ndtv','ie'],                           subs: ['tifu','idontworkherelady'],         hn: false },
+  'Weird Science': { sources: ['hindu','ie','bs'],                           subs: ['shittyaskscience','nottheonion'],   hn: true  },
+};
 
 // ── LOL SCORING ───────────────────────────────────────────────────
 const FUNNY = [
-  'accidentally','bizarre','absurd','ridiculous','hilarious','weird','strange',
-  'unexpected','somehow','apparently','claims','insists','demands','refuses',
-  'mistaken','confused','shocked','discovers','warns','bans','sues','arrested',
-  'charged','blames','denies','caught','found','florida','neighbor','mayor',
-  'goat','duck','chicken','squirrel','raccoon','llama','parrot','emu',
-  'pizza','waffle','burger','cheese','potato','sandwich','nugget',
-  'robot','glitch','explodes','malfunction','accidentally sent','wrong number',
+  'accidentally','bizarre','absurd','ridiculous','weird','strange','unexpected',
+  'somehow','apparently','claims','insists','demands','refuses','mistaken',
+  'confused','shocked','discovers','warns','bans','sues','arrested','caught',
+  'found','florida','neighbour','neighbor','mayor','councillor','officer',
+  'goat','duck','chicken','monkey','elephant','cow','dog','cat','parrot',
+  'jugaad','viral','chaos','outrage','controversy','row','furor','stir',
+  'pizza','biryani','idli','pani puri','bhelpuri','chai','paratha',
+  'robot','glitch','fail','oops','blunder','goof','mix-up','confusion',
   'award','winner','record','first ever','only person','study finds',
-  'conspiracy','reportedly','scientists','accidentally','oops','whoops',
-  'naked','toilet','pants','underwear','hat','sock','shoe',
-  'man','woman','guy','lady','grandma','toddler','teen',
-  'lawsuit','fine','banned','suspended','fired for','hired because',
+  'reported','allegedly','sources say','eyebrow-raising','eyebrows',
+  'man','woman','uncle','aunty','desi','jugaad','innovative','unique approach',
 ];
-
 const BORING = [
-  'quarterly earnings','federal reserve','gdp','legislation','amendment',
-  'regulatory compliance','pursuant','infrastructure bill','committee hearing',
+  'quarterly results','gdp growth','regulatory framework','pursuant to',
+  'committee deliberations','fiscal deficit','monetary policy statement',
 ];
 
 function scoreLol(title, desc) {
   const text = (title + ' ' + (desc || '')).toLowerCase();
   let s = 40;
-  FUNNY.forEach(w => { if (text.includes(w)) s += 5; });
+  FUNNY.forEach(w => { if (text.includes(w)) s += 4; });
   BORING.forEach(w => { if (text.includes(w)) s -= 8; });
   return Math.min(99, Math.max(0, s));
 }
 
-// ── VIBE LABELS (newspaper column style) ─────────────────────────
-const VIBES = [
-  'Correspondent\'s Dispatch',
-  'Our Man on the Ground',
-  'Staff Reporter',
-  'Special Investigation',
-  'Field Notes',
-  'Eyewitness Account',
-  'Breaking Absurdity',
-  'Unverified but Believable',
-];
+// ── COLUMN LABELS ─────────────────────────────────────────────────
+const VIBES = ['Our Man on the Ground','Staff Reporter','Special Correspondent',
+  'Field Dispatch','Eyewitness Account','Bureau Report','Exclusive Investigation',
+  'Unverified but Credible'];
 function pickVibe(id) {
-  let hash = 0;
-  for (let c of id) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
-  return VIBES[Math.abs(hash) % VIBES.length];
+  let h = 0; for (let c of id) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
+  return VIBES[Math.abs(h) % VIBES.length];
 }
 
-// ── CATEGORY → SUBREDDITS ─────────────────────────────────────────
-const CAT_SUBS = {
-  'WTF':           ['nottheonion', 'Whatcouldgowrong', 'mildlyinfuriating'],
-  'Florida Man':   ['FloridaMan', 'nottheonion'],
-  'Animals':       ['AnimalsBeingDerps', 'AnimalsBeingBros', 'HoldMyCatnip'],
-  'Weird Science': ['shittyaskscience', 'nottheonion', 'EverythingScience'],
-  'Politics':      ['PoliticalHumor', 'nottheonion'],
-  'Tech Fails':    ['techsupportgore', 'softwaregore', 'talesfromtechsupport'],
-  'Bizarre World': ['nottheonion', 'interestingasfuck', 'worldnews'],
-  'Desi WTF':      ['india', 'unitedstatesofindia', 'bollywood'],
-  'Epic Fails':    ['tifu', 'idontworkherelady', 'pettyrevenge'],
-  'Food Crimes':   ['WeWantPlates', 'StupidFood', 'ExpectationVsReality'],
+// ── LOADER MESSAGES ───────────────────────────────────────────────
+const MSGS = {
+  'India WTF':     ['Trawling TOI, NDTV, The Hindu for prime chaos…',   'India always delivers. Always.'],
+  'Bollywood':     ['Checking the Bollywood gossip wires…',              'Dramatic pauses. Unexpected twists. Costume changes.'],
+  'Cricket Drama': ['Reviewing the boundary-side incidents…',            'It\'s not just a sport. It\'s a soap opera.'],
+  'Desi Tech':     ['Scanning the desi tech corridors…',                 'Jugaad innovations and startup pivots galore.'],
+  'World WTF':     ['Checking global dispatches for maximum chaos…',     'The world is a lot.'],
+  'Florida Man':   ['Monitoring the Florida situation…',                  'He did what now? Oh. Oh no.'],
+  'Animals':       ['Consulting animal correspondents worldwide…',        'They did not have to do this.'],
+  'Food Crimes':   ['Documenting culinary atrocities…',                  'Gordon Ramsay is screaming somewhere.'],
+  'Epic Fails':    ['Collecting this week\'s finest disasters…',          'Someone had a very bad day so you don\'t have to.'],
+  'Weird Science': ['Reviewing peer-reviewed nonsense…',                 'Science has questions. Very strange questions.'],
 };
 
 // ── STATE ─────────────────────────────────────────────────────────
-let currentCat = 'WTF';
+let currentCat = 'India WTF';
 let articles   = [];
 let isLoading  = false;
 
@@ -389,34 +383,23 @@ document.getElementById('searchInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') loadNews();
 });
 
-// ── LOADER MESSAGES ───────────────────────────────────────────────
-const MSGS = {
-  'WTF':           ['Trawling the internet for maximum absurdity…',  'Filtering the merely strange · keeping only the unhinged'],
-  'Florida Man':   ['Checking the Florida dispatch wires…',          'He did what now? Oh. Oh no.'],
-  'Animals':       ['Consulting our animal correspondents…',          'They did not have to do this. They did it anyway.'],
-  'Weird Science': ['Reviewing peer-reviewed nonsense…',             'Science has questions. Very strange questions.'],
-  'Politics':      ['Entering the clown zone…',                      'This is fine. Everything is fine.'],
-  'Tech Fails':    ['Rebooting the chaos engine…',                   'Have you tried turning it off and on again?'],
-  'Bizarre World': ['Scanning the global timeline for glitches…',    'The simulation is having a moment.'],
-  'Desi WTF':      ['Accessing the desi dispatch feed…',             'Jugaad energy · 100% certified unhinged'],
-  'Epic Fails':    ['Collecting this week\'s finest disasters…',      'Someone had a very bad day so you don\'t have to.'],
-  'Food Crimes':   ['Documenting culinary atrocities…',              'Gordon Ramsay did not approve this message.'],
-};
-
 // ── MAIN LOADER ───────────────────────────────────────────────────
 async function loadNews() {
   if (isLoading) return;
   isLoading = true;
 
   const customSearch = document.getElementById('searchInput').value.trim().toLowerCase();
-  const subs         = CAT_SUBS[currentCat] || CAT_SUBS['WTF'];
-  const msg          = MSGS[currentCat] || MSGS['WTF'];
+  const cfg  = CAT_CONFIG[currentCat] || CAT_CONFIG['India WTF'];
+  const msg  = MSGS[currentCat] || MSGS['India WTF'];
 
   const loader = document.getElementById('loader');
   const feed   = document.getElementById('feed');
   const btn    = document.getElementById('searchBtn');
   const empty  = document.getElementById('emptyState');
   const pf     = document.getElementById('progressFill');
+
+  // Reset source badges
+  document.querySelectorAll('.source-badge').forEach(b => b.classList.remove('active'));
 
   loader.classList.add('show');
   feed.classList.add('fading');
@@ -426,32 +409,39 @@ async function loadNews() {
   feed.style.display = '';
 
   pf.style.transition = 'none'; pf.style.width = '0%';
-  setTimeout(() => { pf.style.transition = 'width 0.6s ease'; pf.style.width = '40%'; }, 30);
+  setTimeout(() => { pf.style.transition = 'width 0.5s ease'; pf.style.width = '30%'; }, 30);
 
   document.getElementById('loaderText').textContent = msg[0];
   document.getElementById('loaderSub').textContent  = msg[1];
 
   try {
-    const results = await Promise.allSettled(subs.map(s => fetchReddit(s)));
+    // Build fetch list: RSS feeds + Reddit subs
+    const rssFetches    = cfg.sources.map(k => fetchRSS(k));
+    const redditFetches = cfg.subs.map(s => fetchReddit(s));
+    const hnFetch       = cfg.hn ? [fetchHN(currentCat)] : [];
+
+    const allResults = await Promise.allSettled([...rssFetches, ...redditFetches, ...hnFetch]);
     pf.style.width = '75%';
 
     let all = [];
-    results.forEach(r => { if (r.status === 'fulfilled') all = all.concat(r.value); });
+    allResults.forEach(r => { if (r.status === 'fulfilled') all = all.concat(r.value); });
 
+    // Search filter
     if (customSearch) {
       all = all.filter(i =>
         i.title.toLowerCase().includes(customSearch) ||
-        i.description.toLowerCase().includes(customSearch)
+        (i.description || '').toLowerCase().includes(customSearch)
       );
     }
 
+    // Score, filter, dedupe, top 5
     const top5 = all
       .map(i => ({ ...i, lolScore: scoreLol(i.title, i.description) }))
-      .filter(i => i.lolScore >= 45 && i.title.length > 10)
+      .filter(i => i.lolScore >= 44 && i.title.length > 10)
       .sort((a, b) => b.lolScore - a.lolScore)
       .filter((item, idx, arr) => {
-        const key = item.title.toLowerCase().slice(0, 50);
-        return arr.findIndex(x => x.title.toLowerCase().slice(0, 50) === key) === idx;
+        const key = item.title.toLowerCase().slice(0, 55);
+        return arr.findIndex(x => x.title.toLowerCase().slice(0, 55) === key) === idx;
       })
       .slice(0, 5);
 
@@ -461,6 +451,9 @@ async function loadNews() {
       empty.classList.add('show');
       feed.style.display = 'none';
     } else {
+      // Highlight active source badges
+      const activeBadges = new Set(top5.map(s => s.badge).filter(Boolean));
+      activeBadges.forEach(b => { const el = document.getElementById(b); if (el) el.classList.add('active'); });
       articles = top5;
       renderFeed(top5);
     }
@@ -480,46 +473,86 @@ async function loadNews() {
   }, 350);
 }
 
+// ── FETCH RSS via rss2json ────────────────────────────────────────
+async function fetchRSS(sourceKey) {
+  const src = SOURCES[sourceKey];
+  if (!src) return [];
+  try {
+    const res  = await fetch(`${R2J}${encodeURIComponent(src.url)}&count=25`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
+    return data.items.map(item => ({
+      id:          'rss_' + btoa(encodeURIComponent(item.link || item.guid || Math.random())).slice(0,12),
+      title:       clean(item.title || ''),
+      description: clean(item.description || item.content || '').slice(0, 280),
+      link:        item.link || item.guid || '#',
+      source:      src.name,
+      badge:       src.badge,
+      timeAgo:     relTime(item.pubDate),
+    }));
+  } catch { return []; }
+}
+
 // ── FETCH REDDIT ──────────────────────────────────────────────────
 async function fetchReddit(sub) {
   try {
-    const res = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=30`, {
+    const res = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=25`, {
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
     const data = await res.json();
     return (data.data?.children || [])
       .map(c => c.data)
-      .filter(p => p.title && !p.stickied && p.score > 5)
+      .filter(p => p.title && !p.stickied && p.score > 10)
       .map(p => ({
         id:          'rd_' + p.id,
         title:       p.title,
         description: p.selftext
-          ? cleanHtml(p.selftext).slice(0, 300)
-          : `${p.score.toLocaleString()} upvotes · ${p.num_comments} comments on r/${p.subreddit}`,
+          ? clean(p.selftext).slice(0, 280)
+          : `${p.score.toLocaleString()} upvotes · ${p.num_comments} comments`,
         link:        p.url?.startsWith('http') ? p.url : `https://reddit.com${p.permalink}`,
         source:      `r/${p.subreddit}`,
+        badge:       'badge-reddit',
         timeAgo:     relTime(new Date(p.created_utc * 1000).toISOString()),
       }));
   } catch { return []; }
 }
 
+// ── FETCH HACKERNEWS ──────────────────────────────────────────────
+async function fetchHN(cat) {
+  try {
+    const q   = encodeURIComponent(cat + ' india weird funny');
+    const res = await fetch(`https://hn.algolia.com/api/v1/search?query=${q}&tags=story&hitsPerPage=20`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.hits || []).filter(h => h.title && h.url).map(h => ({
+      id:          'hn_' + h.objectID,
+      title:       h.title,
+      description: `${h.points || 0} points · ${h.num_comments || 0} comments on Hacker News`,
+      link:        h.url,
+      source:      new URL(h.url).hostname.replace('www.',''),
+      badge:       'badge-hn',
+      timeAgo:     relTime(h.created_at),
+    }));
+  } catch { return []; }
+}
+
 // ── UTILS ─────────────────────────────────────────────────────────
-function cleanHtml(str) {
-  return (str || '').replace(/<[^>]*>/g, '')
+function clean(str) {
+  return (str||'').replace(/<[^>]*>/g,'')
     .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
     .replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ')
     .replace(/\s+/g,' ').trim();
 }
-
 function relTime(dateStr) {
   if (!dateStr) return 'Recent';
   const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
-  if (isNaN(diff) || diff < 0) return 'Recent';
-  if (diff < 3600)   return `${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400)  return `${Math.floor(diff / 3600)}h ago`;
+  if (isNaN(diff)||diff<0) return 'Recent';
+  if (diff < 3600)   return `${Math.floor(diff/60)}m ago`;
+  if (diff < 86400)  return `${Math.floor(diff/3600)}h ago`;
   if (diff < 172800) return 'Yesterday';
-  return `${Math.floor(diff / 86400)}d ago`;
+  return `${Math.floor(diff/86400)}d ago`;
 }
 
 // ── RENDER ────────────────────────────────────────────────────────
@@ -532,6 +565,7 @@ function renderFeed(stories) {
       <div class="article-tag">
         <span>${currentCat}</span>
         <span class="lol-pill">✦ LOL ${top.lolScore}</span>
+        <span class="source-pill">${top.source}</span>
       </div>
       <h2 class="top-headline" onclick="openModal('${top.id}')">${top.title}</h2>
       <p class="top-deck">${top.description}</p>
@@ -545,15 +579,16 @@ function renderFeed(stories) {
     <div class="aside-stack">
       ${rest.map(s => `
         <div class="aside-item" onclick="openModal('${s.id}')">
-          <div class="aside-tag">${pickVibe(s.id)}</div>
+          <div class="aside-tag">${pickVibe(s.id)} · ${s.source}</div>
           <div class="aside-headline">${s.title}</div>
-          <div class="aside-deck">${(s.description || '').split('.')[0]}.</div>
+          <div class="aside-deck">${(s.description||'').split('.')[0]}.</div>
         </div>`).join('')}
     </div>`;
 
   document.getElementById('cardsGrid').innerHTML = rest.map(s => `
     <div class="news-card" onclick="openModal('${s.id}')">
       <div class="card-tag">${pickVibe(s.id)}</div>
+      <div class="card-source">${s.source}</div>
       <h3 class="card-headline">${s.title}</h3>
       <p class="card-deck">${s.description}</p>
       <div class="card-footer">
@@ -570,15 +605,14 @@ function renderFeed(stories) {
 function openModal(id) {
   const s = articles.find(a => a.id === id);
   if (!s) return;
-  document.getElementById('mTag').textContent      = pickVibe(s.id) + ' · LOL Score ' + s.lolScore;
+  document.getElementById('mTag').textContent      = currentCat + ' · LOL Score ' + s.lolScore + ' · ' + s.source;
   document.getElementById('mHeadline').textContent  = s.title;
   document.getElementById('mMeta').innerHTML        = `<span class="lol-badge">LOL ${s.lolScore}</span><span>${s.timeAgo}</span><span>${s.source}</span>`;
-  document.getElementById('mBody').innerHTML        = `<p>${s.description || 'Click the button below to read the full story.'}</p>`;
-  document.getElementById('mSource').textContent   = `Source: ${s.source} · Curated by iPaint · Certified Unhinged`;
+  document.getElementById('mBody').innerHTML        = `<p>${s.description || 'Click below to read the full story.'}</p>`;
+  document.getElementById('mSource').textContent   = `Source: ${s.source} · Curated by iPaint · No filter applied`;
   document.getElementById('mLink').href            = s.link;
   document.getElementById('modalOverlay').classList.add('open');
 }
-
 function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 function maybeCloseModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
