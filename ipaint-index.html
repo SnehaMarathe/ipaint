@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPaint — Only Good News</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Libre+Franklin:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0D0D0B; --canvas: #F7F3EC; --parchment: #EDE8DC; --warm-mid: #C4B99A;
+  --gold: #C9973A; --rust: #B5451B; --teal: #1B7A6E; --green: #2D7A3A; --muted: #7A7060;
+  --serif: 'Playfair Display', Georgia, serif;
+  --mono: 'DM Mono', monospace;
+  --sans: 'Libre Franklin', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--canvas); color: var(--ink); font-family: var(--sans); font-weight: 300; min-height: 100vh; }
+
+.masthead { border-bottom: 3px double var(--warm-mid); padding: 1rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--canvas); position: sticky; top: 0; z-index: 100; }
+.logo { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.03em; }
+.logo .i { color: var(--rust); font-style: italic; }
+.masthead-center { text-align: center; }
+.masthead-date { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.masthead-motto { font-family: var(--serif); font-size: 0.75rem; font-style: italic; color: var(--warm-mid); margin-top: 0.1rem; }
+.live-badge { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.6rem; color: var(--green); letter-spacing: 0.12em; text-transform: uppercase; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
+
+.cat-bar { background: var(--parchment); border-bottom: 1px solid var(--warm-mid); padding: 0 2.5rem; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+.cat-bar::-webkit-scrollbar { display: none; }
+.cat-btn { font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 0.75rem 1.1rem; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+.cat-btn:hover { color: var(--ink); }
+.cat-btn.active { color: var(--ink); border-bottom-color: var(--rust); font-weight: 500; }
+
+.search-bar { padding: 0.9rem 2.5rem; border-bottom: 1px solid var(--parchment); display: flex; gap: 0.6rem; align-items: center; background: var(--canvas); }
+.search-input { flex: 1; font-family: var(--sans); font-size: 0.85rem; font-weight: 300; color: var(--ink); background: var(--parchment); border: 1px solid var(--warm-mid); border-radius: 2px; padding: 0.6rem 1rem; outline: none; transition: border-color 0.2s; }
+.search-input::placeholder { color: var(--warm-mid); }
+.search-input:focus { border-color: var(--gold); }
+.search-btn { font-family: var(--mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--canvas); background: var(--teal); border: none; padding: 0.6rem 1.4rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+.search-btn:hover { background: var(--ink); }
+.search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.spin { width: 12px; height: 12px; border: 1.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+.search-btn.loading .spin { display: block; }
+.search-btn.loading .btn-txt { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.paper { max-width: 1360px; margin: 0 auto; padding: 2rem 2.5rem; }
+
+.loader { display: none; padding: 4rem 2rem; text-align: center; }
+.loader.show { display: block; }
+.loader-text { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--muted); margin-bottom: 0.4rem; }
+.loader-sub { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); }
+.progress-bar { width: 200px; height: 2px; background: var(--parchment); margin: 1rem auto 0; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: var(--teal); transition: width 0.5s ease; }
+
+.feed { transition: opacity 0.3s; }
+.feed.fading { opacity: 0; }
+
+.top-article { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; border-bottom: 2px solid var(--ink); padding-bottom: 2rem; margin-bottom: 2rem; }
+.article-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+.joy-pill { background: rgba(27,122,110,0.12); border: 1px solid rgba(27,122,110,0.25); color: var(--teal); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.56rem; }
+.top-headline { font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.6rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.025em; margin-bottom: 0.8rem; cursor: pointer; transition: color 0.2s; }
+.top-headline:hover { color: var(--teal); }
+.top-deck { font-size: 0.95rem; font-weight: 300; line-height: 1.8; color: var(--muted); margin-bottom: 1rem; }
+.article-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); letter-spacing: 0.08em; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.joy-badge { background: var(--gold); color: var(--ink); font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px; font-size: 0.6rem; }
+.src-link { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(27,122,110,0.3); }
+.src-link:hover { border-bottom-color: var(--teal); }
+
+.aside-stack { display: flex; flex-direction: column; }
+.aside-item { border-bottom: 1px solid var(--parchment); padding: 0.9rem 0.8rem; cursor: pointer; transition: background 0.15s; border-radius: 2px; }
+.aside-item:hover { background: var(--parchment); }
+.aside-item:last-child { border-bottom: none; }
+.aside-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+.aside-headline { font-family: var(--serif); font-size: 0.92rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.3rem; }
+.aside-deck { font-size: 0.72rem; color: var(--muted); font-weight: 300; line-height: 1.55; }
+
+.section-rule { display: flex; align-items: center; gap: 1rem; margin: 2rem 0 1.5rem; }
+.section-rule::before, .section-rule::after { content: ''; flex: 1; height: 1px; background: var(--warm-mid); }
+.section-rule-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+.cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--warm-mid); border: 1px solid var(--warm-mid); border-radius: 2px; overflow: hidden; margin-bottom: 3rem; }
+.news-card { background: var(--canvas); padding: 1.4rem 1.2rem; cursor: pointer; transition: background 0.2s; }
+.news-card:hover { background: var(--parchment); }
+.card-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+.card-headline { font-family: var(--serif); font-size: 1.0rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.55rem; }
+.card-deck { font-size: 0.75rem; font-weight: 300; color: var(--muted); line-height: 1.65; margin-bottom: 0.8rem; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; }
+.card-time { font-family: var(--mono); font-size: 0.56rem; color: var(--warm-mid); }
+.joy-bar-wrap { display: flex; align-items: center; gap: 0.35rem; }
+.joy-bar { width: 44px; height: 3px; background: var(--parchment); border-radius: 2px; overflow: hidden; }
+.joy-fill { height: 100%; background: var(--teal); border-radius: 2px; }
+.joy-bar-num { font-family: var(--mono); font-size: 0.52rem; color: var(--warm-mid); }
+
+.empty { display: none; padding: 4rem 2rem; text-align: center; }
+.empty.show { display: block; }
+.empty-head { font-family: var(--serif); font-size: 1.2rem; font-style: italic; color: var(--muted); margin-bottom: 0.5rem; }
+.empty-sub { font-family: var(--mono); font-size: 0.62rem; color: var(--warm-mid); letter-spacing: 0.1em; }
+
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(13,13,11,0.72); z-index: 500; align-items: center; justify-content: center; padding: 1.5rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--canvas); border: 1px solid var(--warm-mid); border-radius: 4px; max-width: 660px; width: 100%; max-height: 88vh; overflow-y: auto; padding: 2.5rem; position: relative; animation: slideUp 0.25s ease; }
+@keyframes slideUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: 1px solid var(--warm-mid); border-radius: 2px; font-family: var(--mono); font-size: 0.62rem; color: var(--muted); padding: 0.3rem 0.7rem; cursor: pointer; }
+.modal-close:hover { background: var(--parchment); }
+.modal-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.7rem; }
+.modal-headline { font-family: var(--serif); font-size: 1.7rem; font-weight: 700; line-height: 1.18; margin-bottom: 0.7rem; }
+.modal-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); margin-bottom: 1.4rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.modal-body { font-size: 0.9rem; font-weight: 300; line-height: 1.9; color: var(--muted); }
+.modal-body p { margin-bottom: 1rem; }
+.modal-divider { height: 1px; background: var(--parchment); margin: 1.2rem 0; }
+.modal-source-note { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); }
+.read-original { display: inline-block; margin-top: 1rem; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--canvas); background: var(--teal); padding: 0.5rem 1.2rem; border-radius: 2px; text-decoration: none; }
+.read-original:hover { background: var(--ink); }
+
+.bottom-bar { border-top: 3px double var(--warm-mid); padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--parchment); }
+.bottom-copy { font-family: var(--mono); font-size: 0.58rem; color: var(--warm-mid); letter-spacing: 0.08em; }
+.refresh-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); background: none; border: 1px solid rgba(27,122,110,0.3); padding: 0.4rem 1rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; }
+.refresh-btn:hover { background: var(--teal); color: var(--canvas); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <a href="#" class="logo"><span class="i">i</span>Paint</a>
+  <div class="masthead-center">
+    <div class="masthead-date" id="today-date"></div>
+    <div class="masthead-motto">"Only the bright side of the world"</div>
+  </div>
+  <div class="live-badge"><div class="live-dot"></div>Live Good News</div>
+</header>
+
+<div class="cat-bar">
+  <button class="cat-btn active" data-cat="India">🇮🇳 India</button>
+  <button class="cat-btn" data-cat="World">🌍 World</button>
+  <button class="cat-btn" data-cat="Science">🔬 Science</button>
+  <button class="cat-btn" data-cat="Health">💊 Health</button>
+  <button class="cat-btn" data-cat="Environment">🌿 Environment</button>
+  <button class="cat-btn" data-cat="Technology">⚡ Technology</button>
+  <button class="cat-btn" data-cat="Business">📈 Business</button>
+  <button class="cat-btn" data-cat="Sports">🏆 Sports</button>
+  <button class="cat-btn" data-cat="Arts">🎨 Arts</button>
+  <button class="cat-btn" data-cat="Community">🤝 Community</button>
+</div>
+
+<div class="search-bar">
+  <input type="text" class="search-input" id="searchInput" placeholder="Search good news… e.g. 'solar energy' or 'cancer research'" />
+  <button class="search-btn" id="searchBtn" onclick="loadNews()">
+    <div class="spin"></div>
+    <span class="btn-txt">✦ Find Bright News</span>
+  </button>
+</div>
+
+<main class="paper">
+  <div class="loader" id="loader">
+    <div class="loader-text" id="loaderText">Finding the bright side…</div>
+    <div class="loader-sub" id="loaderSub">Filtering out the noise · painting only the light</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+  <div class="empty" id="emptyState">
+    <div class="empty-head">No bright stories found right now.</div>
+    <div class="empty-sub">Try a different topic or refresh — good news is always out there.</div>
+  </div>
+  <div class="feed" id="feed">
+    <div class="top-article" id="topArticle"></div>
+    <div class="section-rule"><span class="section-rule-label">More bright stories</span></div>
+    <div class="cards-grid" id="cardsGrid"></div>
+  </div>
+</main>
+
+<div class="bottom-bar">
+  <span class="bottom-copy">iPaint · Good News · Powered by open RSS feeds · Zero API keys · No doom-scrolling</span>
+  <button class="refresh-btn" onclick="loadNews()">↻ Repaint</button>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="maybeCloseModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕ Close</button>
+    <div class="modal-tag" id="mTag"></div>
+    <h2 class="modal-headline" id="mHeadline"></h2>
+    <div class="modal-meta" id="mMeta"></div>
+    <div class="modal-body" id="mBody"></div>
+    <div class="modal-divider"></div>
+    <div class="modal-source-note" id="mSource"></div>
+    <a class="read-original" id="mLink" href="#" target="_blank">Read Original Story →</a>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────
+// iPaint — Zero API keys. Zero backend.
+// Pulls real RSS feeds via rss2json.com (free, no signup needed)
+// Scores each story with a built-in positivity word filter
+// ─────────────────────────────────────────────────────────────────
+
+const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+// ── RSS FEED SOURCES PER CATEGORY ────────────────────────────────
+const FEEDS = {
+  India: [
+    'https://timesofindia.indiatimes.com/rssfeeds/1221656.cms',
+    'https://www.thehindu.com/news/national/feeder/default.rss',
+    'https://www.livemint.com/rss/news',
+  ],
+  World: [
+    'https://feeds.bbci.co.uk/news/world/rss.xml',
+    'https://www.theguardian.com/world/rss',
+    'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
+  ],
+  Science: [
+    'https://www.sciencedaily.com/rss/top.xml',
+    'https://www.nasa.gov/rss/dyn/breaking_news.rss',
+    'https://feeds.newscientist.com/full-rss-feed.xml',
+  ],
+  Health: [
+    'https://www.sciencedaily.com/rss/health_medicine.xml',
+    'https://www.who.int/rss-feeds/news-english.xml',
+    'https://feeds.webmd.com/rss/rss.aspx?RSSSource=RSS_PUBLIC',
+  ],
+  Environment: [
+    'https://www.theguardian.com/environment/rss',
+    'https://e360.yale.edu/feed',
+    'https://www.sciencedaily.com/rss/earth_climate.xml',
+  ],
+  Technology: [
+    'https://feeds.feedburner.com/TechCrunch',
+    'https://www.technologyreview.com/feed/',
+    'https://www.wired.com/feed/rss',
+  ],
+  Business: [
+    'https://economictimes.indiatimes.com/rssfeedsdefault.cms',
+    'https://feeds.feedburner.com/entrepreneur/latest',
+    'https://www.livemint.com/rss/industry',
+  ],
+  Sports: [
+    'https://feeds.bbci.co.uk/sport/rss.xml',
+    'https://timesofindia.indiatimes.com/rssfeeds/4719148.cms',
+    'https://www.espncricinfo.com/rss/content/story/feeds/0.xml',
+  ],
+  Arts: [
+    'https://www.theguardian.com/culture/rss',
+    'https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml',
+    'https://pitchfork.com/rss/news/feed.json',
+  ],
+  Community: [
+    'https://www.goodnewsnetwork.org/feed/',
+    'https://positivenews.org.uk/feed/',
+    'https://www.positive.news/feed/',
+  ],
+};
+
+// ── POSITIVITY SCORING ────────────────────────────────────────────
+const POS = ['breakthrough','discover','cure','hope','success','achieve','win','award',
+  'record','milestone','launch','celebrate','innovate','improve','grow','save','rescue',
+  'restore','protect','clean','green','renewable','solar','peace','unite','collaborate',
+  'donate','volunteer','empower','fund','invest','create','build','expand','advance',
+  'pioneer','historic','remarkable','inspiring','uplift','transform','recovery','heal',
+  'thrive','flourish','progress','develop','rise','boost','surge','soar','praise',
+  'honour','proud','joy','happy','grateful','wonderful','amazing','excellent','positive',
+  'benefit','help','aid','welfare','health','free','access','opportunity','education',
+  'solution','solve','overcome','resilient','approved','safe','effective','increased',
+  'reached','signed','opened','released','completed','launched','founded','awarded'];
+
+const NEG = ['kill','die','death','dead','murder','war','attack','bomb','terror','crash',
+  'crisis','disaster','riot','crime','fraud','corrupt','abuse','threat','outbreak',
+  'pandemic','recession','unemployment','poverty','homeless','famine','suicide',
+  'violence','injury','accident','explosion','shooting','scandal','resign','fail',
+  'collapse','bankrupt','layoff','decline','plunge','worsen','damage','destroy',
+  'killed','injured','arrested','charged','sentenced','convicted','banned'];
+
+function scoreStory(title, desc) {
+  const text = (title + ' ' + (desc || '')).toLowerCase();
+  let score = 50;
+  POS.forEach(w => { if (text.includes(w)) score += 4; });
+  NEG.forEach(w => { if (text.includes(w)) score -= 6; });
+  return Math.min(99, Math.max(0, score));
+}
+
+// ── STATE ─────────────────────────────────────────────────────────
+let currentCat = 'India';
+let articles   = [];
+let isLoading  = false;
+
+document.getElementById('today-date').textContent =
+  new Date().toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+// ── TABS ──────────────────────────────────────────────────────────
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (isLoading) return;
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = btn.dataset.cat;
+    document.getElementById('searchInput').value = '';
+    loadNews();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') loadNews();
+});
+
+// ── MAIN LOADER ───────────────────────────────────────────────────
+async function loadNews() {
+  if (isLoading) return;
+  isLoading = true;
+
+  const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+  const feeds      = FEEDS[currentCat] || FEEDS.World;
+
+  const loader  = document.getElementById('loader');
+  const feed    = document.getElementById('feed');
+  const btn     = document.getElementById('searchBtn');
+  const empty   = document.getElementById('emptyState');
+  const pf      = document.getElementById('progressFill');
+
+  loader.classList.add('show');
+  feed.classList.add('fading');
+  empty.classList.remove('show');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  feed.style.display = '';
+
+  pf.style.transition = 'none';
+  pf.style.width = '0%';
+  setTimeout(() => {
+    pf.style.transition = 'width 0.5s ease';
+    pf.style.width = '40%';
+  }, 50);
+
+  const MSGS = {
+    India:       ['Scanning India for bright moments…',    'Finding stories of hope and progress'],
+    World:       ['Searching the globe for good news…',     'The world is better than you think'],
+    Science:     ['Checking the labs for breakthroughs…',   'Science is solving so much, quietly'],
+    Health:      ['Sifting through medical wins…',          'More cures, more hope, every day'],
+    Environment: ['Finding the green shoots of hope…',      'Nature is fighting back — and winning'],
+    Technology:  ['Scanning tech for human-positive wins…', 'Innovation that helps, not harms'],
+    Business:    ['Finding economic bright spots…',         'Growth, jobs, purpose — it\'s happening'],
+    Sports:      ['Catching the inspiring moments…',        'Champions who lift others up'],
+    Arts:        ['Discovering creative triumphs…',         'Art is alive and thriving'],
+    Community:   ['Finding the unsung heroes…',             'Small acts, massive impact'],
+  };
+  const msg = MSGS[currentCat] || ['Finding bright stories…', 'Filtering only the light'];
+  document.getElementById('loaderText').textContent = msg[0];
+  document.getElementById('loaderSub').textContent  = msg[1];
+
+  try {
+    // Fetch all feeds in parallel
+    const results = await Promise.allSettled(feeds.map(url => fetchFeed(url, currentCat)));
+    pf.style.width = '75%';
+
+    let allItems = [];
+    results.forEach(r => {
+      if (r.status === 'fulfilled' && r.value.length) {
+        allItems = allItems.concat(r.value);
+      }
+    });
+
+    // Filter by search term if given
+    if (searchTerm) {
+      allItems = allItems.filter(item =>
+        item.title.toLowerCase().includes(searchTerm) ||
+        item.description.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // Score, filter positive, dedupe, sort, take top 5
+    const top5 = allItems
+      .map(item => ({ ...item, joyScore: scoreStory(item.title, item.description) }))
+      .filter(item => item.joyScore >= 54)
+      .sort((a, b) => b.joyScore - a.joyScore)
+      .filter((item, idx, arr) => {                          // dedupe
+        const key = item.title.toLowerCase().slice(0, 55);
+        return arr.findIndex(x => x.title.toLowerCase().slice(0, 55) === key) === idx;
+      })
+      .slice(0, 5);
+
+    pf.style.width = '100%';
+
+    if (top5.length === 0) {
+      empty.classList.add('show');
+      feed.style.display = 'none';
+    } else {
+      articles = top5;
+      renderFeed(top5);
+    }
+
+  } catch (err) {
+    console.error(err);
+    empty.classList.add('show');
+    feed.style.display = 'none';
+  }
+
+  setTimeout(() => {
+    loader.classList.remove('show');
+    feed.classList.remove('fading');
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    isLoading = false;
+  }, 350);
+}
+
+// ── FETCH ONE RSS FEED ────────────────────────────────────────────
+async function fetchFeed(rssUrl, cat) {
+  try {
+    const res  = await fetch(`${RSS2JSON}${encodeURIComponent(rssUrl)}&count=25`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
+
+    const feedTitle = data.feed?.title || new URL(rssUrl).hostname.replace('www.','');
+
+    return data.items.map(item => ({
+      id:          Math.random().toString(36).slice(2),
+      title:       clean(item.title || ''),
+      description: clean(item.description || item.content || '').slice(0, 300),
+      link:        item.link || item.guid || '#',
+      source:      feedTitle,
+      timeAgo:     relativeTime(item.pubDate),
+      tag:         cat,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function clean(str) {
+  return str
+    .replace(/<[^>]*>/g, '')
+    .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+    .replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ')
+    .replace(/\s+/g,' ').trim();
+}
+
+function relativeTime(dateStr) {
+  if (!dateStr) return 'Recent';
+  const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
+  if (isNaN(diff) || diff < 0) return 'Recent';
+  if (diff < 3600)   return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400)  return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 172800) return 'Yesterday';
+  return `${Math.floor(diff / 86400)}d ago`;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function renderFeed(stories) {
+  const top  = stories[0];
+  const rest = stories.slice(1);
+
+  document.getElementById('topArticle').innerHTML = `
+    <div>
+      <div class="article-tag">
+        <span>${top.tag}</span>
+        <span class="joy-pill">✦ Joy ${top.joyScore}</span>
+      </div>
+      <h2 class="top-headline" onclick="openModal('${top.id}')">${top.title}</h2>
+      <p class="top-deck">${top.description}</p>
+      <div class="article-meta">
+        <span class="joy-badge">Joy ${top.joyScore}</span>
+        <span>${top.timeAgo}</span>
+        <a href="${top.link}" target="_blank" class="src-link">${top.source}</a>
+        <span>iPaint</span>
+      </div>
+    </div>
+    <div class="aside-stack">
+      ${rest.map(s => `
+        <div class="aside-item" onclick="openModal('${s.id}')">
+          <div class="aside-tag">${s.tag}</div>
+          <div class="aside-headline">${s.title}</div>
+          <div class="aside-deck">${s.description.split('.')[0]}.</div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  document.getElementById('cardsGrid').innerHTML = rest.map(s => `
+    <div class="news-card" onclick="openModal('${s.id}')">
+      <div class="card-tag">${s.tag}</div>
+      <h3 class="card-headline">${s.title}</h3>
+      <p class="card-deck">${s.description}</p>
+      <div class="card-footer">
+        <span class="card-time">${s.timeAgo}</span>
+        <div class="joy-bar-wrap">
+          <div class="joy-bar"><div class="joy-fill" style="width:${s.joyScore}%"></div></div>
+          <span class="joy-bar-num">${s.joyScore}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────
+function openModal(id) {
+  const s = articles.find(a => a.id === id);
+  if (!s) return;
+  document.getElementById('mTag').textContent     = s.tag + ' · Joy Score ' + s.joyScore;
+  document.getElementById('mHeadline').textContent = s.title;
+  document.getElementById('mMeta').innerHTML       = `<span class="joy-badge">${s.joyScore} Joy</span><span>${s.timeAgo}</span><span>${s.source}</span>`;
+  document.getElementById('mBody').innerHTML       = `<p>${s.description || 'Click the button below to read the full story.'}</p>`;
+  document.getElementById('mSource').textContent   = `Source: ${s.source} · Curated by iPaint · Positivity-filtered`;
+  document.getElementById('mLink').href            = s.link;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function maybeCloseModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── BOOT ──────────────────────────────────────────────────────────
+loadNews();
+</script>
+</body>
+</html>
