@@ -3,376 +3,1250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iPaint — News That Makes You Snort</title>
+<title>iPaint — India's Funniest News Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Libre+Franklin:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --ink: #0D0D0B; --canvas: #F7F3EC; --parchment: #EDE8DC; --warm-mid: #C4B99A;
-  --gold: #C9973A; --rust: #B5451B; --teal: #1B7A6E; --muted: #7A7060;
-  --serif: 'Playfair Display', Georgia, serif;
-  --mono: 'DM Mono', monospace;
-  --sans: 'Libre Franklin', sans-serif;
+  --ink:      #111010;
+  --canvas:   #FAF7F2;
+  --paper:    #F2EDE4;
+  --cream:    #E8E0D0;
+  --rule:     #C8BFA8;
+  --gold:     #B8892A;
+  --rust:     #A63D22;
+  --teal:     #1A6B5E;
+  --muted:    #6B6355;
+  --serif:    'Playfair Display', Georgia, serif;
+  --body:     'Source Serif 4', Georgia, serif;
+  --mono:     'DM Mono', monospace;
 }
+
 html { scroll-behavior: smooth; }
-body { background: var(--canvas); color: var(--ink); font-family: var(--sans); font-weight: 300; min-height: 100vh; }
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
 
-/* ── MASTHEAD ── */
-.masthead { border-bottom: 3px double var(--warm-mid); padding: 1rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--canvas); position: sticky; top: 0; z-index: 100; }
-.logo { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.03em; }
-.logo .i { color: var(--rust); font-style: italic; }
-.masthead-center { text-align: center; }
-.masthead-date { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
-.masthead-motto { font-family: var(--serif); font-size: 0.75rem; font-style: italic; color: var(--warm-mid); margin-top: 0.1rem; }
-.live-badge { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.6rem; color: var(--rust); letter-spacing: 0.12em; text-transform: uppercase; }
-.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rust); animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
+/* ── UTILITY ── */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
 
-/* ── TICKER ── */
-.ticker { background: var(--ink); padding: 0.45rem 0; overflow: hidden; white-space: nowrap; border-bottom: 1px solid var(--warm-mid); }
-.ticker-track { display: inline-flex; animation: scroll 60s linear infinite; }
-@keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.ticker-item { font-family: var(--mono); font-size: 0.62rem; color: var(--warm-mid); letter-spacing: 0.08em; padding: 0 2rem; border-right: 1px solid #333; }
-.ticker-item .sym { color: var(--gold); }
+/* ═══════════════════════════════════════════
+   TOP UTILITY BAR
+═══════════════════════════════════════════ */
+.util-bar {
+  background: var(--ink);
+  padding: 0.35rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.util-date {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--rule);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.util-nav {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+.util-nav a {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--rule);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.util-nav a:hover { color: var(--gold); }
 
-/* ── TABS ── */
-.cat-bar { background: var(--parchment); border-bottom: 1px solid var(--warm-mid); padding: 0 2.5rem; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
-.cat-bar::-webkit-scrollbar { display: none; }
-.cat-btn { font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 0.75rem 1.1rem; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
-.cat-btn:hover { color: var(--ink); }
-.cat-btn.active { color: var(--ink); border-bottom-color: var(--rust); font-weight: 500; }
+/* ═══════════════════════════════════════════
+   MASTHEAD
+═══════════════════════════════════════════ */
+.masthead {
+  padding: 1.8rem 2.5rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.masthead-rule-top {
+  height: 3px;
+  background: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.masthead-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.masthead-logo {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  color: var(--ink);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.masthead-logo .i { color: var(--rust); font-style: italic; }
 
-/* ── SEARCH ── */
-.search-bar { padding: 0.9rem 2.5rem; border-bottom: 1px solid var(--parchment); display: flex; gap: 0.6rem; align-items: center; background: var(--canvas); }
-.search-input { flex: 1; font-family: var(--sans); font-size: 0.85rem; font-weight: 300; color: var(--ink); background: var(--parchment); border: 1px solid var(--warm-mid); border-radius: 2px; padding: 0.6rem 1rem; outline: none; transition: border-color 0.2s; }
-.search-input::placeholder { color: var(--warm-mid); }
+.masthead-tagline {
+  font-family: var(--body);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+}
+.masthead-rule-bottom {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.masthead-rule-bottom::before,
+.masthead-rule-bottom::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+.masthead-edition {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--rule);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════
+   PRIMARY NAV
+═══════════════════════════════════════════ */
+.primary-nav {
+  background: var(--ink);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 2px solid var(--gold);
+}
+.primary-nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.primary-nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-logo-small {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--canvas);
+  text-decoration: none;
+  padding: 0.65rem 1.5rem 0.65rem 0;
+  margin-right: 0.5rem;
+  border-right: 1px solid #333;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+}
+.nav-logo-small .i { color: var(--gold); font-style: italic; }
+
+.nav-btn {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #888;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.nav-btn:hover { color: var(--canvas); }
+.nav-btn.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════
+   TICKER
+═══════════════════════════════════════════ */
+.ticker-wrap {
+  background: var(--paper);
+  border-bottom: 1px solid var(--cream);
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+.ticker-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--canvas);
+  background: var(--rust);
+  padding: 0.45rem 0.9rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.ticker-scroll { flex: 1; overflow: hidden; }
+.ticker-track {
+  display: inline-flex;
+  animation: ticker 60s linear infinite;
+  white-space: nowrap;
+}
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.ticker-item {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--muted);
+  padding: 0.45rem 2rem;
+  border-right: 1px solid var(--cream);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ticker-item strong { color: var(--rust); font-weight: 500; }
+
+/* ═══════════════════════════════════════════
+   SEARCH BAR
+═══════════════════════════════════════════ */
+.search-wrap {
+  border-bottom: 1px solid var(--cream);
+  padding: 0.7rem 2.5rem;
+  background: var(--canvas);
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  max-width: 100%;
+}
+.search-input {
+  flex: 1;
+  max-width: 600px;
+  font-family: var(--body);
+  font-size: 0.88rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--cream);
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-input::placeholder { color: var(--rule); font-style: italic; }
 .search-input:focus { border-color: var(--gold); }
-.search-btn { font-family: var(--mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--canvas); background: var(--rust); border: none; padding: 0.6rem 1.4rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+.search-btn {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--canvas);
+  background: var(--rust);
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
 .search-btn:hover { background: var(--ink); }
-.search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.spin { width: 12px; height: 12px; border: 1.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+.search-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.spin { width: 11px; height: 11px; border: 1.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
 .search-btn.loading .spin { display: block; }
 .search-btn.loading .btn-txt { display: none; }
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin { to{transform:rotate(360deg)} }
 
-/* ── SOURCE BADGES ── */
-.source-bar { padding: 0.5rem 2.5rem; background: var(--canvas); border-bottom: 1px solid var(--parchment); display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
-.source-label { font-family: var(--mono); font-size: 0.55rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-right: 0.3rem; }
-.source-badge { font-family: var(--mono); font-size: 0.55rem; color: var(--muted); background: var(--parchment); border: 1px solid var(--warm-mid); padding: 0.15rem 0.5rem; border-radius: 2px; letter-spacing: 0.05em; }
-.source-badge.active { color: var(--teal); border-color: rgba(27,122,110,0.4); background: rgba(27,122,110,0.06); }
+.source-chips {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: auto;
+}
+.chip {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  color: var(--muted);
+  background: var(--paper);
+  border: 1px solid var(--cream);
+  padding: 0.18rem 0.55rem;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+.chip.lit {
+  color: var(--teal);
+  background: rgba(26,107,94,0.07);
+  border-color: rgba(26,107,94,0.3);
+}
 
-/* ── PAPER ── */
-.paper { max-width: 1360px; margin: 0 auto; padding: 2rem 2.5rem; }
-
-/* ── LOADER ── */
-.loader { display: none; padding: 4rem 2rem; text-align: center; }
+/* ═══════════════════════════════════════════
+   LOADER
+═══════════════════════════════════════════ */
+.loader { display: none; }
 .loader.show { display: block; }
-.loader-text { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--muted); margin-bottom: 0.4rem; }
-.loader-sub { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); }
-.progress-bar { width: 200px; height: 2px; background: var(--parchment); margin: 1rem auto 0; border-radius: 2px; overflow: hidden; }
-.progress-fill { height: 100%; width: 0%; background: var(--rust); transition: width 0.4s ease; }
+.loader-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 5rem 2.5rem;
+  text-align: center;
+}
+.loader-headline {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.loader-sub {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rule);
+  margin-bottom: 1.5rem;
+}
+.loader-bar {
+  width: 300px;
+  height: 2px;
+  background: var(--cream);
+  margin: 0 auto;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loader-fill {
+  height: 100%;
+  background: var(--rust);
+  width: 0%;
+  transition: width 0.4s ease;
+}
+.loader-sources {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.loader-src {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  color: var(--rule);
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--cream);
+  border-radius: 2px;
+  animation: blink 1.5s infinite;
+}
+.loader-src:nth-child(2) { animation-delay: 0.15s; }
+.loader-src:nth-child(3) { animation-delay: 0.3s; }
+.loader-src:nth-child(4) { animation-delay: 0.45s; }
+.loader-src:nth-child(5) { animation-delay: 0.6s; }
+@keyframes blink { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
-/* ── FEED ── */
-.feed { transition: opacity 0.3s; }
-.feed.fading { opacity: 0; }
+/* ═══════════════════════════════════════════
+   MAIN PORTAL LAYOUT
+═══════════════════════════════════════════ */
+.portal {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
 
-/* ── TOP ARTICLE ── */
-.top-article { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; border-bottom: 2px solid var(--ink); padding-bottom: 2rem; margin-bottom: 2rem; }
-.article-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
-.lol-pill { background: rgba(181,69,27,0.1); border: 1px solid rgba(181,69,27,0.25); color: var(--rust); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.56rem; }
-.source-pill { background: rgba(27,122,110,0.08); border: 1px solid rgba(27,122,110,0.2); color: var(--teal); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.56rem; }
-.top-headline { font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.6rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.025em; margin-bottom: 0.8rem; cursor: pointer; transition: color 0.2s; }
-.top-headline:hover { color: var(--rust); }
-.top-deck { font-size: 0.95rem; font-weight: 300; line-height: 1.8; color: var(--muted); margin-bottom: 1rem; font-style: italic; }
-.article-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-.lol-badge { background: var(--rust); color: var(--canvas); font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px; font-size: 0.6rem; }
-.src-link { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(27,122,110,0.3); }
-.src-link:hover { border-bottom-color: var(--teal); }
+/* Empty state */
+.empty-state {
+  display: none;
+  padding: 5rem 2.5rem;
+  text-align: center;
+}
+.empty-state.show { display: block; }
+.empty-head {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.empty-sub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--rule);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
 
-/* ── ASIDE ── */
-.aside-stack { display: flex; flex-direction: column; }
-.aside-item { border-bottom: 1px solid var(--parchment); padding: 0.9rem 0.8rem; cursor: pointer; transition: background 0.15s; border-radius: 2px; }
-.aside-item:hover { background: var(--parchment); }
-.aside-item:last-child { border-bottom: none; }
-.aside-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
-.aside-headline { font-family: var(--serif); font-size: 0.92rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.3rem; }
-.aside-deck { font-size: 0.72rem; color: var(--muted); font-weight: 300; line-height: 1.55; font-style: italic; }
+/* ── SECTION LABELS ── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 2rem 0 1.2rem;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 0.4rem;
+}
+.section-label-text {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.section-label-rule { flex: 1; }
+.section-label-meta {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
 
-/* ── SECTION RULE ── */
-.section-rule { display: flex; align-items: center; gap: 1rem; margin: 2rem 0 1.5rem; }
-.section-rule::before, .section-rule::after { content: ''; flex: 1; height: 1px; background: var(--warm-mid); }
-.section-rule-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+/* ═══════════════════════════════════════════
+   HERO — FULL BROADSHEET LEAD
+═══════════════════════════════════════════ */
+.hero-block {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 0;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 0;
+}
 
-/* ── CARDS GRID ── */
-.cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--warm-mid); border: 1px solid var(--warm-mid); border-radius: 2px; overflow: hidden; margin-bottom: 3rem; }
-.news-card { background: var(--canvas); padding: 1.4rem 1.2rem; cursor: pointer; transition: background 0.2s; }
-.news-card:hover { background: var(--parchment); }
-.card-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
-.card-source { font-family: var(--mono); font-size: 0.52rem; color: var(--teal); margin-bottom: 0.4rem; letter-spacing: 0.06em; }
-.card-headline { font-family: var(--serif); font-size: 1.0rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.55rem; }
-.card-deck { font-size: 0.75rem; font-weight: 300; color: var(--muted); line-height: 1.65; margin-bottom: 0.8rem; font-style: italic; }
-.card-footer { display: flex; justify-content: space-between; align-items: center; }
-.card-time { font-family: var(--mono); font-size: 0.56rem; color: var(--warm-mid); }
-.lol-bar-wrap { display: flex; align-items: center; gap: 0.35rem; }
-.lol-bar { width: 44px; height: 3px; background: var(--parchment); border-radius: 2px; overflow: hidden; }
-.lol-fill { height: 100%; background: var(--rust); border-radius: 2px; }
-.lol-bar-num { font-family: var(--mono); font-size: 0.52rem; color: var(--warm-mid); }
+/* Hero left — the lead story */
+.hero-lead {
+  padding: 2rem 2rem 2rem 0;
+  border-right: 1px solid var(--rule);
+}
+.hero-kicker {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.hero-kicker::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: var(--rust);
+}
+.lol-tag {
+  background: var(--rust);
+  color: var(--canvas);
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 1px;
+}
+.src-tag {
+  background: rgba(26,107,94,0.1);
+  color: var(--teal);
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 1px;
+  border: 1px solid rgba(26,107,94,0.25);
+}
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.hero-headline:hover { color: var(--rust); }
 
-/* ── EMPTY / ERROR ── */
-.empty { display: none; padding: 4rem 2rem; text-align: center; }
-.empty.show { display: block; }
-.empty-head { font-family: var(--serif); font-size: 1.2rem; font-style: italic; color: var(--muted); margin-bottom: 0.5rem; }
-.empty-sub { font-family: var(--mono); font-size: 0.62rem; color: var(--warm-mid); letter-spacing: 0.1em; }
+.hero-deck {
+  font-family: var(--body);
+  font-size: 1rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+  border-left: 3px solid var(--cream);
+  padding-left: 1rem;
+}
+.hero-byline {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--rule);
+  letter-spacing: 0.1em;
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.hero-byline a {
+  color: var(--teal);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(26,107,94,0.3);
+}
+.hero-byline a:hover { border-bottom-color: var(--teal); }
 
-/* ── MODAL ── */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(13,13,11,0.72); z-index: 500; align-items: center; justify-content: center; padding: 1.5rem; }
+/* Hero right — sidebar of 4 stories */
+.hero-sidebar {
+  padding: 0 0 0 0;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-story {
+  padding: 1rem 0 1rem 1.2rem;
+  border-bottom: 1px solid var(--cream);
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 2px;
+}
+.sidebar-story:hover { background: var(--paper); }
+.sidebar-story:last-child { border-bottom: none; }
+.ss-kicker {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ss-source {
+  color: var(--teal);
+  font-size: 0.5rem;
+}
+.ss-headline {
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.3rem;
+}
+.ss-deck {
+  font-size: 0.73rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ss-lol {
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.ss-lol-bar {
+  width: 48px;
+  height: 2px;
+  background: var(--cream);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.ss-lol-fill {
+  height: 100%;
+  background: var(--rust);
+  border-radius: 1px;
+}
+.ss-lol-num {
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  color: var(--muted);
+}
+
+/* ═══════════════════════════════════════════
+   THREE-COLUMN MIDDLE SECTION
+═══════════════════════════════════════════ */
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+}
+.col-story {
+  padding: 1.5rem 1.5rem 1.5rem 0;
+  border-right: 1px solid var(--cream);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.col-story:last-child { border-right: none; padding-right: 0; }
+.col-story:nth-child(2) { padding-left: 1.5rem; }
+.col-story:nth-child(3) { padding-left: 1.5rem; }
+.col-story:hover { background: var(--paper); }
+.col-kicker {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.col-source { color: var(--teal); font-size: 0.5rem; }
+.col-headline {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+.col-deck {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 0.6rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.col-meta {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  color: var(--rule);
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+/* ═══════════════════════════════════════════
+   HORIZONTAL STORY STRIP (remaining stories)
+═══════════════════════════════════════════ */
+.story-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2.5rem;
+}
+.strip-story {
+  padding: 1.2rem 1.2rem 1.2rem 0;
+  border-right: 1px solid var(--cream);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.strip-story:last-child { border-right: none; }
+.strip-story:nth-child(n+2) { padding-left: 1.2rem; }
+.strip-story:hover { background: var(--paper); }
+.strip-num {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--cream);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.strip-source {
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.strip-headline {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.3rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.strip-meta {
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  color: var(--rule);
+  margin-top: 0.4rem;
+}
+
+/* ═══════════════════════════════════════════
+   PULLQUOTE / FEATURED STAT
+═══════════════════════════════════════════ */
+.pullquote-block {
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  padding: 1.5rem 2.5rem;
+  margin: 1.5rem 0;
+  text-align: center;
+  background: var(--paper);
+}
+.pullquote-text {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.pullquote-source {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.6rem;
+}
+
+/* ═══════════════════════════════════════════
+   MODAL — Full article reader
+═══════════════════════════════════════════ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17,16,16,0.75);
+  z-index: 500;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem;
+  overflow-y: auto;
+}
 .modal-overlay.open { display: flex; }
-.modal { background: var(--canvas); border: 1px solid var(--warm-mid); border-radius: 4px; max-width: 660px; width: 100%; max-height: 88vh; overflow-y: auto; padding: 2.5rem; position: relative; animation: slideUp 0.25s ease; }
-@keyframes slideUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
-.modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: 1px solid var(--warm-mid); border-radius: 2px; font-family: var(--mono); font-size: 0.62rem; color: var(--muted); padding: 0.3rem 0.7rem; cursor: pointer; }
-.modal-close:hover { background: var(--parchment); }
-.modal-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.7rem; }
-.modal-headline { font-family: var(--serif); font-size: 1.7rem; font-weight: 700; line-height: 1.18; margin-bottom: 0.7rem; }
-.modal-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); margin-bottom: 1.4rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-.modal-body { font-size: 0.9rem; font-weight: 300; line-height: 1.9; color: var(--muted); font-style: italic; }
-.modal-body p { margin-bottom: 1rem; }
-.modal-divider { height: 1px; background: var(--parchment); margin: 1.2rem 0; }
-.modal-source-note { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); }
-.read-original { display: inline-block; margin-top: 1rem; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--canvas); background: var(--rust); padding: 0.5rem 1.2rem; border-radius: 2px; text-decoration: none; }
+
+.modal {
+  background: var(--canvas);
+  border-top: 4px solid var(--rust);
+  max-width: 720px;
+  width: 100%;
+  margin: auto;
+  padding: 3rem;
+  position: relative;
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+.modal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: none;
+  border: 1px solid var(--cream);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: all 0.15s;
+}
+.modal-close:hover { background: var(--paper); color: var(--ink); }
+
+.modal-section {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.7rem;
+}
+.modal-headline {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+}
+.modal-byline {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--cream);
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.modal-body {
+  font-family: var(--body);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: #333;
+}
+.modal-body p { margin-bottom: 1.1rem; }
+
+.modal-footer {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--cream);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: gap;
+  gap: 1rem;
+}
+.modal-note {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  color: var(--rule);
+  letter-spacing: 0.06em;
+}
+.read-original {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--canvas);
+  background: var(--rust);
+  padding: 0.5rem 1.2rem;
+  text-decoration: none;
+  border-radius: 1px;
+  transition: background 0.2s;
+}
 .read-original:hover { background: var(--ink); }
 
-/* ── BOTTOM ── */
-.bottom-bar { border-top: 3px double var(--warm-mid); padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--parchment); }
-.bottom-copy { font-family: var(--mono); font-size: 0.58rem; color: var(--warm-mid); letter-spacing: 0.08em; }
-.refresh-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust); background: none; border: 1px solid rgba(181,69,27,0.3); padding: 0.4rem 1rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; }
-.refresh-btn:hover { background: var(--rust); color: var(--canvas); }
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.footer {
+  border-top: 3px double var(--rule);
+  background: var(--ink);
+  padding: 2.5rem;
+  margin-top: 0;
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 2.5rem;
+}
+.footer-brand {}
+.footer-logo {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--canvas);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.6rem;
+}
+.footer-logo .i { color: var(--gold); font-style: italic; }
+.footer-desc {
+  font-family: var(--body);
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+  line-height: 1.6;
+}
+.footer-col-title {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #333;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 0.4rem; }
+.footer-links a {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: #666;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--canvas); }
+.footer-bottom {
+  max-width: 1400px;
+  margin: 1.5rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  color: #444;
+  letter-spacing: 0.08em;
+}
+.refresh-btn {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: none;
+  border: 1px solid #333;
+  padding: 0.35rem 0.9rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.refresh-btn:hover { background: var(--gold); color: var(--ink); }
 
-@media (max-width: 768px) {
-  .masthead, .cat-bar, .search-bar, .source-bar, .bottom-bar { padding-left: 1.2rem; padding-right: 1.2rem; }
-  .top-article { grid-template-columns: 1fr; }
-  .aside-stack { display: none; }
-  .cards-grid { grid-template-columns: repeat(2, 1fr); }
-  .paper { padding: 1.5rem 1.2rem; }
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .hero-block { grid-template-columns: 1fr; }
+  .hero-lead { border-right: none; padding-right: 0; }
+  .hero-sidebar { flex-direction: row; flex-wrap: wrap; border-top: 1px solid var(--cream); }
+  .sidebar-story { flex: 1 1 200px; }
+  .three-col { grid-template-columns: repeat(2, 1fr); }
+  .story-strip { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 680px) {
+  .util-bar, .masthead, .portal, .search-wrap, .footer { padding-left: 1.2rem; padding-right: 1.2rem; }
+  .primary-nav-inner { padding: 0 1.2rem; }
+  .masthead-logo { font-size: 3.5rem; }
+  .three-col, .story-strip { grid-template-columns: 1fr; }
+  .col-story, .strip-story { border-right: none; padding: 1rem 0; border-bottom: 1px solid var(--cream); }
+  .footer-inner { grid-template-columns: 1fr; }
+  .modal { padding: 1.8rem 1.2rem; }
+  .source-chips { display: none; }
 }
 </style>
 </head>
 <body>
 
+<!-- UTILITY BAR -->
+<div class="util-bar">
+  <div class="util-date" id="util-date"></div>
+  <ul class="util-nav">
+    <li><a href="#">About</a></li>
+    <li><a href="#">Subscribe</a></li>
+    <li><a href="#">Archive</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</div>
+
 <!-- MASTHEAD -->
 <header class="masthead">
-  <a href="#" class="logo"><span class="i">i</span>Paint</a>
-  <div class="masthead-center">
-    <div class="masthead-date" id="today-date"></div>
-    <div class="masthead-motto">"All the news that's unfit to print"</div>
+  <div class="masthead-rule-top"></div>
+  <div class="masthead-eyebrow">Est. 2024 · India's Most Maverick News Portal</div>
+  <a href="#" class="masthead-logo"><span class="i">i</span>Paint</a>
+  <div class="masthead-tagline">"All the news that's unfit to print — and some that really shouldn't be."</div>
+  <div class="masthead-rule-bottom">
+    <span class="masthead-edition" id="edition-line">Morning Edition</span>
   </div>
-  <div class="live-badge"><div class="live-dot"></div>Chaos Live</div>
 </header>
 
+<!-- PRIMARY NAV -->
+<nav class="primary-nav" aria-label="Main navigation">
+  <div class="primary-nav-inner">
+    <a href="#" class="nav-logo-small"><span class="i">i</span>P</a>
+    <button class="nav-btn active" data-cat="India WTF">🇮🇳 India</button>
+    <button class="nav-btn" data-cat="Bollywood">🎬 Bollywood</button>
+    <button class="nav-btn" data-cat="Cricket">🏏 Cricket</button>
+    <button class="nav-btn" data-cat="Desi Tech">💻 Tech</button>
+    <button class="nav-btn" data-cat="World WTF">🌍 World</button>
+    <button class="nav-btn" data-cat="Florida Man">🌴 Florida Man</button>
+    <button class="nav-btn" data-cat="Animals">🐾 Animals</button>
+    <button class="nav-btn" data-cat="Food Crimes">🍕 Food</button>
+    <button class="nav-btn" data-cat="Epic Fails">🤦 Fails</button>
+    <button class="nav-btn" data-cat="Weird Science">🧪 Science</button>
+  </div>
+</nav>
+
 <!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-track" id="tickerTrack">
-    <span class="ticker-item"><span class="sym">BREAKING ✦</span> Man Sues Neighbour for Staring at His Lawn Too Aggressively</span>
-    <span class="ticker-item"><span class="sym">JUST IN ✦</span> Scientists Confirm Cats Have Always Known Exactly What They're Doing</span>
-    <span class="ticker-item"><span class="sym">UPDATE ✦</span> Town Names Pothole After Mayor, Says It Perfectly Captures His Legacy</span>
-    <span class="ticker-item"><span class="sym">ALERT ✦</span> Dog Wins Third Consecutive Mayoral Election by Landslide, Accepts in Barks</span>
-    <span class="ticker-item"><span class="sym">REPORT ✦</span> Man Attempts to Return Biscuits to Shop, Gets Offered Job as Quality Tester</span>
-    <span class="ticker-item"><span class="sym">EXCLUSIVE ✦</span> Autorickshaw Driver Solves Delhi Traffic Using Only Intuition and Destiny</span>
-    <span class="ticker-item"><span class="sym">BREAKING ✦</span> Man Sues Neighbour for Staring at His Lawn Too Aggressively</span>
-    <span class="ticker-item"><span class="sym">JUST IN ✦</span> Scientists Confirm Cats Have Always Known Exactly What They're Doing</span>
-    <span class="ticker-item"><span class="sym">UPDATE ✦</span> Town Names Pothole After Mayor, Says It Perfectly Captures His Legacy</span>
-    <span class="ticker-item"><span class="sym">ALERT ✦</span> Dog Wins Third Consecutive Mayoral Election by Landslide, Accepts in Barks</span>
-    <span class="ticker-item"><span class="sym">REPORT ✦</span> Man Attempts to Return Biscuits to Shop, Gets Offered Job as Quality Tester</span>
-    <span class="ticker-item"><span class="sym">EXCLUSIVE ✦</span> Autorickshaw Driver Solves Delhi Traffic Using Only Intuition and Destiny</span>
+<div class="ticker-wrap">
+  <div class="ticker-label">Breaking</div>
+  <div class="ticker-scroll">
+    <div class="ticker-track">
+      <span class="ticker-item"><strong>JUST IN</strong> Man Sues Neighbour Over Excessive Lawn-Staring, Case Proceeds</span>
+      <span class="ticker-item"><strong>CONFIRMED</strong> Scientists Officially Acknowledge Cats Have Been Playing Dumb for 4000 Years</span>
+      <span class="ticker-item"><strong>UPDATE</strong> Town Names Pothole After Mayor — Local Government Calls It "Fitting"</span>
+      <span class="ticker-item"><strong>EXCLUSIVE</strong> Auto Driver Cracks Delhi Traffic Using Astrology and Pure Vibes</span>
+      <span class="ticker-item"><strong>REPORT</strong> Man Returns Biscuits After 3 Years, Demands Full Refund With Interest</span>
+      <span class="ticker-item"><strong>ALERT</strong> Dog Elected Mayor for Third Consecutive Term, Approval Rating at 94%</span>
+      <span class="ticker-item"><strong>STUDY</strong> 9 of 10 Dentists Admit They Invented the 10th Dentist as a Social Experiment</span>
+      <span class="ticker-item"><strong>JUST IN</strong> Man Sues Neighbour Over Excessive Lawn-Staring, Case Proceeds</span>
+      <span class="ticker-item"><strong>CONFIRMED</strong> Scientists Officially Acknowledge Cats Have Been Playing Dumb for 4000 Years</span>
+      <span class="ticker-item"><strong>UPDATE</strong> Town Names Pothole After Mayor — Local Government Calls It "Fitting"</span>
+      <span class="ticker-item"><strong>EXCLUSIVE</strong> Auto Driver Cracks Delhi Traffic Using Astrology and Pure Vibes</span>
+      <span class="ticker-item"><strong>REPORT</strong> Man Returns Biscuits After 3 Years, Demands Full Refund With Interest</span>
+      <span class="ticker-item"><strong>ALERT</strong> Dog Elected Mayor for Third Consecutive Term, Approval Rating at 94%</span>
+      <span class="ticker-item"><strong>STUDY</strong> 9 of 10 Dentists Admit They Invented the 10th Dentist as a Social Experiment</span>
+    </div>
   </div>
 </div>
 
-<!-- CATEGORY TABS -->
-<div class="cat-bar">
-  <button class="cat-btn active" data-cat="India WTF">🇮🇳 India WTF</button>
-  <button class="cat-btn" data-cat="Bollywood">🎬 Bollywood</button>
-  <button class="cat-btn" data-cat="Cricket Drama">🏏 Cricket Drama</button>
-  <button class="cat-btn" data-cat="Desi Tech">💻 Desi Tech</button>
-  <button class="cat-btn" data-cat="World WTF">🌍 World WTF</button>
-  <button class="cat-btn" data-cat="Florida Man">🌴 Florida Man</button>
-  <button class="cat-btn" data-cat="Animals">🐾 Animals</button>
-  <button class="cat-btn" data-cat="Food Crimes">🍕 Food Crimes</button>
-  <button class="cat-btn" data-cat="Epic Fails">🤦 Epic Fails</button>
-  <button class="cat-btn" data-cat="Weird Science">🧪 Weird Science</button>
-</div>
-
-<!-- SOURCE BAR -->
-<div class="source-bar">
-  <span class="source-label">Sources:</span>
-  <span class="source-badge" id="badge-toi">Times of India</span>
-  <span class="source-badge" id="badge-ndtv">NDTV</span>
-  <span class="source-badge" id="badge-hindu">The Hindu</span>
-  <span class="source-badge" id="badge-ie">Indian Express</span>
-  <span class="source-badge" id="badge-it">India Today</span>
-  <span class="source-badge" id="badge-bs">Business Standard</span>
-  <span class="source-badge" id="badge-reddit">Reddit</span>
-  <span class="source-badge" id="badge-hn">Hacker News</span>
-</div>
-
-<!-- SEARCH BAR -->
-<div class="search-bar">
-  <input type="text" class="search-input" id="searchInput" placeholder="Search the chaos… e.g. 'goat mayor' or 'Bengaluru traffic jugaad'" />
+<!-- SEARCH + SOURCE CHIPS -->
+<div class="search-wrap">
+  <input type="text" class="search-input" id="searchInput" placeholder="Search the chaos… e.g. 'Bengaluru traffic' or 'goat mayor'" />
   <button class="search-btn" id="searchBtn" onclick="loadNews()">
     <div class="spin"></div>
-    <span class="btn-txt">✦ Find Chaos</span>
+    <span class="btn-txt">Search</span>
   </button>
+  <div class="source-chips">
+    <span class="chip" id="chip-toi">TOI</span>
+    <span class="chip" id="chip-ndtv">NDTV</span>
+    <span class="chip" id="chip-hindu">The Hindu</span>
+    <span class="chip" id="chip-ie">Indian Express</span>
+    <span class="chip" id="chip-it">India Today</span>
+    <span class="chip" id="chip-bs">Business Std</span>
+    <span class="chip" id="chip-reddit">Reddit</span>
+    <span class="chip" id="chip-hn">HN</span>
+  </div>
 </div>
 
-<!-- PAPER -->
-<main class="paper">
-  <div class="loader" id="loader">
-    <div class="loader-text" id="loaderText">Trawling India for maximum absurdity…</div>
-    <div class="loader-sub" id="loaderSub">Checking TOI · NDTV · The Hindu · India Today and more</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="loader-headline" id="loaderText">Consulting our correspondents…</div>
+    <div class="loader-sub" id="loaderSub">Checking wires from TOI · NDTV · The Hindu · India Today</div>
+    <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+    <div class="loader-sources">
+      <span class="loader-src">Times of India</span>
+      <span class="loader-src">NDTV</span>
+      <span class="loader-src">The Hindu</span>
+      <span class="loader-src">India Today</span>
+      <span class="loader-src">Reddit</span>
+    </div>
   </div>
-  <div class="empty" id="emptyState">
-    <div class="empty-head">The chaos is loading elsewhere.</div>
-    <div class="empty-sub">Try a different topic or refresh — India always delivers.</div>
+</div>
+
+<!-- EMPTY STATE -->
+<div class="empty-state" id="emptyState">
+  <div class="empty-head">Our correspondents found nothing printable.</div>
+  <div class="empty-sub">Try a different section or search term — chaos is always out there.</div>
+</div>
+
+<!-- PORTAL CONTENT -->
+<main class="portal" id="portal">
+
+  <!-- SECTION LABEL -->
+  <div class="section-label" id="sectionLabel">
+    <span class="section-label-text" id="sectionTitle">India</span>
+    <span class="section-label-rule"></span>
+    <span class="section-label-meta" id="sectionMeta"></span>
   </div>
-  <div class="feed" id="feed">
-    <div class="top-article" id="topArticle"></div>
-    <div class="section-rule"><span class="section-rule-label">More certified nonsense</span></div>
-    <div class="cards-grid" id="cardsGrid"></div>
+
+  <!-- HERO -->
+  <div class="hero-block" id="heroBlock">
+    <div class="hero-lead" id="heroLead"></div>
+    <div class="hero-sidebar" id="heroSidebar"></div>
   </div>
+
+  <!-- PULLQUOTE -->
+  <div class="pullquote-block" id="pullquoteBlock"></div>
+
+  <!-- THREE COLUMNS -->
+  <div class="section-label" style="margin-top:2rem">
+    <span class="section-label-text">More Stories</span>
+    <span class="section-label-rule"></span>
+    <span class="section-label-meta" id="moreMeta"></span>
+  </div>
+  <div class="three-col" id="threeCol"></div>
+
+  <!-- STRIP -->
+  <div class="story-strip" id="storyStrip"></div>
+
 </main>
 
-<!-- BOTTOM -->
-<div class="bottom-bar">
-  <span class="bottom-copy">iPaint · Funny & Maverick News · TOI · NDTV · The Hindu · IE · India Today · Reddit · HN · No API keys</span>
-  <button class="refresh-btn" onclick="loadNews()">↻ More Chaos</button>
-</div>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"><span class="i">i</span>Paint</div>
+      <p class="footer-desc">India's most maverick news portal. Real stories from real sources — filtered for maximum entertainment value.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Sources</div>
+      <ul class="footer-links">
+        <li><a href="https://timesofindia.indiatimes.com" target="_blank">Times of India</a></li>
+        <li><a href="https://ndtv.com" target="_blank">NDTV</a></li>
+        <li><a href="https://thehindu.com" target="_blank">The Hindu</a></li>
+        <li><a href="https://indianexpress.com" target="_blank">Indian Express</a></li>
+        <li><a href="https://indiatoday.in" target="_blank">India Today</a></li>
+        <li><a href="https://business-standard.com" target="_blank">Business Standard</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Sections</div>
+      <ul class="footer-links">
+        <li><a href="#">India WTF</a></li>
+        <li><a href="#">Bollywood</a></li>
+        <li><a href="#">Cricket Drama</a></li>
+        <li><a href="#">Desi Tech</a></li>
+        <li><a href="#">World WTF</a></li>
+        <li><a href="#">Florida Man</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">More</div>
+      <ul class="footer-links">
+        <li><a href="#">Animals</a></li>
+        <li><a href="#">Food Crimes</a></li>
+        <li><a href="#">Epic Fails</a></li>
+        <li><a href="#">Weird Science</a></li>
+        <li><a href="#">Archive</a></li>
+        <li><a href="#">About iPaint</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 iPaint · Real news, questionable editorial judgment · No API keys · No doom-scrolling</span>
+    <button class="refresh-btn" onclick="loadNews()">↻ Refresh Edition</button>
+  </div>
+</footer>
 
 <!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="maybeCloseModal(event)">
+<div class="modal-overlay" id="modalOverlay" onclick="maybeClose(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕ Close</button>
-    <div class="modal-tag" id="mTag"></div>
+    <div class="modal-section" id="mSection"></div>
     <h2 class="modal-headline" id="mHeadline"></h2>
-    <div class="modal-meta" id="mMeta"></div>
+    <div class="modal-byline" id="mByline"></div>
     <div class="modal-body" id="mBody"></div>
-    <div class="modal-divider"></div>
-    <div class="modal-source-note" id="mSource"></div>
-    <a class="read-original" id="mLink" href="#" target="_blank">Read the Full Story →</a>
+    <div class="modal-footer">
+      <span class="modal-note" id="mNote"></span>
+      <a class="read-original" id="mLink" href="#" target="_blank">Read Full Story →</a>
+    </div>
   </div>
 </div>
 
 <script>
 // ─────────────────────────────────────────────────────────────────
-// iPaint — Funny & Maverick News
-// Sources: Indian RSS feeds via rss2json.com + Reddit + HN Algolia
-// All CORS-safe. No API keys needed.
+// iPaint News Portal
 // ─────────────────────────────────────────────────────────────────
 
 const R2J = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
 // ── ALL RSS SOURCES ───────────────────────────────────────────────
-const SOURCES = {
-  // Indian News
-  toi:    { name: 'Times of India',   badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeedstopstories.cms' },
-  toi2:   { name: 'Times of India',   badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms' },
-  ndtv:   { name: 'NDTV',            badge: 'badge-ndtv',  url: 'https://feeds.feedburner.com/NDTV-LatestNews' },
-  ndtv2:  { name: 'NDTV',            badge: 'badge-ndtv',  url: 'https://feeds.feedburner.com/ndtvnews-india-news' },
-  hindu:  { name: 'The Hindu',        badge: 'badge-hindu', url: 'https://www.thehindu.com/news/feeder/default.rss' },
-  hindu2: { name: 'The Hindu',        badge: 'badge-hindu', url: 'https://www.thehindu.com/entertainment/feeder/default.rss' },
-  ie:     { name: 'Indian Express',   badge: 'badge-ie',    url: 'https://indianexpress.com/feed/' },
-  it:     { name: 'India Today',      badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/home' },
-  it2:    { name: 'India Today',      badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/1206578' },
-  bs:     { name: 'Business Std.',    badge: 'badge-bs',    url: 'https://www.business-standard.com/rss/latest.rss' },
-  fp:     { name: 'Firstpost',        badge: 'badge-toi',   url: 'https://www.firstpost.com/commonfeeds/v1/mfp/recent-stories/rss.xml' },
-  zee:    { name: 'Zee News',         badge: 'badge-ndtv',  url: 'https://zeenews.india.com/rss/india-news.xml' },
-  // Bollywood
-  bwood:  { name: 'India Today Bwood',badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/1206582' },
-  bwood2: { name: 'TOI Bollywood',    badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeeds/1081479906.cms' },
-  // Sports/Cricket
-  cric:   { name: 'TOI Cricket',      badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeeds/4719148.cms' },
-  cric2:  { name: 'India Today Sport',badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/1206579' },
-  // Tech
-  tech:   { name: 'India Today Tech', badge: 'badge-it',    url: 'https://www.indiatoday.in/rss/1206580' },
-  tech2:  { name: 'TOI Tech',         badge: 'badge-toi',   url: 'https://timesofindia.indiatimes.com/rssfeeds/-2128672765.cms' },
+const SRC = {
+  toi:    { name:'Times of India',   chip:'chip-toi',   url:'https://timesofindia.indiatimes.com/rssfeedstopstories.cms' },
+  toient: { name:'TOI Entertainment',chip:'chip-toi',   url:'https://timesofindia.indiatimes.com/rssfeeds/1081479906.cms' },
+  toisp:  { name:'TOI Sports',       chip:'chip-toi',   url:'https://timesofindia.indiatimes.com/rssfeeds/4719148.cms' },
+  toitech:{ name:'TOI Tech',         chip:'chip-toi',   url:'https://timesofindia.indiatimes.com/rssfeeds/-2128672765.cms' },
+  ndtv:   { name:'NDTV',            chip:'chip-ndtv',  url:'https://feeds.feedburner.com/ndtvnews-india-news' },
+  ndtvtop:{ name:'NDTV',            chip:'chip-ndtv',  url:'https://feeds.feedburner.com/NDTV-LatestNews' },
+  hindu:  { name:'The Hindu',        chip:'chip-hindu', url:'https://www.thehindu.com/news/national/feeder/default.rss' },
+  hinduent:{ name:'The Hindu',       chip:'chip-hindu', url:'https://www.thehindu.com/entertainment/feeder/default.rss' },
+  ie:     { name:'Indian Express',   chip:'chip-ie',    url:'https://indianexpress.com/feed/' },
+  it:     { name:'India Today',      chip:'chip-it',    url:'https://www.indiatoday.in/rss/home' },
+  itent:  { name:'India Today',      chip:'chip-it',    url:'https://www.indiatoday.in/rss/1206582' },
+  itsport:{ name:'India Today Sport',chip:'chip-it',    url:'https://www.indiatoday.in/rss/1206579' },
+  ittech: { name:'India Today Tech', chip:'chip-it',    url:'https://www.indiatoday.in/rss/1206580' },
+  bs:     { name:'Business Std.',    chip:'chip-bs',    url:'https://www.business-standard.com/rss/latest.rss' },
+  zee:    { name:'Zee News',         chip:'chip-ndtv',  url:'https://zeenews.india.com/rss/india-news.xml' },
+  fp:     { name:'Firstpost',        chip:'chip-toi',   url:'https://www.firstpost.com/commonfeeds/v1/mfp/recent-stories/rss.xml' },
 };
 
-// ── CATEGORY → SOURCES + REDDIT SUBS ─────────────────────────────
-const CAT_CONFIG = {
-  'India WTF':     { sources: ['toi','ndtv','hindu','ie','it','ze','fp'],    subs: ['india','unitedstatesofindia'],      hn: false },
-  'Bollywood':     { sources: ['bwood','bwood2','it','toi'],                 subs: ['bollywood','india'],                hn: false },
-  'Cricket Drama': { sources: ['cric','cric2','toi','ndtv'],                 subs: ['Cricket','india'],                  hn: false },
-  'Desi Tech':     { sources: ['tech','tech2','ie','bs'],                    subs: ['india','developersIndia'],          hn: true  },
-  'World WTF':     { sources: ['toi2','ndtv2','hindu','ie'],                 subs: ['nottheonion','worldnews'],          hn: false },
-  'Florida Man':   { sources: ['toi2','ndtv2'],                              subs: ['FloridaMan','nottheonion'],         hn: false },
-  'Animals':       { sources: ['toi','ndtv'],                                subs: ['AnimalsBeingDerps','AnimalsBeingBros'], hn: false },
-  'Food Crimes':   { sources: ['toi','it'],                                  subs: ['WeWantPlates','StupidFood'],        hn: false },
-  'Epic Fails':    { sources: ['toi','ndtv','ie'],                           subs: ['tifu','idontworkherelady'],         hn: false },
-  'Weird Science': { sources: ['hindu','ie','bs'],                           subs: ['shittyaskscience','nottheonion'],   hn: true  },
+// ── CATEGORY CONFIG ───────────────────────────────────────────────
+const CATS = {
+  'India WTF':    { title:'India',         sources:['toi','ndtv','hindu','ie','it','zee','fp','ndtvtop'],  subs:['india','unitedstatesofindia'],            hn:false },
+  'Bollywood':    { title:'Bollywood',     sources:['toient','itent','hinduent','it'],                    subs:['bollywood','india'],                      hn:false },
+  'Cricket':      { title:'Cricket',       sources:['toisp','itsport','ndtv','it'],                       subs:['Cricket','IndianCricket'],                hn:false },
+  'Desi Tech':    { title:'Technology',    sources:['toitech','ittech','ie','bs'],                        subs:['india','developersIndia','indianstrartups'],hn:true  },
+  'World WTF':    { title:'World',         sources:['toi','ndtvtop','hindu','ie'],                        subs:['nottheonion','worldnews'],                hn:false },
+  'Florida Man':  { title:'Florida Man',   sources:['toi','ndtvtop'],                                    subs:['FloridaMan','nottheonion'],               hn:false },
+  'Animals':      { title:'Animals',       sources:['toi','ndtv'],                                       subs:['AnimalsBeingDerps','AnimalsBeingBros'],   hn:false },
+  'Food Crimes':  { title:'Food',          sources:['it','toi'],                                         subs:['WeWantPlates','StupidFood'],              hn:false },
+  'Epic Fails':   { title:'Epic Fails',    sources:['toi','ndtv','ie'],                                  subs:['tifu','idontworkherelady'],               hn:false },
+  'Weird Science':{ title:'Science',       sources:['hindu','ie','bs'],                                  subs:['shittyaskscience','nottheonion'],         hn:true  },
 };
 
 // ── LOL SCORING ───────────────────────────────────────────────────
-const FUNNY = [
-  'accidentally','bizarre','absurd','ridiculous','weird','strange','unexpected',
-  'somehow','apparently','claims','insists','demands','refuses','mistaken',
-  'confused','shocked','discovers','warns','bans','sues','arrested','caught',
-  'found','florida','neighbour','neighbor','mayor','councillor','officer',
-  'goat','duck','chicken','monkey','elephant','cow','dog','cat','parrot',
-  'jugaad','viral','chaos','outrage','controversy','row','furor','stir',
-  'pizza','biryani','idli','pani puri','bhelpuri','chai','paratha',
-  'robot','glitch','fail','oops','blunder','goof','mix-up','confusion',
-  'award','winner','record','first ever','only person','study finds',
-  'reported','allegedly','sources say','eyebrow-raising','eyebrows',
-  'man','woman','uncle','aunty','desi','jugaad','innovative','unique approach',
-];
-const BORING = [
-  'quarterly results','gdp growth','regulatory framework','pursuant to',
-  'committee deliberations','fiscal deficit','monetary policy statement',
-];
+const FUNNY = ['accidentally','bizarre','absurd','ridiculous','weird','strange','unexpected',
+  'somehow','apparently','claims','insists','demands','refuses','mistaken','confused',
+  'shocked','discovers','warns','bans','sues','arrested','caught','found','florida',
+  'neighbour','neighbor','mayor','officer','councillor','goat','duck','monkey','elephant',
+  'jugaad','viral','chaos','controversy','row','furor','stir','pizza','biryani','idli',
+  'chai','paratha','robot','glitch','fail','oops','blunder','mix-up','reported',
+  'allegedly','sources say','man','woman','uncle','aunty','auto','rickshaw','pothole',
+  'award','record','first ever','only person','study finds','researchers confirm'];
+const DULL = ['quarterly results','gdp growth','regulatory','pursuant','committee deliberations',
+  'fiscal deficit','monetary policy','balance of payments','incumbent'];
 
-function scoreLol(title, desc) {
-  const text = (title + ' ' + (desc || '')).toLowerCase();
-  let s = 40;
-  FUNNY.forEach(w => { if (text.includes(w)) s += 4; });
-  BORING.forEach(w => { if (text.includes(w)) s -= 8; });
+function lolScore(title, desc) {
+  const t = ((title||'') + ' ' + (desc||'')).toLowerCase();
+  let s = 42;
+  FUNNY.forEach(w => { if (t.includes(w)) s += 4; });
+  DULL.forEach(w => { if (t.includes(w)) s -= 8; });
   return Math.min(99, Math.max(0, s));
 }
 
-// ── COLUMN LABELS ─────────────────────────────────────────────────
-const VIBES = ['Our Man on the Ground','Staff Reporter','Special Correspondent',
-  'Field Dispatch','Eyewitness Account','Bureau Report','Exclusive Investigation',
-  'Unverified but Credible'];
-function pickVibe(id) {
-  let h = 0; for (let c of id) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
-  return VIBES[Math.abs(h) % VIBES.length];
+// ── BYLINE LABELS ─────────────────────────────────────────────────
+const ROLES = ['Our Man on the Ground','Staff Reporter','Special Correspondent',
+  'Field Dispatch','Eyewitness Account','Senior Correspondent','Bureau Report'];
+function role(id) {
+  let h=0; for (let c of (id||'')) h=(h*31+c.charCodeAt(0))&0xffffffff;
+  return ROLES[Math.abs(h)%ROLES.length];
 }
 
-// ── LOADER MESSAGES ───────────────────────────────────────────────
-const MSGS = {
-  'India WTF':     ['Trawling TOI, NDTV, The Hindu for prime chaos…',   'India always delivers. Always.'],
-  'Bollywood':     ['Checking the Bollywood gossip wires…',              'Dramatic pauses. Unexpected twists. Costume changes.'],
-  'Cricket Drama': ['Reviewing the boundary-side incidents…',            'It\'s not just a sport. It\'s a soap opera.'],
-  'Desi Tech':     ['Scanning the desi tech corridors…',                 'Jugaad innovations and startup pivots galore.'],
-  'World WTF':     ['Checking global dispatches for maximum chaos…',     'The world is a lot.'],
-  'Florida Man':   ['Monitoring the Florida situation…',                  'He did what now? Oh. Oh no.'],
-  'Animals':       ['Consulting animal correspondents worldwide…',        'They did not have to do this.'],
-  'Food Crimes':   ['Documenting culinary atrocities…',                  'Gordon Ramsay is screaming somewhere.'],
-  'Epic Fails':    ['Collecting this week\'s finest disasters…',          'Someone had a very bad day so you don\'t have to.'],
-  'Weird Science': ['Reviewing peer-reviewed nonsense…',                 'Science has questions. Very strange questions.'],
-};
+// ── PULLQUOTES ────────────────────────────────────────────────────
+const PULLS = [
+  '"In India, everything is breaking news. Including the roads." — iPaint Editorial Board',
+  '"Florida Man is not a person. Florida Man is a state of mind." — Our Miami Correspondent',
+  '"We fact-checked this story. We wish we hadn\'t." — iPaint Desk',
+  '"When they said \'sources say\', we asked which sources. They said \'trust us\'." — Chief Reporter',
+  '"This headline was real. We checked three times." — Editorial Team',
+  '"Our policy is to report the news, not make sense of it." — iPaint Style Guide',
+];
 
 // ── STATE ─────────────────────────────────────────────────────────
 let currentCat = 'India WTF';
 let articles   = [];
 let isLoading  = false;
 
-document.getElementById('today-date').textContent =
-  new Date().toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+// Set date
+const now = new Date();
+document.getElementById('util-date').textContent =
+  now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+const hr = now.getHours();
+const ed = hr < 12 ? 'Morning Edition' : hr < 17 ? 'Afternoon Edition' : 'Evening Edition';
+document.getElementById('edition-line').textContent = ed + ' · ' + now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
 
 // ── TABS ──────────────────────────────────────────────────────────
-document.querySelectorAll('.cat-btn').forEach(btn => {
+document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     if (isLoading) return;
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentCat = btn.dataset.cat;
     document.getElementById('searchInput').value = '';
@@ -383,99 +1257,95 @@ document.getElementById('searchInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') loadNews();
 });
 
-// ── MAIN LOADER ───────────────────────────────────────────────────
+// ── LOAD NEWS ─────────────────────────────────────────────────────
 async function loadNews() {
   if (isLoading) return;
   isLoading = true;
 
-  const customSearch = document.getElementById('searchInput').value.trim().toLowerCase();
-  const cfg  = CAT_CONFIG[currentCat] || CAT_CONFIG['India WTF'];
-  const msg  = MSGS[currentCat] || MSGS['India WTF'];
+  const search = document.getElementById('searchInput').value.trim().toLowerCase();
+  const cfg    = CATS[currentCat] || CATS['India WTF'];
 
-  const loader = document.getElementById('loader');
-  const feed   = document.getElementById('feed');
-  const btn    = document.getElementById('searchBtn');
-  const empty  = document.getElementById('emptyState');
-  const pf     = document.getElementById('progressFill');
+  // UI state
+  document.getElementById('loader').classList.add('show');
+  document.getElementById('portal').style.opacity = '0.3';
+  document.getElementById('emptyState').classList.remove('show');
+  document.getElementById('searchBtn').classList.add('loading');
+  document.getElementById('searchBtn').disabled = true;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('lit'));
 
-  // Reset source badges
-  document.querySelectorAll('.source-badge').forEach(b => b.classList.remove('active'));
-
-  loader.classList.add('show');
-  feed.classList.add('fading');
-  empty.classList.remove('show');
-  btn.classList.add('loading');
-  btn.disabled = true;
-  feed.style.display = '';
-
+  const pf = document.getElementById('loaderFill');
   pf.style.transition = 'none'; pf.style.width = '0%';
-  setTimeout(() => { pf.style.transition = 'width 0.5s ease'; pf.style.width = '30%'; }, 30);
+  setTimeout(() => { pf.style.transition = 'width 0.5s ease'; pf.style.width = '35%'; }, 30);
 
-  document.getElementById('loaderText').textContent = msg[0];
-  document.getElementById('loaderSub').textContent  = msg[1];
+  document.getElementById('loaderText').textContent = `Consulting correspondents for ${cfg.title}…`;
+  document.getElementById('loaderSub').textContent  = cfg.sources.slice(0,4).map(k => SRC[k]?.name).filter(Boolean).join(' · ');
+  document.getElementById('sectionTitle').textContent = cfg.title;
 
   try {
-    // Build fetch list: RSS feeds + Reddit subs
     const rssFetches    = cfg.sources.map(k => fetchRSS(k));
     const redditFetches = cfg.subs.map(s => fetchReddit(s));
-    const hnFetch       = cfg.hn ? [fetchHN(currentCat)] : [];
+    const hnFetches     = cfg.hn ? [fetchHN(currentCat)] : [];
 
-    const allResults = await Promise.allSettled([...rssFetches, ...redditFetches, ...hnFetch]);
-    pf.style.width = '75%';
+    const results = await Promise.allSettled([...rssFetches, ...redditFetches, ...hnFetches]);
+    pf.style.width = '80%';
 
     let all = [];
-    allResults.forEach(r => { if (r.status === 'fulfilled') all = all.concat(r.value); });
+    results.forEach(r => { if (r.status === 'fulfilled') all = all.concat(r.value); });
 
-    // Search filter
-    if (customSearch) {
+    if (search) {
       all = all.filter(i =>
-        i.title.toLowerCase().includes(customSearch) ||
-        (i.description || '').toLowerCase().includes(customSearch)
+        (i.title||'').toLowerCase().includes(search) ||
+        (i.description||'').toLowerCase().includes(search)
       );
     }
 
-    // Score, filter, dedupe, top 5
-    const top5 = all
-      .map(i => ({ ...i, lolScore: scoreLol(i.title, i.description) }))
-      .filter(i => i.lolScore >= 44 && i.title.length > 10)
-      .sort((a, b) => b.lolScore - a.lolScore)
+    // Score, sort, dedupe
+    const scored = all
+      .map(i => ({ ...i, score: lolScore(i.title, i.description) }))
+      .filter(i => i.score >= 42 && (i.title||'').length > 12)
+      .sort((a,b) => b.score - a.score)
       .filter((item, idx, arr) => {
-        const key = item.title.toLowerCase().slice(0, 55);
-        return arr.findIndex(x => x.title.toLowerCase().slice(0, 55) === key) === idx;
-      })
-      .slice(0, 5);
+        const key = (item.title||'').toLowerCase().slice(0,55);
+        return arr.findIndex(x => (x.title||'').toLowerCase().slice(0,55) === key) === idx;
+      });
 
     pf.style.width = '100%';
 
-    if (top5.length === 0) {
-      empty.classList.add('show');
-      feed.style.display = 'none';
+    if (scored.length === 0) {
+      document.getElementById('emptyState').classList.add('show');
+      document.getElementById('portal').style.display = 'none';
     } else {
-      // Highlight active source badges
-      const activeBadges = new Set(top5.map(s => s.badge).filter(Boolean));
-      activeBadges.forEach(b => { const el = document.getElementById(b); if (el) el.classList.add('active'); });
-      articles = top5;
-      renderFeed(top5);
+      document.getElementById('portal').style.display = '';
+      document.getElementById('portal').style.opacity = '1';
+
+      // Light up chips for sources that contributed
+      const chips = new Set(scored.slice(0,10).map(s => s.chip).filter(Boolean));
+      chips.forEach(c => { const el = document.getElementById(c); if (el) el.classList.add('lit'); });
+
+      articles = scored.slice(0, 12);
+      document.getElementById('sectionMeta').textContent =
+        `${scored.length} stories found · LOL-sorted · ${new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}`;
+      document.getElementById('moreMeta').textContent =
+        articles.slice(1).map(a => a.source).filter((v,i,a) => a.indexOf(v)===i).slice(0,4).join(' · ');
+
+      renderPortal(articles);
     }
 
   } catch (err) {
     console.error(err);
-    empty.classList.add('show');
-    feed.style.display = 'none';
+    document.getElementById('emptyState').classList.add('show');
   }
 
-  setTimeout(() => {
-    loader.classList.remove('show');
-    feed.classList.remove('fading');
-    btn.classList.remove('loading');
-    btn.disabled = false;
-    isLoading = false;
-  }, 350);
+  document.getElementById('loader').classList.remove('show');
+  document.getElementById('portal').style.opacity = '1';
+  document.getElementById('searchBtn').classList.remove('loading');
+  document.getElementById('searchBtn').disabled = false;
+  isLoading = false;
 }
 
-// ── FETCH RSS via rss2json ────────────────────────────────────────
-async function fetchRSS(sourceKey) {
-  const src = SOURCES[sourceKey];
+// ── FETCH RSS ─────────────────────────────────────────────────────
+async function fetchRSS(key) {
+  const src = SRC[key];
   if (!src) return [];
   try {
     const res  = await fetch(`${R2J}${encodeURIComponent(src.url)}&count=25`);
@@ -483,12 +1353,12 @@ async function fetchRSS(sourceKey) {
     const data = await res.json();
     if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
     return data.items.map(item => ({
-      id:          'rss_' + btoa(encodeURIComponent(item.link || item.guid || Math.random())).slice(0,12),
+      id:          'rss_' + Math.random().toString(36).slice(2,10),
       title:       clean(item.title || ''),
-      description: clean(item.description || item.content || '').slice(0, 280),
+      description: clean(item.description || item.content || '').slice(0, 320),
       link:        item.link || item.guid || '#',
       source:      src.name,
-      badge:       src.badge,
+      chip:        src.chip,
       timeAgo:     relTime(item.pubDate),
     }));
   } catch { return []; }
@@ -497,9 +1367,8 @@ async function fetchRSS(sourceKey) {
 // ── FETCH REDDIT ──────────────────────────────────────────────────
 async function fetchReddit(sub) {
   try {
-    const res = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=25`, {
-      headers: { 'Accept': 'application/json' }
-    });
+    const res = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=25`,
+      { headers:{ 'Accept':'application/json' } });
     if (!res.ok) return [];
     const data = await res.json();
     return (data.data?.children || [])
@@ -508,96 +1377,100 @@ async function fetchReddit(sub) {
       .map(p => ({
         id:          'rd_' + p.id,
         title:       p.title,
-        description: p.selftext
-          ? clean(p.selftext).slice(0, 280)
-          : `${p.score.toLocaleString()} upvotes · ${p.num_comments} comments`,
+        description: p.selftext ? clean(p.selftext).slice(0,320)
+                                : `${p.score.toLocaleString()} upvotes · ${p.num_comments} comments`,
         link:        p.url?.startsWith('http') ? p.url : `https://reddit.com${p.permalink}`,
         source:      `r/${p.subreddit}`,
-        badge:       'badge-reddit',
-        timeAgo:     relTime(new Date(p.created_utc * 1000).toISOString()),
+        chip:        'chip-reddit',
+        timeAgo:     relTime(new Date(p.created_utc*1000).toISOString()),
       }));
   } catch { return []; }
 }
 
-// ── FETCH HACKERNEWS ──────────────────────────────────────────────
+// ── FETCH HN ──────────────────────────────────────────────────────
 async function fetchHN(cat) {
   try {
-    const q   = encodeURIComponent(cat + ' india weird funny');
+    const q   = encodeURIComponent(cat + ' india funny weird');
     const res = await fetch(`https://hn.algolia.com/api/v1/search?query=${q}&tags=story&hitsPerPage=20`);
     if (!res.ok) return [];
-    const data = await res.json();
-    return (data.hits || []).filter(h => h.title && h.url).map(h => ({
-      id:          'hn_' + h.objectID,
-      title:       h.title,
-      description: `${h.points || 0} points · ${h.num_comments || 0} comments on Hacker News`,
-      link:        h.url,
-      source:      new URL(h.url).hostname.replace('www.',''),
-      badge:       'badge-hn',
-      timeAgo:     relTime(h.created_at),
+    const d = await res.json();
+    return (d.hits||[]).filter(h=>h.title&&h.url).map(h=>({
+      id:    'hn_'+h.objectID,
+      title: h.title,
+      description: `${h.points||0} points · ${h.num_comments||0} comments on Hacker News`,
+      link:  h.url,
+      source: new URL(h.url).hostname.replace('www.',''),
+      chip:  'chip-hn',
+      timeAgo: relTime(h.created_at),
     }));
   } catch { return []; }
 }
 
-// ── UTILS ─────────────────────────────────────────────────────────
-function clean(str) {
-  return (str||'').replace(/<[^>]*>/g,'')
-    .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
-    .replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ')
-    .replace(/\s+/g,' ').trim();
-}
-function relTime(dateStr) {
-  if (!dateStr) return 'Recent';
-  const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
-  if (isNaN(diff)||diff<0) return 'Recent';
-  if (diff < 3600)   return `${Math.floor(diff/60)}m ago`;
-  if (diff < 86400)  return `${Math.floor(diff/3600)}h ago`;
-  if (diff < 172800) return 'Yesterday';
-  return `${Math.floor(diff/86400)}d ago`;
-}
+// ── RENDER PORTAL ─────────────────────────────────────────────────
+function renderPortal(stories) {
+  const [hero, ...rest] = stories;
 
-// ── RENDER ────────────────────────────────────────────────────────
-function renderFeed(stories) {
-  const top  = stories[0];
-  const rest = stories.slice(1);
-
-  document.getElementById('topArticle').innerHTML = `
-    <div>
-      <div class="article-tag">
-        <span>${currentCat}</span>
-        <span class="lol-pill">✦ LOL ${top.lolScore}</span>
-        <span class="source-pill">${top.source}</span>
-      </div>
-      <h2 class="top-headline" onclick="openModal('${top.id}')">${top.title}</h2>
-      <p class="top-deck">${top.description}</p>
-      <div class="article-meta">
-        <span class="lol-badge">LOL ${top.lolScore}</span>
-        <span>${top.timeAgo}</span>
-        <a href="${top.link}" target="_blank" class="src-link">${top.source}</a>
-        <span>iPaint</span>
-      </div>
+  // ── HERO LEAD ──
+  document.getElementById('heroLead').innerHTML = `
+    <div class="hero-kicker">
+      ${currentCat}
+      <span class="lol-tag">LOL ${hero.score}</span>
+      <span class="src-tag">${hero.source}</span>
     </div>
-    <div class="aside-stack">
-      ${rest.map(s => `
-        <div class="aside-item" onclick="openModal('${s.id}')">
-          <div class="aside-tag">${pickVibe(s.id)} · ${s.source}</div>
-          <div class="aside-headline">${s.title}</div>
-          <div class="aside-deck">${(s.description||'').split('.')[0]}.</div>
-        </div>`).join('')}
+    <h1 class="hero-headline" onclick="openModal('${hero.id}')">${hero.title}</h1>
+    <p class="hero-deck">${hero.description || ''}</p>
+    <div class="hero-byline">
+      <span>${role(hero.id)}</span>
+      <span>${hero.timeAgo}</span>
+      <a href="${hero.link}" target="_blank">${hero.source} ↗</a>
     </div>`;
 
-  document.getElementById('cardsGrid').innerHTML = rest.map(s => `
-    <div class="news-card" onclick="openModal('${s.id}')">
-      <div class="card-tag">${pickVibe(s.id)}</div>
-      <div class="card-source">${s.source}</div>
-      <h3 class="card-headline">${s.title}</h3>
-      <p class="card-deck">${s.description}</p>
-      <div class="card-footer">
-        <span class="card-time">${s.timeAgo}</span>
-        <div class="lol-bar-wrap">
-          <div class="lol-bar"><div class="lol-fill" style="width:${s.lolScore}%"></div></div>
-          <span class="lol-bar-num">${s.lolScore}</span>
-        </div>
+  // ── HERO SIDEBAR (stories 2-5) ──
+  const sideStories = rest.slice(0, 4);
+  document.getElementById('heroSidebar').innerHTML = sideStories.map(s => `
+    <div class="sidebar-story" onclick="openModal('${s.id}')">
+      <div class="ss-kicker">
+        <span>${role(s.id)}</span>
+        <span class="ss-source">${s.source}</span>
       </div>
+      <div class="ss-headline">${s.title}</div>
+      <div class="ss-deck">${s.description || ''}</div>
+      <div class="ss-lol">
+        <div class="ss-lol-bar"><div class="ss-lol-fill" style="width:${s.score}%"></div></div>
+        <span class="ss-lol-num">LOL ${s.score}</span>
+      </div>
+    </div>`).join('');
+
+  // ── PULLQUOTE ──
+  const pull = PULLS[Math.floor(Math.random() * PULLS.length)];
+  document.getElementById('pullquoteBlock').innerHTML = `
+    <div class="pullquote-text">${pull.split(' — ')[0]}</div>
+    <div class="pullquote-source">— ${pull.split(' — ')[1] || 'iPaint Editorial'}</div>`;
+
+  // ── THREE COLUMNS (stories 6-8) ──
+  const colStories = rest.slice(4, 7);
+  document.getElementById('threeCol').innerHTML = colStories.map(s => `
+    <div class="col-story" onclick="openModal('${s.id}')">
+      <div class="col-kicker">
+        <span>${role(s.id)}</span>
+        <span class="col-source">${s.source}</span>
+      </div>
+      <h3 class="col-headline">${s.title}</h3>
+      <p class="col-deck">${s.description || ''}</p>
+      <div class="col-meta">
+        <span class="lol-tag" style="font-size:0.5rem;padding:0.1rem 0.4rem">LOL ${s.score}</span>
+        <span>${s.timeAgo}</span>
+      </div>
+    </div>`).join('');
+
+  // ── STRIP (stories 9-12) ──
+  const stripStories = rest.slice(7, 11);
+  document.getElementById('storyStrip').innerHTML = stripStories.map((s, i) => `
+    <div class="strip-story" onclick="openModal('${s.id}')">
+      <div class="strip-num">0${i+9}</div>
+      <div class="strip-source">${s.source}</div>
+      <h4 class="strip-headline">${s.title}</h4>
+      <div class="strip-meta">${s.timeAgo} · LOL ${s.score}</div>
     </div>`).join('');
 }
 
@@ -605,17 +1478,39 @@ function renderFeed(stories) {
 function openModal(id) {
   const s = articles.find(a => a.id === id);
   if (!s) return;
-  document.getElementById('mTag').textContent      = currentCat + ' · LOL Score ' + s.lolScore + ' · ' + s.source;
+  document.getElementById('mSection').textContent  = currentCat + ' · ' + role(s.id) + ' · LOL Score ' + s.score;
   document.getElementById('mHeadline').textContent  = s.title;
-  document.getElementById('mMeta').innerHTML        = `<span class="lol-badge">LOL ${s.lolScore}</span><span>${s.timeAgo}</span><span>${s.source}</span>`;
-  document.getElementById('mBody').innerHTML        = `<p>${s.description || 'Click below to read the full story.'}</p>`;
-  document.getElementById('mSource').textContent   = `Source: ${s.source} · Curated by iPaint · No filter applied`;
+  document.getElementById('mByline').innerHTML      =
+    `<span class="lol-tag">LOL ${s.score}</span><span>${s.timeAgo}</span><span>${s.source}</span>`;
+  document.getElementById('mBody').innerHTML        = `<p>${s.description || 'Click below to read the full story on the original source.'}</p>`;
+  document.getElementById('mNote').textContent     = `Source: ${s.source} · Curated by iPaint`;
   document.getElementById('mLink').href            = s.link;
   document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-function maybeCloseModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function maybeClose(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function clean(s) {
+  return (s||'').replace(/<[^>]*>/g,'')
+    .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+    .replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ')
+    .replace(/\s+/g,' ').trim();
+}
+function relTime(ds) {
+  if (!ds) return 'Recent';
+  const d = (Date.now()-new Date(ds).getTime())/1000;
+  if (isNaN(d)||d<0) return 'Recent';
+  if (d<3600)   return `${Math.floor(d/60)}m ago`;
+  if (d<86400)  return `${Math.floor(d/3600)}h ago`;
+  if (d<172800) return 'Yesterday';
+  return `${Math.floor(d/86400)}d ago`;
+}
 
 // ── BOOT ──────────────────────────────────────────────────────────
 loadNews();
