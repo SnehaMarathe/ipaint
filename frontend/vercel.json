@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "name": "ipaint-frontend",
+  "buildCommand": null,
+  "outputDirectory": "public",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "IPAINT_API_URL": "@ipaint-api-url"
+  }
+}

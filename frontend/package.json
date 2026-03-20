@@ -1,0 +1,12 @@
+{
+  "name": "ipaint-frontend",
+  "version": "1.0.0",
+  "description": "iPaint Good News — Frontend",
+  "scripts": {
+    "start": "npx serve public -p 3000",
+    "dev": "npx serve public -p 3000 --no-clipboard"
+  },
+  "devDependencies": {
+    "serve": "^14.2.3"
+  }
+}
