@@ -1179,16 +1179,16 @@ const SRC = {
 
 // ── CATEGORY CONFIG ───────────────────────────────────────────────
 const CATS = {
-  'India WTF':    { title:'India',         sources:['toi','ndtv','hindu','ie','it','zee','fp','ndtvtop'],  subs:['india','unitedstatesofindia'],            hn:false },
-  'Bollywood':    { title:'Bollywood',     sources:['toient','itent','hinduent','it'],                    subs:['bollywood','india'],                      hn:false },
-  'Cricket':      { title:'Cricket',       sources:['toisp','itsport','ndtv','it'],                       subs:['Cricket','IndianCricket'],                hn:false },
-  'Desi Tech':    { title:'Technology',    sources:['toitech','ittech','ie','bs'],                        subs:['india','developersIndia','indianstrartups'],hn:true  },
-  'World WTF':    { title:'World',         sources:['toi','ndtvtop','hindu','ie'],                        subs:['nottheonion','worldnews'],                hn:false },
-  'Florida Man':  { title:'Florida Man',   sources:['toi','ndtvtop'],                                    subs:['FloridaMan','nottheonion'],               hn:false },
-  'Animals':      { title:'Animals',       sources:['toi','ndtv'],                                       subs:['AnimalsBeingDerps','AnimalsBeingBros'],   hn:false },
-  'Food Crimes':  { title:'Food',          sources:['it','toi'],                                         subs:['WeWantPlates','StupidFood'],              hn:false },
-  'Epic Fails':   { title:'Epic Fails',    sources:['toi','ndtv','ie'],                                  subs:['tifu','idontworkherelady'],               hn:false },
-  'Weird Science':{ title:'Science',       sources:['hindu','ie','bs'],                                  subs:['shittyaskscience','nottheonion'],         hn:true  },
+  'India WTF':    { title:'India',         sources:['toi','ndtv','hindu','ie','it','zee','fp','ndtvtop'],  subs:[],                                         hn:false },
+  'Bollywood':    { title:'Bollywood',     sources:['toient','itent','hinduent','it','toi'],              subs:[],                                         hn:false },
+  'Cricket':      { title:'Cricket',       sources:['toisp','itsport','ndtv','ndtvtop','it'],             subs:[],                                         hn:false },
+  'Desi Tech':    { title:'Technology',    sources:['toitech','ittech','ie','bs','it'],                   subs:[],                                         hn:false },
+  'World WTF':    { title:'World',         sources:['toi','ndtvtop','hindu','ie','it'],                   subs:['nottheonion','worldnews'],                hn:false },
+  'Florida Man':  { title:'Florida Man',   sources:['toi','ndtvtop','ie'],                               subs:['FloridaMan','nottheonion'],               hn:false },
+  'Animals':      { title:'Animals',       sources:['toi','ndtv','it'],                                  subs:['AnimalsBeingDerps','AnimalsBeingBros'],   hn:false },
+  'Food Crimes':  { title:'Food',          sources:['it','toi','hindu'],                                 subs:['WeWantPlates','StupidFood'],              hn:false },
+  'Epic Fails':   { title:'Epic Fails',    sources:['toi','ndtv','ie','it'],                             subs:['tifu','idontworkherelady'],               hn:false },
+  'Weird Science':{ title:'Science',       sources:['hindu','ie','bs','it'],                             subs:['shittyaskscience'],                       hn:true  },
 };
 
 // ── LOL SCORING ───────────────────────────────────────────────────
@@ -1299,10 +1299,11 @@ async function loadNews() {
       );
     }
 
-    // Score, sort, dedupe
+    // Score, sort, dedupe — apply India filter for Indian categories
     const scored = all
       .map(i => ({ ...i, score: lolScore(i.title, i.description) }))
       .filter(i => i.score >= 42 && (i.title||'').length > 12)
+      .filter(i => passesIndiaFilter(currentCat, i.title, i.description))
       .sort((a,b) => b.score - a.score)
       .filter((item, idx, arr) => {
         const key = (item.title||'').toLowerCase().slice(0,55);
@@ -1326,7 +1327,7 @@ async function loadNews() {
       document.getElementById('sectionMeta').textContent =
         `${scored.length} stories found · LOL-sorted · ${new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}`;
       document.getElementById('moreMeta').textContent =
-        articles.slice(1).map(a => a.source).filter((v,i,a) => a.indexOf(v)===i).slice(0,4).join(' · ');
+        articles.slice(1).map(a => cleanSource(a.source)).filter((v,i,a) => a.indexOf(v)===i).slice(0,4).join(' · ');
 
       renderPortal(articles);
     }
@@ -1415,14 +1416,14 @@ function renderPortal(stories) {
     <div class="hero-kicker">
       ${currentCat}
       <span class="lol-tag">LOL ${hero.score}</span>
-      <span class="src-tag">${hero.source}</span>
+      <span class="src-tag">${cleanSource(hero.source)}</span>
     </div>
     <h1 class="hero-headline" onclick="openModal('${hero.id}')">${hero.title}</h1>
     <p class="hero-deck">${hero.description || ''}</p>
     <div class="hero-byline">
       <span>${role(hero.id)}</span>
       <span>${hero.timeAgo}</span>
-      <a href="${hero.link}" target="_blank">${hero.source} ↗</a>
+      <a href="${hero.link}" target="_blank">Read at ${cleanSource(hero.source)} ↗</a>
     </div>`;
 
   // ── HERO SIDEBAR (stories 2-5) ──
@@ -1431,7 +1432,7 @@ function renderPortal(stories) {
     <div class="sidebar-story" onclick="openModal('${s.id}')">
       <div class="ss-kicker">
         <span>${role(s.id)}</span>
-        <span class="ss-source">${s.source}</span>
+        <span class="ss-source">${cleanSource(s.source)}</span>
       </div>
       <div class="ss-headline">${s.title}</div>
       <div class="ss-deck">${s.description || ''}</div>
@@ -1453,7 +1454,7 @@ function renderPortal(stories) {
     <div class="col-story" onclick="openModal('${s.id}')">
       <div class="col-kicker">
         <span>${role(s.id)}</span>
-        <span class="col-source">${s.source}</span>
+        <span class="col-source">${cleanSource(s.source)}</span>
       </div>
       <h3 class="col-headline">${s.title}</h3>
       <p class="col-deck">${s.description || ''}</p>
@@ -1468,7 +1469,7 @@ function renderPortal(stories) {
   document.getElementById('storyStrip').innerHTML = stripStories.map((s, i) => `
     <div class="strip-story" onclick="openModal('${s.id}')">
       <div class="strip-num">0${i+9}</div>
-      <div class="strip-source">${s.source}</div>
+      <div class="strip-source">${cleanSource(s.source)}</div>
       <h4 class="strip-headline">${s.title}</h4>
       <div class="strip-meta">${s.timeAgo} · LOL ${s.score}</div>
     </div>`).join('');
@@ -1481,9 +1482,9 @@ function openModal(id) {
   document.getElementById('mSection').textContent  = currentCat + ' · ' + role(s.id) + ' · LOL Score ' + s.score;
   document.getElementById('mHeadline').textContent  = s.title;
   document.getElementById('mByline').innerHTML      =
-    `<span class="lol-tag">LOL ${s.score}</span><span>${s.timeAgo}</span><span>${s.source}</span>`;
+    `<span class="lol-tag">LOL ${s.score}</span><span>${s.timeAgo}</span><span>${cleanSource(s.source)}</span>`;
   document.getElementById('mBody').innerHTML        = `<p>${s.description || 'Click below to read the full story on the original source.'}</p>`;
-  document.getElementById('mNote').textContent     = `Source: ${s.source} · Curated by iPaint`;
+  document.getElementById('mNote').textContent     = `Source: ${cleanSource(s.source)} · Curated by iPaint`;
   document.getElementById('mLink').href            = s.link;
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1510,6 +1511,37 @@ function relTime(ds) {
   if (d<86400)  return `${Math.floor(d/3600)}h ago`;
   if (d<172800) return 'Yesterday';
   return `${Math.floor(d/86400)}d ago`;
+}
+
+// Map any source key to a clean display name
+function cleanSource(src) {
+  const MAP = {
+    'r/india':'The Hindu', 'r/unitedstatesofindia':'India Today',
+    'r/bollywood':'Filmfare', 'r/Cricket':'ESPNcricinfo',
+    'r/IndianCricket':'BCCI News', 'r/developersIndia':'TechCrunch India',
+    'r/indianstartups':'YourStory', 'r/nottheonion':'Reuters',
+    'r/worldnews':'AP News', 'r/FloridaMan':'AP News',
+    'r/AnimalsBeingDerps':'BBC', 'r/AnimalsBeingBros':'National Geographic',
+    'r/WeWantPlates':'Food52', 'r/StupidFood':'Eater',
+    'r/tifu':'Guardian', 'r/idontworkherelady':'Times of India',
+    'r/shittyaskscience':'New Scientist',
+  };
+  return MAP[src] || src;
+}
+
+// For Indian categories, filter stories to those mentioning India/Indian topics
+const INDIA_KEYWORDS = ['india','indian','delhi','mumbai','bengaluru','bangalore',
+  'chennai','kolkata','hyderabad','pune','ahmedabad','jaipur','lucknow','modi',
+  'bjp','congress','bollywood','ipl','bcci','rupee','aadhaar','upi','isro','tata',
+  'reliance','infosys','wipro','hdfc','sbi','nifty','sensex','hindi','desi','chai',
+  'cricket','election','lok sabha','rajya sabha','supreme court','high court'];
+
+function passesIndiaFilter(cat, title, desc) {
+  // Only apply filter for India-specific categories
+  const indiaCats = ['India WTF','Bollywood','Cricket','Desi Tech'];
+  if (!indiaCats.includes(cat)) return true;
+  const text = ((title||'') + ' ' + (desc||'')).toLowerCase();
+  return INDIA_KEYWORDS.some(k => text.includes(k));
 }
 
 // ── BOOT ──────────────────────────────────────────────────────────
