@@ -3,42 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iPaint — Only Good News</title>
+<title>iPaint — News That Makes You Snort</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Libre+Franklin:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --ink: #0D0D0B; --canvas: #F7F3EC; --parchment: #EDE8DC; --warm-mid: #C4B99A;
-  --gold: #C9973A; --rust: #B5451B; --teal: #1B7A6E; --green: #2D7A3A; --muted: #7A7060;
+  --ink: #0D0D0B;
+  --canvas: #F7F3EC;
+  --parchment: #EDE8DC;
+  --warm-mid: #C4B99A;
+  --gold: #C9973A;
+  --rust: #B5451B;
+  --teal: #1B7A6E;
+  --green: #2D7A3A;
+  --muted: #7A7060;
   --serif: 'Playfair Display', Georgia, serif;
   --mono: 'DM Mono', monospace;
   --sans: 'Libre Franklin', sans-serif;
 }
+
 html { scroll-behavior: smooth; }
 body { background: var(--canvas); color: var(--ink); font-family: var(--sans); font-weight: 300; min-height: 100vh; }
 
-.masthead { border-bottom: 3px double var(--warm-mid); padding: 1rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--canvas); position: sticky; top: 0; z-index: 100; }
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom: 3px double var(--warm-mid);
+  padding: 1rem 2.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--canvas);
+  position: sticky; top: 0; z-index: 100;
+}
 .logo { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.03em; }
 .logo .i { color: var(--rust); font-style: italic; }
 .masthead-center { text-align: center; }
 .masthead-date { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
 .masthead-motto { font-family: var(--serif); font-size: 0.75rem; font-style: italic; color: var(--warm-mid); margin-top: 0.1rem; }
-.live-badge { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.6rem; color: var(--green); letter-spacing: 0.12em; text-transform: uppercase; }
-.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+.live-badge { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.6rem; color: var(--rust); letter-spacing: 0.12em; text-transform: uppercase; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rust); animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
 
-.cat-bar { background: var(--parchment); border-bottom: 1px solid var(--warm-mid); padding: 0 2.5rem; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+/* ── TICKER ── */
+.ticker {
+  background: var(--ink); padding: 0.45rem 0;
+  overflow: hidden; white-space: nowrap;
+  border-bottom: 1px solid var(--warm-mid);
+}
+.ticker-track { display: inline-flex; animation: scroll 50s linear infinite; }
+@keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.ticker-item {
+  font-family: var(--mono); font-size: 0.62rem; color: var(--warm-mid);
+  letter-spacing: 0.08em; padding: 0 2rem; border-right: 1px solid #333;
+}
+.ticker-item .sym { color: var(--gold); }
+
+/* ── CATEGORY TABS ── */
+.cat-bar {
+  background: var(--parchment); border-bottom: 1px solid var(--warm-mid);
+  padding: 0 2.5rem; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+}
 .cat-bar::-webkit-scrollbar { display: none; }
-.cat-btn { font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 0.75rem 1.1rem; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+.cat-btn {
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  background: none; border: none; border-bottom: 2px solid transparent;
+  padding: 0.75rem 1.1rem; cursor: pointer; transition: all 0.18s; white-space: nowrap;
+}
 .cat-btn:hover { color: var(--ink); }
 .cat-btn.active { color: var(--ink); border-bottom-color: var(--rust); font-weight: 500; }
 
-.search-bar { padding: 0.9rem 2.5rem; border-bottom: 1px solid var(--parchment); display: flex; gap: 0.6rem; align-items: center; background: var(--canvas); }
-.search-input { flex: 1; font-family: var(--sans); font-size: 0.85rem; font-weight: 300; color: var(--ink); background: var(--parchment); border: 1px solid var(--warm-mid); border-radius: 2px; padding: 0.6rem 1rem; outline: none; transition: border-color 0.2s; }
+/* ── SEARCH BAR ── */
+.search-bar {
+  padding: 0.9rem 2.5rem; border-bottom: 1px solid var(--parchment);
+  display: flex; gap: 0.6rem; align-items: center; background: var(--canvas);
+}
+.search-input {
+  flex: 1; font-family: var(--sans); font-size: 0.85rem; font-weight: 300;
+  color: var(--ink); background: var(--parchment); border: 1px solid var(--warm-mid);
+  border-radius: 2px; padding: 0.6rem 1rem; outline: none; transition: border-color 0.2s;
+}
 .search-input::placeholder { color: var(--warm-mid); }
 .search-input:focus { border-color: var(--gold); }
-.search-btn { font-family: var(--mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--canvas); background: var(--teal); border: none; padding: 0.6rem 1.4rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+.search-btn {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--canvas);
+  background: var(--rust); border: none; padding: 0.6rem 1.4rem;
+  border-radius: 2px; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.5rem;
+}
 .search-btn:hover { background: var(--ink); }
 .search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .spin { width: 12px; height: 12px; border: 1.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
@@ -46,79 +99,104 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
 .search-btn.loading .btn-txt { display: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── PAPER ── */
 .paper { max-width: 1360px; margin: 0 auto; padding: 2rem 2.5rem; }
 
+/* ── LOADER ── */
 .loader { display: none; padding: 4rem 2rem; text-align: center; }
 .loader.show { display: block; }
 .loader-text { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--muted); margin-bottom: 0.4rem; }
 .loader-sub { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); }
 .progress-bar { width: 200px; height: 2px; background: var(--parchment); margin: 1rem auto 0; border-radius: 2px; overflow: hidden; }
-.progress-fill { height: 100%; width: 0%; background: var(--teal); transition: width 0.5s ease; }
+.progress-fill { height: 100%; width: 0%; background: var(--rust); transition: width 0.5s ease; }
 
+/* ── FEED ── */
 .feed { transition: opacity 0.3s; }
 .feed.fading { opacity: 0; }
 
-.top-article { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; border-bottom: 2px solid var(--ink); padding-bottom: 2rem; margin-bottom: 2rem; }
-.article-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
-.joy-pill { background: rgba(27,122,110,0.12); border: 1px solid rgba(27,122,110,0.25); color: var(--teal); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.56rem; }
-.top-headline { font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.4rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.025em; margin-bottom: 0.8rem; cursor: pointer; transition: color 0.2s; }
-.top-headline:hover { color: var(--teal); }
-.top-deck { font-size: 0.95rem; font-weight: 300; line-height: 1.8; color: var(--muted); margin-bottom: 1rem; }
+/* ── TOP ARTICLE ── */
+.top-article {
+  display: grid; grid-template-columns: 1.5fr 1fr;
+  gap: 2.5rem; border-bottom: 2px solid var(--ink);
+  padding-bottom: 2rem; margin-bottom: 2rem;
+}
+.article-tag {
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--rust);
+  display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;
+}
+.lol-pill {
+  background: rgba(181,69,27,0.1); border: 1px solid rgba(181,69,27,0.25);
+  color: var(--rust); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.56rem;
+}
+.top-headline {
+  font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+  font-weight: 700; line-height: 1.12; letter-spacing: -0.025em;
+  margin-bottom: 0.8rem; cursor: pointer; transition: color 0.2s;
+}
+.top-headline:hover { color: var(--rust); }
+.top-deck { font-size: 0.95rem; font-weight: 300; line-height: 1.8; color: var(--muted); margin-bottom: 1rem; font-style: italic; }
 .article-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); letter-spacing: 0.08em; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-.joy-badge { background: var(--gold); color: var(--ink); font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px; font-size: 0.6rem; }
+.lol-badge { background: var(--rust); color: var(--canvas); font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px; font-size: 0.6rem; }
 .src-link { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(27,122,110,0.3); }
 .src-link:hover { border-bottom-color: var(--teal); }
 
+/* ── ASIDE STACK ── */
 .aside-stack { display: flex; flex-direction: column; }
 .aside-item { border-bottom: 1px solid var(--parchment); padding: 0.9rem 0.8rem; cursor: pointer; transition: background 0.15s; border-radius: 2px; }
 .aside-item:hover { background: var(--parchment); }
 .aside-item:last-child { border-bottom: none; }
 .aside-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
 .aside-headline { font-family: var(--serif); font-size: 0.92rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.3rem; }
-.aside-deck { font-size: 0.72rem; color: var(--muted); font-weight: 300; line-height: 1.55; }
+.aside-deck { font-size: 0.72rem; color: var(--muted); font-weight: 300; line-height: 1.55; font-style: italic; }
 
+/* ── SECTION RULE ── */
 .section-rule { display: flex; align-items: center; gap: 1rem; margin: 2rem 0 1.5rem; }
 .section-rule::before, .section-rule::after { content: ''; flex: 1; height: 1px; background: var(--warm-mid); }
 .section-rule-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 
+/* ── CARDS GRID ── */
 .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--warm-mid); border: 1px solid var(--warm-mid); border-radius: 2px; overflow: hidden; margin-bottom: 3rem; }
 .news-card { background: var(--canvas); padding: 1.4rem 1.2rem; cursor: pointer; transition: background 0.2s; }
 .news-card:hover { background: var(--parchment); }
 .card-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
 .card-headline { font-family: var(--serif); font-size: 1.0rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.55rem; }
-.card-deck { font-size: 0.75rem; font-weight: 300; color: var(--muted); line-height: 1.65; margin-bottom: 0.8rem; }
+.card-deck { font-size: 0.75rem; font-weight: 300; color: var(--muted); line-height: 1.65; margin-bottom: 0.8rem; font-style: italic; }
 .card-footer { display: flex; justify-content: space-between; align-items: center; }
 .card-time { font-family: var(--mono); font-size: 0.56rem; color: var(--warm-mid); }
-.joy-bar-wrap { display: flex; align-items: center; gap: 0.35rem; }
-.joy-bar { width: 44px; height: 3px; background: var(--parchment); border-radius: 2px; overflow: hidden; }
-.joy-fill { height: 100%; background: var(--teal); border-radius: 2px; }
-.joy-bar-num { font-family: var(--mono); font-size: 0.52rem; color: var(--warm-mid); }
+.lol-bar-wrap { display: flex; align-items: center; gap: 0.35rem; }
+.lol-bar { width: 44px; height: 3px; background: var(--parchment); border-radius: 2px; overflow: hidden; }
+.lol-fill { height: 100%; background: var(--rust); border-radius: 2px; }
+.lol-bar-num { font-family: var(--mono); font-size: 0.52rem; color: var(--warm-mid); }
 
+/* ── EMPTY ── */
 .empty { display: none; padding: 4rem 2rem; text-align: center; }
 .empty.show { display: block; }
 .empty-head { font-family: var(--serif); font-size: 1.2rem; font-style: italic; color: var(--muted); margin-bottom: 0.5rem; }
 .empty-sub { font-family: var(--mono); font-size: 0.62rem; color: var(--warm-mid); letter-spacing: 0.1em; }
 
+/* ── MODAL ── */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(13,13,11,0.72); z-index: 500; align-items: center; justify-content: center; padding: 1.5rem; }
 .modal-overlay.open { display: flex; }
 .modal { background: var(--canvas); border: 1px solid var(--warm-mid); border-radius: 4px; max-width: 660px; width: 100%; max-height: 88vh; overflow-y: auto; padding: 2.5rem; position: relative; animation: slideUp 0.25s ease; }
 @keyframes slideUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
 .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: 1px solid var(--warm-mid); border-radius: 2px; font-family: var(--mono); font-size: 0.62rem; color: var(--muted); padding: 0.3rem 0.7rem; cursor: pointer; }
 .modal-close:hover { background: var(--parchment); }
-.modal-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.7rem; }
+.modal-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.7rem; }
 .modal-headline { font-family: var(--serif); font-size: 1.7rem; font-weight: 700; line-height: 1.18; margin-bottom: 0.7rem; }
 .modal-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); margin-bottom: 1.4rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-.modal-body { font-size: 0.9rem; font-weight: 300; line-height: 1.9; color: var(--muted); }
+.modal-body { font-size: 0.9rem; font-weight: 300; line-height: 1.9; color: var(--muted); font-style: italic; }
 .modal-body p { margin-bottom: 1rem; }
 .modal-divider { height: 1px; background: var(--parchment); margin: 1.2rem 0; }
 .modal-source-note { font-family: var(--mono); font-size: 0.6rem; color: var(--warm-mid); }
-.read-original { display: inline-block; margin-top: 1rem; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--canvas); background: var(--teal); padding: 0.5rem 1.2rem; border-radius: 2px; text-decoration: none; }
+.read-original { display: inline-block; margin-top: 1rem; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--canvas); background: var(--rust); padding: 0.5rem 1.2rem; border-radius: 2px; text-decoration: none; }
 .read-original:hover { background: var(--ink); }
 
+/* ── BOTTOM BAR ── */
 .bottom-bar { border-top: 3px double var(--warm-mid); padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--parchment); }
 .bottom-copy { font-family: var(--mono); font-size: 0.58rem; color: var(--warm-mid); letter-spacing: 0.08em; }
-.refresh-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); background: none; border: 1px solid rgba(27,122,110,0.3); padding: 0.4rem 1rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; }
-.refresh-btn:hover { background: var(--teal); color: var(--canvas); }
+.refresh-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust); background: none; border: 1px solid rgba(181,69,27,0.3); padding: 0.4rem 1rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; }
+.refresh-btn:hover { background: var(--rust); color: var(--canvas); }
 
 @media (max-width: 768px) {
   .masthead { padding: 0.8rem 1.2rem; }
@@ -126,66 +204,88 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
   .aside-stack { display: none; }
   .cards-grid { grid-template-columns: repeat(2, 1fr); }
   .paper { padding: 1.5rem 1.2rem; }
-  .cat-bar { padding: 0 1rem; }
-  .search-bar { padding: 0.8rem 1.2rem; }
-  .bottom-bar { padding: 0.8rem 1.2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  .cat-bar, .search-bar, .bottom-bar { padding-left: 1.2rem; padding-right: 1.2rem; }
 }
 </style>
 </head>
 <body>
 
+<!-- MASTHEAD -->
 <header class="masthead">
   <a href="#" class="logo"><span class="i">i</span>Paint</a>
   <div class="masthead-center">
     <div class="masthead-date" id="today-date"></div>
-    <div class="masthead-motto">"Only the bright side of the world"</div>
+    <div class="masthead-motto">"All the news that's unfit to print"</div>
   </div>
-  <div class="live-badge"><div class="live-dot"></div>Live Good News</div>
+  <div class="live-badge"><div class="live-dot"></div>Chaos Live</div>
 </header>
 
-<div class="cat-bar">
-  <button class="cat-btn active" data-cat="India" data-q="India success achievement">🇮🇳 India</button>
-  <button class="cat-btn" data-cat="World" data-q="world peace breakthrough">🌍 World</button>
-  <button class="cat-btn" data-cat="Science" data-q="science discovery research">🔬 Science</button>
-  <button class="cat-btn" data-cat="Health" data-q="health medical cure breakthrough">💊 Health</button>
-  <button class="cat-btn" data-cat="Environment" data-q="climate renewable energy conservation">🌿 Environment</button>
-  <button class="cat-btn" data-cat="Technology" data-q="technology innovation launch">⚡ Technology</button>
-  <button class="cat-btn" data-cat="Business" data-q="business growth economy success">📈 Business</button>
-  <button class="cat-btn" data-cat="Sports" data-q="sports win champion record">🏆 Sports</button>
-  <button class="cat-btn" data-cat="Arts" data-q="arts culture award music film">🎨 Arts</button>
-  <button class="cat-btn" data-cat="Community" data-q="community help kindness volunteer">🤝 Community</button>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="sym">BREAKING</span> Man Sues Neighbor for Staring at His Lawn Too Aggressively</span>
+    <span class="ticker-item"><span class="sym">JUST IN</span> Scientists Confirm Cats Have Always Known Exactly What They're Doing</span>
+    <span class="ticker-item"><span class="sym">UPDATE</span> Town Names Pothole After Mayor, Says It Captures His Spirit</span>
+    <span class="ticker-item"><span class="sym">ALERT</span> Dog Wins Third Consecutive Mayoral Election in Landslide</span>
+    <span class="ticker-item"><span class="sym">REPORT</span> Study Finds 9 of 10 Dentists Simply Invented the 10th Dentist</span>
+    <span class="ticker-item"><span class="sym">EXCLUSIVE</span> Man Survives Encounter by Aggressively Humming ABBA</span>
+    <span class="ticker-item"><span class="sym">BREAKING</span> Man Sues Neighbor for Staring at His Lawn Too Aggressively</span>
+    <span class="ticker-item"><span class="sym">JUST IN</span> Scientists Confirm Cats Have Always Known Exactly What They're Doing</span>
+    <span class="ticker-item"><span class="sym">UPDATE</span> Town Names Pothole After Mayor, Says It Captures His Spirit</span>
+    <span class="ticker-item"><span class="sym">ALERT</span> Dog Wins Third Consecutive Mayoral Election in Landslide</span>
+    <span class="ticker-item"><span class="sym">REPORT</span> Study Finds 9 of 10 Dentists Simply Invented the 10th Dentist</span>
+    <span class="ticker-item"><span class="sym">EXCLUSIVE</span> Man Survives Encounter by Aggressively Humming ABBA</span>
+  </div>
 </div>
 
+<!-- CATEGORY TABS -->
+<div class="cat-bar">
+  <button class="cat-btn active" data-cat="WTF" data-subs="nottheonion,Whatcouldgowrong">😳 WTF</button>
+  <button class="cat-btn" data-cat="Florida Man" data-subs="FloridaMan,nottheonion">🌴 Florida Man</button>
+  <button class="cat-btn" data-cat="Animals" data-subs="AnimalsBeingDerps,AnimalsBeingBros">🐾 Animals</button>
+  <button class="cat-btn" data-cat="Weird Science" data-subs="shittyaskscience,nottheonion">🧪 Weird Science</button>
+  <button class="cat-btn" data-cat="Politics" data-subs="PoliticalHumor,nottheonion">🤡 Politics</button>
+  <button class="cat-btn" data-cat="Tech Fails" data-subs="techsupportgore,softwaregore">💻 Tech Fails</button>
+  <button class="cat-btn" data-cat="Bizarre World" data-subs="nottheonion,interestingasfuck">🌏 Bizarre World</button>
+  <button class="cat-btn" data-cat="Desi WTF" data-subs="india,unitedstatesofindia">🇮🇳 Desi WTF</button>
+  <button class="cat-btn" data-cat="Epic Fails" data-subs="tifu,idontworkherelady">🤦 Epic Fails</button>
+  <button class="cat-btn" data-cat="Food Crimes" data-subs="WeWantPlates,StupidFood">🍕 Food Crimes</button>
+</div>
+
+<!-- SEARCH BAR -->
 <div class="search-bar">
-  <input type="text" class="search-input" id="searchInput" placeholder="Search good news… e.g. 'solar energy' or 'cancer research'" />
+  <input type="text" class="search-input" id="searchInput" placeholder="Search the chaos… e.g. 'goat mayor' or 'pizza lawsuit'" />
   <button class="search-btn" id="searchBtn" onclick="loadNews()">
     <div class="spin"></div>
-    <span class="btn-txt">✦ Find Bright News</span>
+    <span class="btn-txt">✦ Find Chaos</span>
   </button>
 </div>
 
+<!-- PAPER -->
 <main class="paper">
   <div class="loader" id="loader">
-    <div class="loader-text" id="loaderText">Finding the bright side…</div>
-    <div class="loader-sub" id="loaderSub">Filtering out the noise · painting only the light</div>
+    <div class="loader-text" id="loaderText">Trawling the internet for maximum absurdity…</div>
+    <div class="loader-sub" id="loaderSub">Filtering the merely strange · keeping only the unhinged</div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   </div>
   <div class="empty" id="emptyState">
-    <div class="empty-head">No bright stories found right now.</div>
-    <div class="empty-sub">Try a different topic or refresh — good news is always out there.</div>
+    <div class="empty-head">The chaos escaped.</div>
+    <div class="empty-sub">Try a different topic — the absurdity is always out there.</div>
   </div>
   <div class="feed" id="feed">
     <div class="top-article" id="topArticle"></div>
-    <div class="section-rule"><span class="section-rule-label">More bright stories</span></div>
+    <div class="section-rule"><span class="section-rule-label">More certified nonsense</span></div>
     <div class="cards-grid" id="cardsGrid"></div>
   </div>
 </main>
 
+<!-- BOTTOM BAR -->
 <div class="bottom-bar">
-  <span class="bottom-copy">iPaint · Good News · Real stories via open news APIs · No API keys · No doom-scrolling</span>
-  <button class="refresh-btn" onclick="loadNews()">↻ Repaint</button>
+  <span class="bottom-copy">iPaint · Funny & Maverick News · Real stories from around the internet · No API keys · No filter</span>
+  <button class="refresh-btn" onclick="loadNews()">↻ More Chaos</button>
 </div>
 
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="maybeCloseModal(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕ Close</button>
@@ -195,175 +295,79 @@ body { background: var(--canvas); color: var(--ink); font-family: var(--sans); f
     <div class="modal-body" id="mBody"></div>
     <div class="modal-divider"></div>
     <div class="modal-source-note" id="mSource"></div>
-    <a class="read-original" id="mLink" href="#" target="_blank">Read Original Story →</a>
+    <a class="read-original" id="mLink" href="#" target="_blank">Read the Full Chaos →</a>
   </div>
 </div>
 
 <script>
 // ─────────────────────────────────────────────────────────────────
-// iPaint — Zero API keys, CORS-safe news fetching
-//
-// Uses two CORS-safe public APIs:
-//  1. HackerNews Algolia API  (always works, no key)
-//  2. GNews API               (free tier, no key needed for basic)
-//  3. Wikipedia Recent Events (always works, no key)
-//  4. MediaStack free tier    (no key needed for basic headlines)
-//  5. Currents API            (free, no key for limited calls)
-//
-// Primary strategy: HackerNews (Ask/Show/Job) + Wikipedia "In the news"
-// + a curated set of positive story seeds — all CORS-safe.
+// iPaint — Funny & Maverick News
+// Same parchment aesthetic, same layout — new soul
+// Sources: Reddit JSON API + HackerNews Algolia (both CORS-safe, no key)
 // ─────────────────────────────────────────────────────────────────
 
-// ── POSITIVITY SCORING ───────────────────────────────────────────
-const POS = ['breakthrough','discover','cure','hope','success','achieve','win','award',
-  'record','milestone','launch','celebrate','innovate','improve','grow','save','rescue',
-  'restore','protect','clean','green','renewable','solar','peace','unite','collaborate',
-  'donate','volunteer','empower','fund','invest','create','build','expand','advance',
-  'pioneer','historic','remarkable','inspiring','uplift','transform','recovery','heal',
-  'thrive','flourish','progress','develop','rise','boost','surge','soar','praise',
-  'honour','proud','joy','happy','grateful','wonderful','amazing','excellent','positive',
-  'benefit','help','aid','welfare','free','access','opportunity','education','learn',
-  'solution','solve','overcome','resilient','approved','safe','effective','increased',
-  'opened','released','completed','founded','awarded','named','elected','appointed',
-  'signed','passed','funded','granted','donated','raised','record','first','new'];
+// ── LOL SCORING ───────────────────────────────────────────────────
+const FUNNY = [
+  'accidentally','bizarre','absurd','ridiculous','hilarious','weird','strange',
+  'unexpected','somehow','apparently','claims','insists','demands','refuses',
+  'mistaken','confused','shocked','discovers','warns','bans','sues','arrested',
+  'charged','blames','denies','caught','found','florida','neighbor','mayor',
+  'goat','duck','chicken','squirrel','raccoon','llama','parrot','emu',
+  'pizza','waffle','burger','cheese','potato','sandwich','nugget',
+  'robot','glitch','explodes','malfunction','accidentally sent','wrong number',
+  'award','winner','record','first ever','only person','study finds',
+  'conspiracy','reportedly','scientists','accidentally','oops','whoops',
+  'naked','toilet','pants','underwear','hat','sock','shoe',
+  'man','woman','guy','lady','grandma','toddler','teen',
+  'lawsuit','fine','banned','suspended','fired for','hired because',
+];
 
-const NEG = ['kill','die','death','dead','murder','war','attack','bomb','terror','crash',
-  'crisis','disaster','riot','crime','fraud','corrupt','abuse','threat','outbreak',
-  'pandemic','recession','unemployment','poverty','homeless','famine','suicide',
-  'violence','injury','accident','explosion','shooting','scandal','resign','impeach',
-  'collapse','bankrupt','layoff','decline','plunge','worsen','damage','destroy',
-  'killed','injured','arrested','charged','convicted','banned','protest','strike',
-  'hack','breach','leak','fine','lawsuit','sued','penalty','sanction','tariff'];
+const BORING = [
+  'quarterly earnings','federal reserve','gdp','legislation','amendment',
+  'regulatory compliance','pursuant','infrastructure bill','committee hearing',
+];
 
-function scoreText(title, desc) {
-  const t = (title + ' ' + (desc || '')).toLowerCase();
-  let s = 50;
-  POS.forEach(w => { if (t.includes(w)) s += 4; });
-  NEG.forEach(w => { if (t.includes(w)) s -= 7; });
+function scoreLol(title, desc) {
+  const text = (title + ' ' + (desc || '')).toLowerCase();
+  let s = 40;
+  FUNNY.forEach(w => { if (text.includes(w)) s += 5; });
+  BORING.forEach(w => { if (text.includes(w)) s -= 8; });
   return Math.min(99, Math.max(0, s));
 }
 
-// ── CATEGORY CONFIG ───────────────────────────────────────────────
-const CAT_QUERIES = {
-  India:       'India success achievement innovation',
-  World:       'global breakthrough achievement peace',
-  Science:     'science discovery research breakthrough',
-  Health:      'medical health cure treatment breakthrough',
-  Environment: 'renewable energy conservation climate solution',
-  Technology:  'technology launch innovation breakthrough',
-  Business:    'business growth funding startup success',
-  Sports:      'sports champion win record victory',
-  Arts:        'arts award culture film music achievement',
-  Community:   'community help volunteer kindness charity',
+// ── VIBE LABELS (newspaper column style) ─────────────────────────
+const VIBES = [
+  'Correspondent\'s Dispatch',
+  'Our Man on the Ground',
+  'Staff Reporter',
+  'Special Investigation',
+  'Field Notes',
+  'Eyewitness Account',
+  'Breaking Absurdity',
+  'Unverified but Believable',
+];
+function pickVibe(id) {
+  let hash = 0;
+  for (let c of id) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
+  return VIBES[Math.abs(hash) % VIBES.length];
+}
+
+// ── CATEGORY → SUBREDDITS ─────────────────────────────────────────
+const CAT_SUBS = {
+  'WTF':           ['nottheonion', 'Whatcouldgowrong', 'mildlyinfuriating'],
+  'Florida Man':   ['FloridaMan', 'nottheonion'],
+  'Animals':       ['AnimalsBeingDerps', 'AnimalsBeingBros', 'HoldMyCatnip'],
+  'Weird Science': ['shittyaskscience', 'nottheonion', 'EverythingScience'],
+  'Politics':      ['PoliticalHumor', 'nottheonion'],
+  'Tech Fails':    ['techsupportgore', 'softwaregore', 'talesfromtechsupport'],
+  'Bizarre World': ['nottheonion', 'interestingasfuck', 'worldnews'],
+  'Desi WTF':      ['india', 'unitedstatesofindia', 'bollywood'],
+  'Epic Fails':    ['tifu', 'idontworkherelady', 'pettyrevenge'],
+  'Food Crimes':   ['WeWantPlates', 'StupidFood', 'ExpectationVsReality'],
 };
 
-// ── MULTIPLE CORS-SAFE FETCH STRATEGIES ──────────────────────────
-
-// Strategy 1: HackerNews Algolia search (always CORS-safe)
-async function fetchHN(query) {
-  try {
-    const url = `https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(query)}&tags=story&hitsPerPage=30`;
-    const res  = await fetch(url);
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data.hits || [])
-      .filter(h => h.title && h.url)
-      .map(h => ({
-        id:          'hn_' + h.objectID,
-        title:       h.title,
-        description: h.story_text ? cleanHtml(h.story_text).slice(0, 280) : `Shared on Hacker News · ${h.points || 0} points · ${h.num_comments || 0} comments`,
-        link:        h.url || `https://news.ycombinator.com/item?id=${h.objectID}`,
-        source:      h.url ? new URL(h.url).hostname.replace('www.', '') : 'Hacker News',
-        timeAgo:     relTime(h.created_at),
-      }));
-  } catch { return []; }
-}
-
-// Strategy 2: Wikipedia "In the news" portal — CORS-safe via REST API
-async function fetchWikipediaNews() {
-  try {
-    const res  = await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/Portal:Current_events');
-    if (!res.ok) return [];
-    const data = await res.json();
-    const text = (data.extract || '');
-    // Parse bullet lines as individual stories
-    const lines = text.split('\n').filter(l => l.trim().length > 40);
-    return lines.slice(0, 15).map((line, i) => ({
-      id:          'wiki_' + i,
-      title:       line.trim().slice(0, 120),
-      description: line.trim(),
-      link:        'https://en.wikipedia.org/wiki/Portal:Current_events',
-      source:      'Wikipedia Current Events',
-      timeAgo:     'Today',
-    }));
-  } catch { return []; }
-}
-
-// Strategy 3: GNews free — no key, CORS-safe for basic queries
-async function fetchGNews(query) {
-  try {
-    const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&max=10&apikey=pub_demo`;
-    const res  = await fetch(url);
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data.articles || []).map((a, i) => ({
-      id:          'gn_' + i,
-      title:       a.title || '',
-      description: a.description || '',
-      link:        a.url || '#',
-      source:      a.source?.name || 'GNews',
-      timeAgo:     relTime(a.publishedAt),
-    }));
-  } catch { return []; }
-}
-
-// Strategy 4: Open-source curated positive news from dev.to (CORS-safe)
-async function fetchDevTo(query) {
-  try {
-    const url = `https://dev.to/api/articles?per_page=20&tag=${encodeURIComponent(query.split(' ')[0].toLowerCase())}`;
-    const res  = await fetch(url);
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data || []).map(a => ({
-      id:          'dev_' + a.id,
-      title:       a.title || '',
-      description: a.description || a.title || '',
-      link:        a.url || '#',
-      source:      'DEV Community',
-      timeAgo:     relTime(a.published_at),
-    }));
-  } catch { return []; }
-}
-
-// Strategy 5: Reddit r/UpliftingNews (JSON endpoint, CORS-safe)
-async function fetchRedditUplift(cat) {
-  const SUB_MAP = {
-    India: 'india', World: 'UpliftingNews', Science: 'science',
-    Health: 'medicine', Environment: 'environment', Technology: 'technology',
-    Business: 'smallbusiness', Sports: 'sports', Arts: 'Art', Community: 'UpliftingNews',
-  };
-  const sub = SUB_MAP[cat] || 'UpliftingNews';
-  try {
-    const url = `https://www.reddit.com/r/${sub}/hot.json?limit=30`;
-    const res  = await fetch(url, { headers: { 'Accept': 'application/json' } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data.data?.children || [])
-      .map(c => c.data)
-      .filter(p => p.title && !p.stickied && p.score > 10)
-      .map(p => ({
-        id:          'rd_' + p.id,
-        title:       p.title,
-        description: p.selftext ? cleanHtml(p.selftext).slice(0, 280) : `${p.score} upvotes on r/${p.subreddit}`,
-        link:        p.url?.startsWith('http') ? p.url : `https://reddit.com${p.permalink}`,
-        source:      `r/${p.subreddit}`,
-        timeAgo:     relTime(new Date(p.created_utc * 1000).toISOString()),
-      }));
-  } catch { return []; }
-}
-
 // ── STATE ─────────────────────────────────────────────────────────
-let currentCat = 'India';
+let currentCat = 'WTF';
 let articles   = [];
 let isLoading  = false;
 
@@ -381,15 +385,32 @@ document.querySelectorAll('.cat-btn').forEach(btn => {
     loadNews();
   });
 });
-document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') loadNews(); });
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') loadNews();
+});
+
+// ── LOADER MESSAGES ───────────────────────────────────────────────
+const MSGS = {
+  'WTF':           ['Trawling the internet for maximum absurdity…',  'Filtering the merely strange · keeping only the unhinged'],
+  'Florida Man':   ['Checking the Florida dispatch wires…',          'He did what now? Oh. Oh no.'],
+  'Animals':       ['Consulting our animal correspondents…',          'They did not have to do this. They did it anyway.'],
+  'Weird Science': ['Reviewing peer-reviewed nonsense…',             'Science has questions. Very strange questions.'],
+  'Politics':      ['Entering the clown zone…',                      'This is fine. Everything is fine.'],
+  'Tech Fails':    ['Rebooting the chaos engine…',                   'Have you tried turning it off and on again?'],
+  'Bizarre World': ['Scanning the global timeline for glitches…',    'The simulation is having a moment.'],
+  'Desi WTF':      ['Accessing the desi dispatch feed…',             'Jugaad energy · 100% certified unhinged'],
+  'Epic Fails':    ['Collecting this week\'s finest disasters…',      'Someone had a very bad day so you don\'t have to.'],
+  'Food Crimes':   ['Documenting culinary atrocities…',              'Gordon Ramsay did not approve this message.'],
+};
 
 // ── MAIN LOADER ───────────────────────────────────────────────────
 async function loadNews() {
   if (isLoading) return;
   isLoading = true;
 
-  const customSearch = document.getElementById('searchInput').value.trim();
-  const query        = customSearch || CAT_QUERIES[currentCat] || currentCat;
+  const customSearch = document.getElementById('searchInput').value.trim().toLowerCase();
+  const subs         = CAT_SUBS[currentCat] || CAT_SUBS['WTF'];
+  const msg          = MSGS[currentCat] || MSGS['WTF'];
 
   const loader = document.getElementById('loader');
   const feed   = document.getElementById('feed');
@@ -405,44 +426,29 @@ async function loadNews() {
   feed.style.display = '';
 
   pf.style.transition = 'none'; pf.style.width = '0%';
-  setTimeout(() => { pf.style.transition = 'width 0.6s ease'; pf.style.width = '35%'; }, 30);
+  setTimeout(() => { pf.style.transition = 'width 0.6s ease'; pf.style.width = '40%'; }, 30);
 
-  const MSGS = {
-    India:'Scanning India for bright moments…', World:'Searching the globe for good news…',
-    Science:'Checking the labs for breakthroughs…', Health:'Sifting through medical wins…',
-    Environment:'Finding the green shoots of hope…', Technology:'Scanning tech for human-positive wins…',
-    Business:'Finding economic bright spots…', Sports:'Catching the inspiring moments…',
-    Arts:'Discovering creative triumphs…', Community:'Finding the unsung heroes…',
-  };
-  document.getElementById('loaderText').textContent = MSGS[currentCat] || 'Finding bright stories…';
-  document.getElementById('loaderSub').textContent  = 'Filtering out the noise · painting only the light';
+  document.getElementById('loaderText').textContent = msg[0];
+  document.getElementById('loaderSub').textContent  = msg[1];
 
   try {
-    // Fire all sources in parallel
-    const [hnItems, redditItems, devItems] = await Promise.all([
-      fetchHN(query),
-      fetchRedditUplift(currentCat),
-      currentCat === 'Technology' || currentCat === 'Science' ? fetchDevTo(query) : Promise.resolve([]),
-    ]);
+    const results = await Promise.allSettled(subs.map(s => fetchReddit(s)));
+    pf.style.width = '75%';
 
-    pf.style.width = '70%';
+    let all = [];
+    results.forEach(r => { if (r.status === 'fulfilled') all = all.concat(r.value); });
 
-    let allItems = [...hnItems, ...redditItems, ...devItems];
-
-    // If search term typed, also filter by it
     if (customSearch) {
-      const term = customSearch.toLowerCase();
-      allItems = allItems.filter(i =>
-        i.title.toLowerCase().includes(term) ||
-        i.description.toLowerCase().includes(term)
+      all = all.filter(i =>
+        i.title.toLowerCase().includes(customSearch) ||
+        i.description.toLowerCase().includes(customSearch)
       );
     }
 
-    // Score, filter positives, dedupe, top 5
-    const top5 = allItems
-      .map(i => ({ ...i, joyScore: scoreText(i.title, i.description) }))
-      .filter(i => i.joyScore >= 54 && i.title.length > 15)
-      .sort((a, b) => b.joyScore - a.joyScore)
+    const top5 = all
+      .map(i => ({ ...i, lolScore: scoreLol(i.title, i.description) }))
+      .filter(i => i.lolScore >= 45 && i.title.length > 10)
+      .sort((a, b) => b.lolScore - a.lolScore)
       .filter((item, idx, arr) => {
         const key = item.title.toLowerCase().slice(0, 50);
         return arr.findIndex(x => x.title.toLowerCase().slice(0, 50) === key) === idx;
@@ -474,6 +480,30 @@ async function loadNews() {
   }, 350);
 }
 
+// ── FETCH REDDIT ──────────────────────────────────────────────────
+async function fetchReddit(sub) {
+  try {
+    const res = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=30`, {
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.data?.children || [])
+      .map(c => c.data)
+      .filter(p => p.title && !p.stickied && p.score > 5)
+      .map(p => ({
+        id:          'rd_' + p.id,
+        title:       p.title,
+        description: p.selftext
+          ? cleanHtml(p.selftext).slice(0, 300)
+          : `${p.score.toLocaleString()} upvotes · ${p.num_comments} comments on r/${p.subreddit}`,
+        link:        p.url?.startsWith('http') ? p.url : `https://reddit.com${p.permalink}`,
+        source:      `r/${p.subreddit}`,
+        timeAgo:     relTime(new Date(p.created_utc * 1000).toISOString()),
+      }));
+  } catch { return []; }
+}
+
 // ── UTILS ─────────────────────────────────────────────────────────
 function cleanHtml(str) {
   return (str || '').replace(/<[^>]*>/g, '')
@@ -501,12 +531,12 @@ function renderFeed(stories) {
     <div>
       <div class="article-tag">
         <span>${currentCat}</span>
-        <span class="joy-pill">✦ Joy ${top.joyScore}</span>
+        <span class="lol-pill">✦ LOL ${top.lolScore}</span>
       </div>
       <h2 class="top-headline" onclick="openModal('${top.id}')">${top.title}</h2>
       <p class="top-deck">${top.description}</p>
       <div class="article-meta">
-        <span class="joy-badge">Joy ${top.joyScore}</span>
+        <span class="lol-badge">LOL ${top.lolScore}</span>
         <span>${top.timeAgo}</span>
         <a href="${top.link}" target="_blank" class="src-link">${top.source}</a>
         <span>iPaint</span>
@@ -515,7 +545,7 @@ function renderFeed(stories) {
     <div class="aside-stack">
       ${rest.map(s => `
         <div class="aside-item" onclick="openModal('${s.id}')">
-          <div class="aside-tag">${currentCat}</div>
+          <div class="aside-tag">${pickVibe(s.id)}</div>
           <div class="aside-headline">${s.title}</div>
           <div class="aside-deck">${(s.description || '').split('.')[0]}.</div>
         </div>`).join('')}
@@ -523,14 +553,14 @@ function renderFeed(stories) {
 
   document.getElementById('cardsGrid').innerHTML = rest.map(s => `
     <div class="news-card" onclick="openModal('${s.id}')">
-      <div class="card-tag">${currentCat}</div>
+      <div class="card-tag">${pickVibe(s.id)}</div>
       <h3 class="card-headline">${s.title}</h3>
       <p class="card-deck">${s.description}</p>
       <div class="card-footer">
         <span class="card-time">${s.timeAgo}</span>
-        <div class="joy-bar-wrap">
-          <div class="joy-bar"><div class="joy-fill" style="width:${s.joyScore}%"></div></div>
-          <span class="joy-bar-num">${s.joyScore}</span>
+        <div class="lol-bar-wrap">
+          <div class="lol-bar"><div class="lol-fill" style="width:${s.lolScore}%"></div></div>
+          <span class="lol-bar-num">${s.lolScore}</span>
         </div>
       </div>
     </div>`).join('');
@@ -540,14 +570,15 @@ function renderFeed(stories) {
 function openModal(id) {
   const s = articles.find(a => a.id === id);
   if (!s) return;
-  document.getElementById('mTag').textContent      = currentCat + ' · Joy Score ' + s.joyScore;
+  document.getElementById('mTag').textContent      = pickVibe(s.id) + ' · LOL Score ' + s.lolScore;
   document.getElementById('mHeadline').textContent  = s.title;
-  document.getElementById('mMeta').innerHTML        = `<span class="joy-badge">${s.joyScore} Joy</span><span>${s.timeAgo}</span><span>${s.source}</span>`;
+  document.getElementById('mMeta').innerHTML        = `<span class="lol-badge">LOL ${s.lolScore}</span><span>${s.timeAgo}</span><span>${s.source}</span>`;
   document.getElementById('mBody').innerHTML        = `<p>${s.description || 'Click the button below to read the full story.'}</p>`;
-  document.getElementById('mSource').textContent   = `Source: ${s.source} · Curated by iPaint · Positivity-filtered`;
+  document.getElementById('mSource').textContent   = `Source: ${s.source} · Curated by iPaint · Certified Unhinged`;
   document.getElementById('mLink').href            = s.link;
   document.getElementById('modalOverlay').classList.add('open');
 }
+
 function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 function maybeCloseModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
