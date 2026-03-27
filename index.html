@@ -3,31 +3,34 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>India Stock Tracker — Offline Quant Lab</title>
+<title>ipaint Stocks — Premium Offline Terminal</title>
 <style>
 :root{
-  --bg:#071018;
-  --bg2:#0b1620;
-  --panel:#101c28;
-  --panel2:#122130;
-  --card:#0f1924;
-  --muted:#7e93aa;
-  --text:#eaf2fb;
-  --line:#1d3143;
+  --bg:#03070c;
+  --bg2:#08111a;
+  --panel:#0b141d;
+  --panel2:#111b27;
+  --card:#0c151f;
+  --muted:#8aa0b7;
+  --text:#edf6ff;
+  --line:#1a2b3d;
+  --line2:#22394f;
   --gold:#f8c15d;
-  --green:#37d67a;
+  --green:#2ee58d;
   --red:#ff6b7a;
-  --blue:#5ea8ff;
-  --cyan:#4de0e0;
+  --blue:#53a6ff;
+  --cyan:#59efe8;
   --violet:#bc8cff;
-  --shadow:0 20px 60px rgba(0,0,0,.25);
+  --ink:#02060a;
+  --shadow:0 24px 80px rgba(0,0,0,.42);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:radial-gradient(circle at top right,#102133 0,#071018 45%,#050b12 100%);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(29,49,67,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(29,49,67,.22) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;opacity:.35}
+html,body{margin:0;padding:0;background:radial-gradient(circle at top right,#0f2235 0,#061019 32%,#03070c 72%,#010305 100%);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(24,44,63,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(24,44,63,.18) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;opacity:.32}
+body:after{content:"";position:fixed;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.018) 0,rgba(255,255,255,.018) 1px,transparent 2px,transparent 4px);mix-blend-mode:soft-light;pointer-events:none;opacity:.14}
 button,input,select,textarea{font:inherit}
 .container{max-width:1500px;margin:0 auto;padding:20px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;background:rgba(8,16,24,.75);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.05);border-radius:20px;position:sticky;top:10px;z-index:20;box-shadow:var(--shadow)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;background:linear-gradient(180deg,rgba(5,10,16,.92),rgba(10,18,27,.78));backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.06);border-radius:22px;position:sticky;top:10px;z-index:20;box-shadow:var(--shadow)}
 .brand h1{margin:0;font-size:22px;letter-spacing:.02em}
 .brand p{margin:4px 0 0;color:var(--muted);font-size:12px}
 .brand .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02);font-size:11px;color:var(--gold);margin-top:8px}
@@ -42,7 +45,7 @@ button,input,select,textarea{font:inherit}
 .tab.active,.tab:hover{color:var(--text);border-color:#36516a;background:rgba(94,168,255,.08)}
 .grid{display:grid;gap:18px}
 .g-hero{grid-template-columns:1.35fr .95fr}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;position:relative}.card:before{content:'';position:absolute;inset:0;border-radius:22px;padding:1px;background:linear-gradient(135deg,rgba(248,193,93,.18),rgba(83,166,255,.12),rgba(89,239,232,.08));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .card-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.05)}
 .card-h h2,.card-h h3{margin:0;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#cfe0f0}
 .card-h .sub{font-size:12px;color:var(--muted)}
@@ -53,11 +56,12 @@ button,input,select,textarea{font:inherit}
 .kpi .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
 .kpi .value{font-size:26px;font-weight:800;margin-top:8px}
 .kpi .meta{font-size:12px;color:var(--muted);margin-top:4px}
-#priceCanvas,#payoffCanvas,#ivCanvas,#radarCanvas{width:100%;display:block;background:linear-gradient(180deg,rgba(255,255,255,.015),transparent);border-radius:18px}
+#priceCanvas,#payoffCanvas,#ivCanvas,#radarCanvas,#backtestCanvas{width:100%;display:block;background:radial-gradient(circle at top,rgba(83,166,255,.08),transparent 35%),linear-gradient(180deg,rgba(255,255,255,.02),transparent);border-radius:18px;border:1px solid rgba(255,255,255,.04)}
 #priceCanvas{height:360px}
 #payoffCanvas{height:320px}
 #ivCanvas{height:180px}
 #radarCanvas{height:280px}
+#backtestCanvas{height:260px}
 .toolbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .left-tools,.right-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .select,input[type="number"],textarea{background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:10px 12px;outline:none}
@@ -103,6 +107,18 @@ button,input,select,textarea{font:inherit}
  .slider-wrap{display:grid;gap:8px}
  input[type="range"]{width:100%}
  @media (max-width:1100px){.g-hero,.two,.options-controls{grid-template-columns:1fr}.kpis,.statline{grid-template-columns:repeat(2,1fr)}.heatgrid{grid-template-columns:repeat(2,1fr)}.watch-row{grid-template-columns:1.2fr .8fr .7fr .9fr auto}.chain-row{grid-template-columns:repeat(4,1fr)}}
+ 
+ .terminal-label{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-size:11px}
+ .glow{box-shadow:0 0 0 1px rgba(83,166,255,.12),0 0 24px rgba(83,166,255,.08)}
+ .chart-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+ .chart-stat{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
+ .chart-stat .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+ .chart-stat .v{font-weight:800;font-size:18px;margin-top:6px}
+ .backtest-controls{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+ .backtest-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+ @media (max-width:1100px){.backtest-controls,.backtest-grid,.chart-meta{grid-template-columns:1fr 1fr}}
+ @media (max-width:720px){.backtest-controls,.backtest-grid,.chart-meta{grid-template-columns:1fr}}
+
  @media (max-width:720px){.container{padding:12px}.topbar{display:block}.topbar-right{margin-top:12px}.mini{min-width:unset;flex:1}.kpis,.statline,.three,.matrix{grid-template-columns:1fr}.heatgrid{grid-template-columns:1fr}.watch-row,.chain-row{grid-template-columns:1fr 1fr}.tabs{position:sticky;top:92px;z-index:10;background:linear-gradient(180deg,rgba(7,16,24,.96),rgba(7,16,24,.8));padding:8px 0}}
 </style>
 </head>
@@ -110,12 +126,12 @@ button,input,select,textarea{font:inherit}
 <div class="container">
   <div class="topbar">
     <div class="brand">
-      <h1>India Stock Tracker <span style="color:var(--gold)">Offline Quant Lab</span></h1>
-      <p>Self-contained Indian market terminal with local simulation, options intelligence, scenario engine, and trade journal.</p>
+      <h1>ipaint Stocks <span style="color:var(--gold)">Premium Offline Terminal</span></h1>
+      <p>Premium India-first market terminal with offline simulation, candlestick analytics, options intelligence, strategy backtesting, and local journaling.</p>
       <div class="chip">No APIs · No external data dependency · Browser-only analytics</div>
     </div>
     <div class="topbar-right">
-      <div class="mini"><div class="k">Mode</div><div class="v">Offline</div><div class="s">Synthetic market engine</div></div>
+      <div class="mini"><div class="k">Mode</div><div class="v">Offline</div><div class="s">Local synthetic engine</div></div>
       <div class="mini"><div class="k">Market Clock</div><div class="v mono" id="clock">09:15:00</div><div class="s">Asia/Kolkata</div></div>
       <div class="mini"><div class="k">Session</div><div class="v" id="sessionState">Pre-open</div><div class="s" id="sessionMeta">Local time aware</div></div>
     </div>
@@ -144,6 +160,10 @@ button,input,select,textarea{font:inherit}
               <option value="1M">1M</option>
               <option value="3M">3M</option>
             </select>
+            <select class="select" id="chartModeSelect">
+              <option value="candles" selected>Candles</option>
+              <option value="line">Line</option>
+            </select>
             <button class="btn ghost" id="reshuffleBtn">Reshuffle</button>
           </div>
         </div>
@@ -161,6 +181,12 @@ button,input,select,textarea{font:inherit}
             </div>
           </div>
           <canvas id="priceCanvas" width="980" height="360"></canvas>
+          <div class="chart-meta">
+            <div class="chart-stat"><div class="k">Open</div><div class="v mono" id="ohlcOpen">₹ 0</div></div>
+            <div class="chart-stat"><div class="k">High</div><div class="v mono" id="ohlcHigh">₹ 0</div></div>
+            <div class="chart-stat"><div class="k">Low</div><div class="v mono" id="ohlcLow">₹ 0</div></div>
+            <div class="chart-stat"><div class="k">Close</div><div class="v mono" id="ohlcClose">₹ 0</div></div>
+          </div>
           <div class="kpis">
             <div class="kpi"><div class="label">Breadth</div><div class="value" id="breadthVal">67%</div><div class="meta">Advancers beating decliners</div></div>
             <div class="kpi"><div class="label">Momentum Pulse</div><div class="value" id="momentumVal">+0.84σ</div><div class="meta">Weighted price acceleration</div></div>
@@ -274,6 +300,46 @@ button,input,select,textarea{font:inherit}
         <div class="watch" id="chainRows"></div>
       </div>
     </div>
+  
+    <div class="card glow" style="margin-top:18px">
+      <div class="card-h"><div><h3>Options Strategy Backtester</h3><div class="sub">Offline Monte Carlo engine for strategy stress-testing under synthetic India-style volatility</div></div><div class="badge">Backtest sandbox</div></div>
+      <div class="card-b stack">
+        <div class="backtest-controls">
+          <select class="select" id="btHorizon">
+            <option value="5">5 trading days</option>
+            <option value="10">10 trading days</option>
+            <option value="20" selected>20 trading days</option>
+            <option value="30">30 trading days</option>
+          </select>
+          <select class="select" id="btPaths">
+            <option value="120">120 paths</option>
+            <option value="240" selected>240 paths</option>
+            <option value="500">500 paths</option>
+          </select>
+          <select class="select" id="btVolShock">
+            <option value="-0.15">IV Crush</option>
+            <option value="0" selected>Base IV</option>
+            <option value="0.18">IV Expansion</option>
+          </select>
+          <select class="select" id="btDriftBias">
+            <option value="-0.0008">Bear Drift</option>
+            <option value="0" selected>Neutral Drift</option>
+            <option value="0.0012">Bull Drift</option>
+          </select>
+          <button class="btn gold" id="runBacktestBtn">Run Backtest</button>
+        </div>
+        <div class="backtest-grid">
+          <div class="card" style="background:rgba(255,255,255,.015)">
+            <div class="card-b"><canvas id="backtestCanvas" width="900" height="260"></canvas></div>
+          </div>
+          <div class="stack">
+            <div class="statline" id="backtestStats"></div>
+            <div class="matrix" id="backtestMatrix"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <section class="tab-panel hidden" id="tab-journal">
@@ -314,6 +380,7 @@ const INSTRUMENTS = {
 const SECTORS = ['Banking','IT','Auto','Energy','Pharma','FMCG','Metal','Infra','Realty'];
 let activeSymbol = 'NIFTY 50';
 let activeRegime = 'trend';
+let activeChartMode = 'candles';
 let seriesCache = {};
 let state = { watchlist: loadLS('offline_watchlist', ['NIFTY 50','BANK NIFTY','RELIANCE','TCS','INFY']), notes: loadLS('offline_notes', []) };
 
@@ -343,6 +410,19 @@ function generateSeries(symbol, tf='1W', regime=activeRegime){
   return arr;
 }
 
+function generateOHLC(symbol, tf='1W', regime=activeRegime){
+  const closes = generateSeries(symbol, tf, regime);
+  const base = INSTRUMENTS[symbol].base;
+  return closes.map((close,i)=>{
+    const prevClose = i===0 ? closes[0]*(1 + seededNormal(base*0.11)*0.002) : closes[i-1];
+    const open = prevClose * (1 + seededNormal(base + i*101)*0.0018);
+    const wickScale = Math.abs(seededNormal(base + i*173))*0.004 + (regime==='volatile'?0.004:0.0022);
+    const high = Math.max(open, close) * (1 + wickScale);
+    const low = Math.min(open, close) * (1 - wickScale*0.92);
+    return {open, high, low, close};
+  });
+}
+
 function populateSelects(){
   const symbolSelect = document.getElementById('symbolSelect');
   const optSymbol = document.getElementById('optSymbol');
@@ -370,37 +450,62 @@ function updateClock(){
   document.getElementById('sessionMeta').textContent = meta;
 }
 
-function drawLineChart(canvas, data, color1, fill=true){
+
+function drawPriceChart(canvas, ohlc, mode='candles'){
   const ctx = canvas.getContext('2d'); const w = canvas.width, h = canvas.height;
   ctx.clearRect(0,0,w,h);
   ctx.fillStyle = 'rgba(255,255,255,0.02)';
   ctx.fillRect(0,0,w,h);
   ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
   for(let i=0;i<6;i++){ const y = 20 + i*(h-40)/5; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
-  const min = Math.min(...data), max = Math.max(...data), pad = (max-min)*0.15 || 1;
-  const x = i => 24 + i*(w-48)/(data.length-1);
+  const prices = ohlc.flatMap(c=>[c.low,c.high]);
+  const min = Math.min(...prices), max = Math.max(...prices), pad = (max-min)*0.1 || 1;
+  const x = i => 26 + i*(w-52)/(ohlc.length-1);
   const y = v => h-24 - ((v-(min-pad))/((max+pad)-(min-pad)))*(h-48);
-  if(fill){
+  if(mode==='line'){
+    const data = ohlc.map(x=>x.close);
+    const chg = data.at(-1) - data[0];
+    const color1 = chg>=0 ? '#2ee58d' : '#ff6b7a';
     const grd = ctx.createLinearGradient(0,0,0,h);
     grd.addColorStop(0, color1 + '55'); grd.addColorStop(1, color1 + '00');
     ctx.beginPath(); ctx.moveTo(x(0), h-24); data.forEach((v,i)=>ctx.lineTo(x(i), y(v))); ctx.lineTo(x(data.length-1),h-24); ctx.closePath(); ctx.fillStyle = grd; ctx.fill();
+    ctx.lineWidth = 2.8; ctx.strokeStyle = color1; ctx.beginPath(); data.forEach((v,i)=> i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))); ctx.stroke();
+  } else {
+    const candleWidth = Math.max(4, (w-64)/ohlc.length*0.58);
+    ohlc.forEach((c,i)=>{
+      const xi = x(i);
+      const up = c.close >= c.open;
+      ctx.strokeStyle = up ? '#2ee58d' : '#ff6b7a';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(xi, y(c.high)); ctx.lineTo(xi, y(c.low)); ctx.stroke();
+      const top = y(Math.max(c.open,c.close));
+      const bottom = y(Math.min(c.open,c.close));
+      const bodyH = Math.max(2, bottom-top);
+      ctx.fillStyle = up ? 'rgba(46,229,141,.9)' : 'rgba(255,107,122,.9)';
+      ctx.fillRect(xi-candleWidth/2, top, candleWidth, bodyH);
+    });
+    const trend = ohlc.map(c=>c.close);
+    ctx.strokeStyle='rgba(248,193,93,.75)'; ctx.lineWidth=1.2; ctx.setLineDash([5,4]);
+    ctx.beginPath(); trend.forEach((v,i)=> i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))); ctx.stroke(); ctx.setLineDash([]);
   }
-  ctx.lineWidth = 3; ctx.strokeStyle = color1; ctx.beginPath(); data.forEach((v,i)=> i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))); ctx.stroke();
-  const last = data[data.length-1];
-  ctx.fillStyle = color1; ctx.beginPath(); ctx.arc(x(data.length-1), y(last), 5, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#9fb2c6'; ctx.font = '12px ui-monospace, monospace';
+  ctx.fillStyle='#9fb2c6'; ctx.font = '12px ui-monospace, monospace';
   ctx.fillText('₹ ' + fmt(max,0), 10, 18); ctx.fillText('₹ ' + fmt(min,0), 10, h-10);
 }
-
 function updateHero(){
   const tf = document.getElementById('timeframeSelect').value;
-  const data = generateSeries(activeSymbol, tf, activeRegime);
+  const ohlc = generateOHLC(activeSymbol, tf, activeRegime);
+  const data = ohlc.map(x=>x.close);
   const first = data[0], last = data[data.length-1], chg = ((last-first)/first)*100;
   document.getElementById('heroPrice').textContent = '₹ ' + fmt(last,2);
   const move = document.getElementById('heroMove'); move.textContent = percent(chg); move.className = 'badge ' + (chg>=0?'up':'down');
-  document.getElementById('heroRegime').textContent = 'Regime · ' + activeRegime;
-  drawLineChart(document.getElementById('priceCanvas'), data, chg>=0 ? '#37d67a' : '#ff6b7a');
-  const momentum = ((last - data[data.length-6]) / data[data.length-6])*100;
+  document.getElementById('heroRegime').textContent = 'Regime · ' + activeRegime + ' · ' + activeChartMode;
+  drawPriceChart(document.getElementById('priceCanvas'), ohlc, activeChartMode);
+  const latest = ohlc.at(-1);
+  document.getElementById('ohlcOpen').textContent = '₹ ' + fmt(latest.open,2);
+  document.getElementById('ohlcHigh').textContent = '₹ ' + fmt(latest.high,2);
+  document.getElementById('ohlcLow').textContent = '₹ ' + fmt(latest.low,2);
+  document.getElementById('ohlcClose').textContent = '₹ ' + fmt(latest.close,2);
+  const momentum = ((last - data[Math.max(0,data.length-6)]) / data[Math.max(0,data.length-6)])*100;
   document.getElementById('breadthVal').textContent = `${Math.round(52 + Math.abs(momentum)*6 + (activeRegime==='trend'?9:0))}%`;
   document.getElementById('momentumVal').textContent = `${momentum>=0?'+':''}${(momentum/2.1).toFixed(2)}σ`;
   document.getElementById('tempVal').textContent = (activeRegime==='volatile'?18.9:activeRegime==='calm'?11.7:14.8).toFixed(1);
@@ -639,6 +744,78 @@ function refreshOptions(){
   renderOptionStats(); drawPayoff(); drawIVSmile(); renderScenarioMatrix(); renderChain();
 }
 
+
+function runBacktest(){
+  const p = getOptionInputs();
+  const strategy = document.getElementById('strategySelect').value;
+  const horizon = Number(document.getElementById('btHorizon').value);
+  const paths = Number(document.getElementById('btPaths').value);
+  const ivShock = Number(document.getElementById('btVolShock').value);
+  const driftBias = Number(document.getElementById('btDriftBias').value);
+  const sigma = Math.max(0.05, p.sigma * (1 + ivShock));
+  const results = [];
+  let equity = [0];
+  for(let i=0;i<paths;i++){
+    let S = p.S;
+    for(let d=0; d<horizon; d++){
+      const dailyVol = sigma/Math.sqrt(252);
+      const shock = seededNormal((p.S+p.K)*0.01 + i*37 + d*11);
+      S *= 1 + driftBias + shock*dailyVol;
+    }
+    const pnl = optionPayoff(strategy,p,S) * p.qty;
+    results.push(pnl);
+  }
+  results.sort((a,b)=>a-b);
+  let running = 0;
+  const eqCurve = results.map(v=> running += v/paths);
+  const avg = results.reduce((a,b)=>a+b,0)/results.length;
+  const wins = results.filter(x=>x>0).length / results.length * 100;
+  const median = results[Math.floor(results.length/2)];
+  const p5 = results[Math.floor(results.length*0.05)];
+  const p95 = results[Math.floor(results.length*0.95)];
+  const maxLoss = results[0];
+  const maxGain = results.at(-1);
+  document.getElementById('backtestStats').innerHTML = [
+    ['Avg P/L','₹ ' + fmt(avg,0)],
+    ['Win Rate', wins.toFixed(1) + '%'],
+    ['Median','₹ ' + fmt(median,0)],
+    ['P5','₹ ' + fmt(p5,0)],
+    ['P95','₹ ' + fmt(p95,0)]
+  ].map(([a,b])=>`<div class="statbox"><div class="a">${a}</div><div class="b ${String(b).includes('-')?'down':'up'}">${b}</div></div>`).join('');
+  document.getElementById('backtestMatrix').innerHTML = [
+    ['Max Gain', maxGain], ['Max Loss', maxLoss], ['Horizon', horizon + ' days'], ['Paths', paths], ['Vol Regime', (ivShock>0?'Expansion':ivShock<0?'Crush':'Base')], ['Drift', driftBias>0?'Bull tilt':driftBias<0?'Bear tilt':'Neutral']
+  ].map(([a,b])=>`<div class="m"><div class="a">${a}</div><div class="v mono ${typeof b==='number'?(b>=0?'up':'down'):''}">${typeof b==='number'?'₹ ' + fmt(b,0):b}</div></div>`).join('');
+  drawBacktest(results, eqCurve);
+}
+function drawBacktest(results, eqCurve){
+  const canvas = document.getElementById('backtestCanvas'); const ctx = canvas.getContext('2d'); const w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  ctx.strokeStyle='rgba(255,255,255,.07)';
+  for(let i=0;i<5;i++){ const y=18+i*(h-36)/4; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+  const min = Math.min(...results, ...eqCurve), max = Math.max(...results, ...eqCurve), pad=Math.max((max-min)*0.12,50);
+  const py=v=>h-20-((v-(min-pad))/((max+pad)-(min-pad)))*(h-40);
+  const bins = 24;
+  const binMin = results[0], binMax = results.at(-1), bw = Math.max(1,(binMax-binMin)/bins);
+  const counts = Array.from({length:bins},()=>0);
+  results.forEach(v=>{
+    const idx = Math.min(bins-1, Math.max(0, Math.floor((v-binMin)/bw)));
+    counts[idx]++;
+  });
+  const maxCount = Math.max(...counts);
+  counts.forEach((c,i)=>{
+    const x = 24 + i*(w*0.48-40)/bins;
+    const barW = (w*0.48-40)/bins - 3;
+    const bh = (c/maxCount)*(h-52);
+    ctx.fillStyle = 'rgba(83,166,255,.35)';
+    ctx.fillRect(x, h-20-bh, barW, bh);
+  });
+  const x2 = i => w*0.54 + i*(w*0.42)/(Math.max(eqCurve.length-1,1));
+  ctx.strokeStyle='rgba(248,193,93,.85)'; ctx.lineWidth=2.5; ctx.beginPath();
+  eqCurve.forEach((v,i)=> i?ctx.lineTo(x2(i),py(v)):ctx.moveTo(x2(i),py(v))); ctx.stroke();
+  ctx.fillStyle='#9fb2c6'; ctx.font='12px ui-monospace, monospace';
+  ctx.fillText('Distribution', 24, 16);
+  ctx.fillText('Equity Curve', w*0.54, 16);
+}
 function saveJournal(){
   const entry = {
     id: Date.now(),
@@ -664,6 +841,7 @@ function setupEvents(){
   }));
   document.getElementById('symbolSelect').addEventListener('change', e=>{ activeSymbol = e.target.value; document.getElementById('optSymbol').value = activeSymbol; populateOptionDefaults(); updateHero(); renderWatch(); refreshOptions(); });
   document.getElementById('timeframeSelect').addEventListener('change', updateHero);
+  document.getElementById('chartModeSelect').addEventListener('change', e=>{ activeChartMode = e.target.value; updateHero(); });
   document.getElementById('reshuffleBtn').addEventListener('click', ()=>{ seriesCache={}; updateHero(); renderHeat(); renderWatch(); refreshOptions(); });
   document.querySelectorAll('[data-regime]').forEach(btn=>btn.addEventListener('click',()=>{ activeRegime = btn.dataset.regime; seriesCache={}; updateHero(); renderHeat(); renderWatch(); refreshOptions(); }));
   document.getElementById('addWatchBtn').addEventListener('click', ()=>{ if(!state.watchlist.includes(activeSymbol)){ state.watchlist.unshift(activeSymbol); saveLS('offline_watchlist', state.watchlist); renderWatch(); } });
@@ -671,14 +849,16 @@ function setupEvents(){
   document.getElementById('watchList').addEventListener('click', e=>{ const sym = e.target.dataset.remove; if(sym){ state.watchlist = state.watchlist.filter(x=>x!==sym); saveLS('offline_watchlist', state.watchlist); renderWatch(); } });
   document.getElementById('optSymbol').addEventListener('change', populateOptionDefaults);
   ['optType','strategySelect','expiryDays','spotInput','strikeInput','premiumInput','ivInput','rateInput','lotInput','scenarioMove'].forEach(id=>document.getElementById(id).addEventListener('input', refreshOptions));
-  document.getElementById('recalcOptions').addEventListener('click', refreshOptions);
+  document.getElementById('recalcOptions').addEventListener('click', ()=>{ refreshOptions(); runBacktest(); });
   document.getElementById('moveRange').addEventListener('input', ()=>{ document.getElementById('scenarioMove').value = document.getElementById('moveRange').value; drawPayoff(); renderScenarioMatrix(); });
   document.getElementById('scenarioMove').addEventListener('input', ()=>{ document.getElementById('moveRange').value = document.getElementById('scenarioMove').value; drawPayoff(); renderScenarioMatrix(); });
   document.getElementById('saveNoteBtn').addEventListener('click', saveJournal);
   document.getElementById('clearNotesBtn').addEventListener('click', ()=>{ state.notes=[]; saveLS('offline_notes', state.notes); renderNotes(); });
+  ['btHorizon','btPaths','btVolShock','btDriftBias'].forEach(id=>document.getElementById(id).addEventListener('input', runBacktest));
+  document.getElementById('runBacktestBtn').addEventListener('click', runBacktest);
 }
 
-populateSelects(); updateClock(); setInterval(updateClock,1000); setupEvents(); renderHeat(); updateHero(); renderWatch(); populateOptionDefaults(); refreshOptions(); renderNotes();
+populateSelects(); updateClock(); setInterval(updateClock,1000); setupEvents(); renderHeat(); updateHero(); renderWatch(); populateOptionDefaults(); refreshOptions(); runBacktest(); renderNotes();
 </script>
 </body>
 </html>
