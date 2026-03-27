@@ -1,166 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ipaint Stocks — Premium Offline Terminal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ipaint Stocks — Quantum Terminal</title>
 <style>
 :root{
-  --bg:#03070c;
-  --bg2:#08111a;
-  --panel:#0b141d;
-  --panel2:#111b27;
-  --card:#0c151f;
-  --muted:#8aa0b7;
-  --text:#edf6ff;
-  --line:#1a2b3d;
-  --line2:#22394f;
-  --gold:#f8c15d;
-  --green:#2ee58d;
-  --red:#ff6b7a;
-  --blue:#53a6ff;
-  --cyan:#59efe8;
-  --violet:#bc8cff;
-  --ink:#02060a;
-  --shadow:0 24px 80px rgba(0,0,0,.42);
+  --bg:#03060a;
+  --bg2:#09121a;
+  --panel:#0b121a;
+  --panel2:#101a25;
+  --panel3:#142334;
+  --text:#eaf3ff;
+  --muted:#8da2b8;
+  --line:rgba(137,170,204,.16);
+  --line2:rgba(255,255,255,.06);
+  --gold:#f1c46d;
+  --green:#36e6a0;
+  --red:#ff7070;
+  --blue:#6cb3ff;
+  --cyan:#6af6ff;
+  --violet:#b997ff;
+  --shadow:0 30px 100px rgba(0,0,0,.40);
+  --radius:24px;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:radial-gradient(circle at top right,#0f2235 0,#061019 32%,#03070c 72%,#010305 100%);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(24,44,63,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(24,44,63,.18) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;opacity:.32}
-body:after{content:"";position:fixed;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.018) 0,rgba(255,255,255,.018) 1px,transparent 2px,transparent 4px);mix-blend-mode:soft-light;pointer-events:none;opacity:.14}
-button,input,select,textarea{font:inherit}
-.container{max-width:1500px;margin:0 auto;padding:20px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;background:linear-gradient(180deg,rgba(5,10,16,.92),rgba(10,18,27,.78));backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.06);border-radius:22px;position:sticky;top:10px;z-index:20;box-shadow:var(--shadow)}
-.brand h1{margin:0;font-size:22px;letter-spacing:.02em}
-.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}
-.brand .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02);font-size:11px;color:var(--gold);margin-top:8px}
-.topbar-right{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-.mini{min-width:160px;padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line)}
-.mini .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
-.mini .v{font-size:20px;font-weight:700;margin-top:4px}
+html,body{margin:0;height:100%;background:
+radial-gradient(circle at 20% 0%,rgba(58,104,169,.18),transparent 26%),
+radial-gradient(circle at 80% 0%,rgba(199,156,77,.13),transparent 28%),
+linear-gradient(180deg,#071018 0%,#04080d 55%,#020407 100%);
+color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(98,126,154,.10) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(98,126,154,.10) 1px,transparent 1px);
+  background-size:28px 28px;opacity:.14
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,.018) 1px,transparent 2px,transparent 4px);
+  mix-blend-mode:soft-light;opacity:.12
+}
+.container{max-width:1540px;margin:0 auto;padding:20px 20px 42px}
+.topbar{
+  position:sticky;top:10px;z-index:30;margin-bottom:16px;padding:18px 20px;
+  display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;
+  border:1px solid var(--line2);border-radius:28px;
+  background:linear-gradient(180deg,rgba(11,17,24,.92),rgba(10,18,28,.78));
+  backdrop-filter: blur(22px) saturate(140%);
+  box-shadow:var(--shadow)
+}
+.brand h1{margin:0;font-size:24px;letter-spacing:.02em}
+.brand p{margin:5px 0 0;color:var(--muted)}
+.brandline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;border-radius:999px;
+  padding:6px 11px;border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  color:#d9e9fa;font-size:12px
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 18px var(--green)}
+.pillnum{color:var(--gold);font-weight:700}
+.miniwrap{display:flex;gap:10px;flex-wrap:wrap}
+.mini{
+  min-width:170px;padding:12px 14px;border-radius:18px;border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)
+}
+.mini .k{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+.mini .v{font-size:22px;font-weight:800;margin-top:4px}
 .mini .s{font-size:12px;margin-top:4px}
 .up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--gold)}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 20px}
-.tab{padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--muted);cursor:pointer;transition:.18s}
-.tab.active,.tab:hover{color:var(--text);border-color:#36516a;background:rgba(94,168,255,.08)}
+
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+.tab{
+  padding:12px 15px;border-radius:999px;border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+  color:var(--muted);cursor:pointer;transition:.2s
+}
+.tab:hover,.tab.active{color:var(--text);border-color:rgba(132,173,219,.42);background:rgba(108,179,255,.10)}
+.panel{display:none}
+.panel.active{display:block}
 .grid{display:grid;gap:18px}
-.g-hero{grid-template-columns:1.35fr .95fr}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;position:relative}.card:before{content:'';position:absolute;inset:0;border-radius:22px;padding:1px;background:linear-gradient(135deg,rgba(248,193,93,.18),rgba(83,166,255,.12),rgba(89,239,232,.08));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.card-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.05)}
-.card-h h2,.card-h h3{margin:0;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#cfe0f0}
+.g-2{grid-template-columns:1.3fr .95fr}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-4{grid-template-columns:repeat(4,1fr)}
+.card{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--line);background:
+    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+  box-shadow:var(--shadow)
+}
+.card::before{
+  content:"";position:absolute;inset:0;padding:1px;border-radius:var(--radius);
+  background:linear-gradient(135deg,rgba(241,196,109,.18),rgba(108,179,255,.16),rgba(106,246,255,.10));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none
+}
+.card-h{
+  padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap
+}
+.card-h h2,.card-h h3{
+  margin:0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#d7e7f7
+}
 .card-h .sub{font-size:12px;color:var(--muted)}
 .card-b{padding:18px}
-.row{display:flex;gap:12px;flex-wrap:wrap}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
-.kpi{padding:16px;border-radius:18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
+.hero{min-height:520px}
+.controls{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.field label{
+  display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:7px
+}
+.field input,.field select,.field textarea{
+  width:100%;border:none;outline:none;color:var(--text);border-radius:16px;padding:12px 13px;
+  background:linear-gradient(180deg,#0c1420,#0a121b);border:1px solid rgba(255,255,255,.06);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03)
+}
+.field textarea{min-height:90px;resize:vertical}
+.btn{
+  border:none;border-radius:16px;padding:12px 14px;cursor:pointer;font-weight:700;color:#081018;
+  background:linear-gradient(180deg,#f1c46d,#dca84a);box-shadow:0 10px 30px rgba(241,196,109,.22)
+}
+.btn.secondary{background:linear-gradient(180deg,#6cb3ff,#3c85d4);color:white;box-shadow:0 10px 30px rgba(108,179,255,.18)}
+.btn.ghost{
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  color:var(--text);border:1px solid var(--line);box-shadow:none
+}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{
+  padding:16px;border-radius:18px;border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015))
+}
 .kpi .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
-.kpi .value{font-size:26px;font-weight:800;margin-top:8px}
-.kpi .meta{font-size:12px;color:var(--muted);margin-top:4px}
-#priceCanvas,#payoffCanvas,#ivCanvas,#radarCanvas,#backtestCanvas{width:100%;display:block;background:radial-gradient(circle at top,rgba(83,166,255,.08),transparent 35%),linear-gradient(180deg,rgba(255,255,255,.02),transparent);border-radius:18px;border:1px solid rgba(255,255,255,.04)}
-#priceCanvas{height:360px}
-#payoffCanvas{height:320px}
-#ivCanvas{height:180px}
-#radarCanvas{height:280px}
-#backtestCanvas{height:260px}
-.toolbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.left-tools,.right-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.select,input[type="number"],textarea{background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:10px 12px;outline:none}
- textarea{width:100%;min-height:120px;resize:vertical}
- .btn{background:linear-gradient(180deg,#173149,#112536);color:var(--text);border:1px solid #315172;border-radius:14px;padding:10px 14px;cursor:pointer;transition:.18s}
- .btn:hover{transform:translateY(-1px);border-color:#4f7da9}
- .btn.ghost{background:rgba(255,255,255,.02);border-color:var(--line);color:var(--muted)}
- .btn.gold{background:linear-gradient(180deg,#f8c15d,#b7862d);color:#081018;border:none}
- .stack{display:grid;gap:14px}
- .story{padding:16px 18px;border-radius:18px;background:linear-gradient(180deg,rgba(77,224,224,.08),rgba(77,224,224,.02));border:1px solid rgba(77,224,224,.18)}
- .story strong{color:var(--cyan)}
- .meter{height:10px;border-radius:999px;background:#112130;overflow:hidden;border:1px solid rgba(255,255,255,.04)}
- .meter > span{display:block;height:100%;border-radius:999px}
- .signal-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-weight:700;font-size:12px}
- .signal-bull{background:rgba(55,214,122,.12);color:var(--green);border:1px solid rgba(55,214,122,.26)}
- .signal-bear{background:rgba(255,107,122,.12);color:var(--red);border:1px solid rgba(255,107,122,.26)}
- .signal-neutral{background:rgba(248,193,93,.12);color:var(--gold);border:1px solid rgba(248,193,93,.26)}
- .heatgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
- .heat{padding:12px;border-radius:16px;min-height:88px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(255,255,255,.05)}
- .heat .name{font-size:12px;font-weight:700}
- .heat .chg{font-size:22px;font-weight:800}
- .watch{display:grid;gap:8px}
- .watch-row,.chain-row{display:grid;gap:8px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.05)}
- .watch-row{grid-template-columns:1.2fr .7fr .6fr .8fr .9fr auto}
- .chain-row{grid-template-columns:1fr 1fr .9fr .9fr .9fr .9fr .9fr .9fr; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px}
- .muted{color:var(--muted)}
- .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
- .two{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
- .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
- .options-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
- .statline{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
- .statbox{padding:14px;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
- .statbox .a{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
- .statbox .b{font-size:22px;font-weight:800;margin-top:6px}
- .matrix{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
- .matrix .m{padding:14px;border-radius:18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
- .matrix .v{font-size:22px;font-weight:800;margin:6px 0}
- .journal-list{display:grid;gap:10px}
- .journal-item{padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02)}
- .hidden{display:none!important}
- .footer-note{font-size:12px;color:var(--muted);margin-top:14px}
- .badge{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.02);border:1px solid var(--line);font-size:12px;color:var(--muted)}
- .slider-wrap{display:grid;gap:8px}
- input[type="range"]{width:100%}
- @media (max-width:1100px){.g-hero,.two,.options-controls{grid-template-columns:1fr}.kpis,.statline{grid-template-columns:repeat(2,1fr)}.heatgrid{grid-template-columns:repeat(2,1fr)}.watch-row{grid-template-columns:1.2fr .8fr .7fr .9fr auto}.chain-row{grid-template-columns:repeat(4,1fr)}}
- 
- .terminal-label{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-size:11px}
- .glow{box-shadow:0 0 0 1px rgba(83,166,255,.12),0 0 24px rgba(83,166,255,.08)}
- .chart-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
- .chart-stat{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
- .chart-stat .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
- .chart-stat .v{font-weight:800;font-size:18px;margin-top:6px}
- .backtest-controls{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
- .backtest-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
- @media (max-width:1100px){.backtest-controls,.backtest-grid,.chart-meta{grid-template-columns:1fr 1fr}}
- @media (max-width:720px){.backtest-controls,.backtest-grid,.chart-meta{grid-template-columns:1fr}}
-
- 
- .alpha-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
- .alpha-side{display:grid;gap:18px}
- .ultra-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
- .ultra-card{padding:16px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border:1px solid rgba(255,255,255,.05);position:relative;overflow:hidden}
- .ultra-card:after{content:'';position:absolute;inset:auto -20% -60% auto;width:140px;height:140px;background:radial-gradient(circle,rgba(89,239,232,.16),transparent 68%);pointer-events:none}
- .ultra-card .t{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em}
- .ultra-card .n{font-size:28px;font-weight:900;margin-top:6px}
- .ultra-card .d{font-size:12px;color:var(--muted);margin-top:4px}
- #gravityCanvas,#futureCanvas,#warpCanvas{width:100%;display:block;background:radial-gradient(circle at top,rgba(248,193,93,.08),transparent 35%),linear-gradient(180deg,rgba(255,255,255,.02),transparent);border-radius:18px;border:1px solid rgba(255,255,255,.04)}
- #gravityCanvas{height:320px}
- #futureCanvas{height:260px}
- #warpCanvas{height:180px}
- .decision-list{display:grid;gap:10px}
- .decision-item{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
- .decision-item .name{font-weight:700}
- .decision-item .desc{font-size:12px;color:var(--muted);margin-top:4px}
- .decision-item .score{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800}
- .future-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
- .future-card{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
- .future-card .h{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
- .future-card .v{font-size:20px;font-weight:800;margin-top:6px}
- .future-card .p{font-size:12px;margin-top:4px}
- .insight-box{padding:16px 18px;border-radius:18px;background:linear-gradient(180deg,rgba(188,140,255,.09),rgba(188,140,255,.02));border:1px solid rgba(188,140,255,.18)}
- @media (max-width:1100px){.alpha-grid,.ultra-grid,.future-cards{grid-template-columns:1fr 1fr}}
- @media (max-width:720px){.alpha-grid,.ultra-grid,.future-cards{grid-template-columns:1fr}}
-
- @media (max-width:720px){.container{padding:12px}.topbar{display:block}.topbar-right{margin-top:12px}.mini{min-width:unset;flex:1}.kpis,.statline,.three,.matrix{grid-template-columns:1fr}.heatgrid{grid-template-columns:1fr}.watch-row,.chain-row{grid-template-columns:1fr 1fr}.tabs{position:sticky;top:92px;z-index:10;background:linear-gradient(180deg,rgba(7,16,24,.96),rgba(7,16,24,.8));padding:8px 0}}
+.kpi .value{font-size:28px;font-weight:800;margin-top:8px}
+.kpi .hint{font-size:12px;color:var(--muted);margin-top:4px}
+canvas{
+  width:100%;display:block;border-radius:18px;background:
+  linear-gradient(180deg,rgba(4,10,16,.75),rgba(8,14,22,.9));
+  border:1px solid rgba(255,255,255,.04)
+}
+.stack{display:grid;gap:12px}
+.metricline{
+  display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px
+}
+.bar{
+  height:10px;border-radius:999px;background:#0d1520;border:1px solid rgba(255,255,255,.04);overflow:hidden
+}
+.bar span{
+  display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--cyan))
+}
+.tablewrap{overflow:auto;border-radius:18px;border:1px solid rgba(255,255,255,.06)}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{padding:12px 12px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);background:rgba(255,255,255,.03)}
+tr:hover td{background:rgba(255,255,255,.02)}
+.badge{
+  display:inline-flex;padding:5px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line);background:rgba(255,255,255,.04)
+}
+.watchlist{display:grid;gap:10px}
+.watch{
+  display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 14px;border-radius:18px;
+  border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015))
+}
+.watch .sym{font-weight:800;font-size:16px}
+.small{font-size:12px;color:var(--muted)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.glass{
+  padding:14px;border-radius:18px;border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015))
+}
+.alpha-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.alpha-card{
+  padding:14px;border-radius:18px;border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015))
+}
+.alpha-card .t{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.alpha-card .v{font-size:24px;font-weight:800;margin-top:8px}
+.alpha-card .s{font-size:12px;margin-top:6px;color:var(--muted)}
+.reality-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.reality{
+  padding:16px;border-radius:18px;border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015))
+}
+.reality h4{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.12em}
+.reality .price{font-size:28px;font-weight:800}
+.reality .return{margin-top:4px;font-size:13px}
+.signal-list{display:grid;gap:12px}
+.signal{
+  padding:14px;border-radius:18px;border:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:12px;align-items:center;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015))
+}
+.signal strong{display:block}
+.terminal-note{
+  padding:14px 16px;border-radius:18px;border:1px dashed rgba(241,196,109,.34);
+  background:linear-gradient(180deg,rgba(241,196,109,.07),rgba(241,196,109,.02));color:#ffe4b2
+}
+.trade-row{
+  padding:14px;border-radius:18px;border:1px solid var(--line);margin-bottom:12px;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015))
+}
+.footerline{margin-top:18px;color:var(--muted);font-size:12px;text-align:center}
+@media (max-width:1200px){
+  .g-2,.g-3,.g-4,.split,.reality-grid,.alpha-grid,.controls{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .g-2,.g-3,.g-4,.split,.reality-grid,.alpha-grid,.controls,.kpis{grid-template-columns:1fr}
+  .mini{min-width:unset}
+}
 </style>
 </head>
 <body>
 <div class="container">
   <div class="topbar">
     <div class="brand">
-      <h1>ipaint Stocks <span style="color:var(--gold)">Premium Offline Terminal</span></h1>
-      <p>Premium India-first market terminal with offline simulation, candlestick analytics, options intelligence, backtesting.</p>
-      <div class="chip">No APIs · No external data dependency · Browser-only analytics</div>
+      <div class="brandline">
+        <h1>ipaint Stocks</h1>
+        <span class="chip"><span class="dot"></span> Offline Quantum Terminal</span>
+        <span class="chip">India-first <span class="pillnum">NSE / BSE style</span></span>
+      </div>
+      <p>Premium browser-only stock tracker, candlestick engine, options lab, Alpha OS, and strategy backtester. No APIs required.</p>
     </div>
-    <div class="topbar-right">
-      <div class="mini"><div class="k">Mode</div><div class="v">Offline</div><div class="s">Local synthetic engine</div></div>
-      <div class="mini"><div class="k">Market Clock</div><div class="v mono" id="clock">09:15:00</div><div class="s">Asia/Kolkata</div></div>
-      <div class="mini"><div class="k">Session</div><div class="v" id="sessionState">Pre-open</div><div class="s" id="sessionMeta">Local time aware</div></div>
+    <div class="miniwrap">
+      <div class="mini"><div class="k">Regime</div><div class="v" id="miniRegime">Balanced</div><div class="s" id="miniVol">Volatility 17.2%</div></div>
+      <div class="mini"><div class="k">Active Symbol</div><div class="v" id="miniSymbol">RELIANCE</div><div class="s" id="miniPrice">₹ 2,865.40</div></div>
+      <div class="mini"><div class="k">Alpha Bias</div><div class="v" id="miniBias">Constructive</div><div class="s" id="miniSignal">Flow loop normal</div></div>
     </div>
   </div>
 
@@ -169,962 +235,984 @@ button,input,select,textarea{font:inherit}
     <button class="tab" data-tab="radar">Stock Radar</button>
     <button class="tab" data-tab="options">Options Lab</button>
     <button class="tab" data-tab="alpha">Alpha OS</button>
+    <button class="tab" data-tab="backtest">Backtester</button>
     <button class="tab" data-tab="journal">Trade Journal</button>
   </div>
 
-  <section class="tab-panel" id="tab-pulse">
-    <div class="grid g-hero">
+  <section class="panel active" id="tab-pulse">
+    <div class="grid g-2">
+      <div class="card hero">
+        <div class="card-h">
+          <div><h2>Pulseboard</h2><div class="sub">Offline candlestick engine with market regime synthesis</div></div>
+          <div class="row">
+            <button class="btn ghost" id="regenSeriesBtn">Regenerate</button>
+            <button class="btn secondary" id="syncFromPulseBtn">Push to Options</button>
+          </div>
+        </div>
+        <div class="card-b">
+          <div class="controls">
+            <div class="field"><label>Symbol</label><select id="symbolSelect"></select></div>
+            <div class="field"><label>Timeframe</label><select id="timeframeSelect">
+              <option value="1D">1D</option><option value="1W">1W</option><option value="1M" selected>1M</option>
+              <option value="3M">3M</option><option value="1Y">1Y</option></select></div>
+            <div class="field"><label>Market Regime</label><select id="regimeSelect">
+              <option value="balanced">Balanced</option><option value="bull">Bull Expansion</option>
+              <option value="bear">Bear Stress</option><option value="gamma">Gamma Pin</option>
+              <option value="event">Event Volatility</option></select></div>
+            <div class="field"><label>Seed Offset</label><input type="number" id="seedOffset" value="0"></div>
+            <div class="field"><label>Auto Noise</label><select id="noiseSelect"><option value="1">Normal</option><option value="0.6">Smooth</option><option value="1.5">High</option></select></div>
+            <div class="field"><label>Action</label><button class="btn" id="applyMarketBtn">Apply Market State</button></div>
+          </div>
+          <div style="margin-top:16px"><canvas id="candlesCanvas" height="350"></canvas></div>
+          <div class="kpis" style="margin-top:16px">
+            <div class="kpi"><div class="label">Last Price</div><div class="value" id="kpiPrice">₹ 0</div><div class="hint" id="kpiMove">0%</div></div>
+            <div class="kpi"><div class="label">ATR Proxy</div><div class="value" id="kpiAtr">0</div><div class="hint">Offline realized range engine</div></div>
+            <div class="kpi"><div class="label">Trend Pulse</div><div class="value" id="kpiTrend">0</div><div class="hint">Drift adjusted momentum</div></div>
+            <div class="kpi"><div class="label">Volume Aura</div><div class="value" id="kpiVol">0</div><div class="hint">Synthetic liquidity signature</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="card">
+          <div class="card-h"><div><h3>Market Microscope</h3><div class="sub">Structure, breadth and volatility pulse</div></div></div>
+          <div class="card-b">
+            <div class="metricline"><span>Breadth</span><strong id="breadthValue">52</strong></div>
+            <div class="bar"><span id="breadthBar" style="width:52%"></span></div>
+            <div class="metricline" style="margin-top:14px"><span>Fragility</span><strong id="fragilityValue">38</strong></div>
+            <div class="bar"><span id="fragilityBar" style="width:38%;background:linear-gradient(90deg,var(--gold),var(--red))"></span></div>
+            <div class="metricline" style="margin-top:14px"><span>Pin Risk</span><strong id="pinValue">44</strong></div>
+            <div class="bar"><span id="pinBar" style="width:44%;background:linear-gradient(90deg,var(--violet),var(--cyan))"></span></div>
+            <div class="metricline" style="margin-top:14px"><span>Reflexivity</span><strong id="reflexValue">49</strong></div>
+            <div class="bar"><span id="reflexBar" style="width:49%;background:linear-gradient(90deg,var(--blue),var(--violet))"></span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-h"><div><h3>Insight Feed</h3><div class="sub">Auto-generated from the active market state</div></div></div>
+          <div class="card-b">
+            <div class="signal-list" id="insightFeed"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-h"><div><h3>Quick Launch</h3><div class="sub">Move through the terminal fast</div></div></div>
+          <div class="card-b">
+            <div class="row">
+              <button class="btn ghost jump-tab" data-jump="options">Open Options Lab</button>
+              <button class="btn ghost jump-tab" data-jump="alpha">Launch Alpha OS</button>
+              <button class="btn ghost jump-tab" data-jump="backtest">Open Backtester</button>
+            </div>
+            <div class="terminal-note" style="margin-top:14px">The terminal is fully local. Prices, candles, options chain, scenarios, and backtests are generated in-browser from deterministic symbol seeds, so the UX remains fast and premium without external APIs.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="tab-radar">
+    <div class="grid g-2">
+      <div class="card">
+        <div class="card-h"><div><h2>Stock Radar</h2><div class="sub">Watchlist with local persistence and synthetic cross-section analytics</div></div></div>
+        <div class="card-b">
+          <div class="row" style="margin-bottom:14px">
+            <select id="watchAddSymbol" style="max-width:220px"></select>
+            <button class="btn" id="addWatchBtn">Add to Watchlist</button>
+            <button class="btn ghost" id="resetWatchBtn">Reset Defaults</button>
+          </div>
+          <div class="watchlist" id="watchlist"></div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <div class="card-h"><div><h3>Cross-Section Heat Deck</h3><div class="sub">Momentum, value pressure, convexity and squeeze</div></div></div>
+          <div class="card-b">
+            <div class="tablewrap">
+              <table id="radarTable">
+                <thead><tr><th>Symbol</th><th>Last</th><th>1M</th><th>Momentum</th><th>Squeeze</th><th>Value Pressure</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div><h3>Radar Notes</h3><div class="sub">What the watchlist is whispering</div></div></div>
+          <div class="card-b" id="radarNotes"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="tab-options">
+    <div class="grid g-2">
       <div class="card">
         <div class="card-h">
-          <div>
-            <h2>Pulseboard</h2>
-            <div class="sub">Adaptive synthetic market tape for India</div>
-          </div>
-          <div class="right-tools">
-            <select class="select" id="symbolSelect"></select>
-            <select class="select" id="timeframeSelect">
-              <option value="1D">1D</option>
-              <option value="1W" selected>1W</option>
-              <option value="1M">1M</option>
-              <option value="3M">3M</option>
-            </select>
-            <select class="select" id="chartModeSelect">
-              <option value="candles" selected>Candles</option>
-              <option value="line">Line</option>
-            </select>
-            <button class="btn ghost" id="reshuffleBtn">Reshuffle</button>
-          </div>
+          <div><h2>Options Lab</h2><div class="sub">Black-Scholes engine, Greeks, chain synthesis and strategy builder inputs</div></div>
+          <div class="row"><button class="btn ghost" id="copyToBacktesterBtn">Copy to Backtester</button></div>
         </div>
         <div class="card-b">
-          <div class="toolbar">
-            <div class="left-tools">
-              <div class="badge" id="heroPrice">₹ 0</div>
-              <div class="badge" id="heroMove">0.00%</div>
-              <div class="badge" id="heroRegime">Regime</div>
-            </div>
-            <div class="right-tools">
-              <button class="btn ghost" data-regime="calm">Calm</button>
-              <button class="btn ghost" data-regime="trend">Trend</button>
-              <button class="btn ghost" data-regime="volatile">Volatile</button>
-            </div>
+          <div class="controls">
+            <div class="field"><label>Underlying</label><input id="optS" type="number" step="0.01"></div>
+            <div class="field"><label>Strike</label><input id="optK" type="number" step="0.01"></div>
+            <div class="field"><label>Days to Expiry</label><input id="optDays" type="number" step="1" value="21"></div>
+            <div class="field"><label>Rate %</label><input id="optR" type="number" step="0.01" value="6.75"></div>
+            <div class="field"><label>IV %</label><input id="optIV" type="number" step="0.1" value="22"></div>
+            <div class="field"><label>Type</label><select id="optType"><option value="call">Call</option><option value="put">Put</option></select></div>
           </div>
-          <canvas id="priceCanvas" width="980" height="360"></canvas>
-          <div class="chart-meta">
-            <div class="chart-stat"><div class="k">Open</div><div class="v mono" id="ohlcOpen">₹ 0</div></div>
-            <div class="chart-stat"><div class="k">High</div><div class="v mono" id="ohlcHigh">₹ 0</div></div>
-            <div class="chart-stat"><div class="k">Low</div><div class="v mono" id="ohlcLow">₹ 0</div></div>
-            <div class="chart-stat"><div class="k">Close</div><div class="v mono" id="ohlcClose">₹ 0</div></div>
+          <div class="kpis" style="margin-top:16px">
+            <div class="kpi"><div class="label">Model Price</div><div class="value" id="bsPrice">₹ 0</div><div class="hint">Theoretical fair value</div></div>
+            <div class="kpi"><div class="label">Delta</div><div class="value" id="bsDelta">0</div><div class="hint">Directional sensitivity</div></div>
+            <div class="kpi"><div class="label">Theta / Day</div><div class="value" id="bsTheta">0</div><div class="hint">Time decay</div></div>
+            <div class="kpi"><div class="label">Vega</div><div class="value" id="bsVega">0</div><div class="hint">Volatility sensitivity</div></div>
           </div>
-          <div class="kpis">
-            <div class="kpi"><div class="label">Breadth</div><div class="value" id="breadthVal">67%</div><div class="meta">Advancers beating decliners</div></div>
-            <div class="kpi"><div class="label">Momentum Pulse</div><div class="value" id="momentumVal">+0.84σ</div><div class="meta">Weighted price acceleration</div></div>
-            <div class="kpi"><div class="label">Volatility Temperature</div><div class="value" id="tempVal">14.8</div><div class="meta">Low-to-medium risk regime</div></div>
-            <div class="kpi"><div class="label">Institutional Bias</div><div class="value" id="instVal">Accumulation</div><div class="meta">Local scoring only</div></div>
+          <div class="split" style="margin-top:16px">
+            <div class="glass">
+              <div class="metricline"><span>Gamma</span><strong id="bsGamma">0</strong></div>
+              <div class="metricline"><span>Rho</span><strong id="bsRho">0</strong></div>
+              <div class="metricline"><span>Intrinsic</span><strong id="bsIntrinsic">0</strong></div>
+              <div class="metricline"><span>Extrinsic</span><strong id="bsExtrinsic">0</strong></div>
+              <div class="metricline"><span>Breakeven</span><strong id="bsBep">0</strong></div>
+            </div>
+            <div class="glass">
+              <canvas id="payoffCanvas" height="220"></canvas>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="stack">
         <div class="card">
-          <div class="card-h"><div><h3>Market Story Engine</h3><div class="sub">Narrative generated from your local signal stack</div></div><span class="signal-pill signal-neutral" id="storySignal">Neutral</span></div>
+          <div class="card-h"><div><h3>IV Smile</h3><div class="sub">Synthetic local smile around active spot</div></div></div>
+          <div class="card-b"><canvas id="smileCanvas" height="220"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div><h3>Offline Options Chain</h3><div class="sub">Generated around spot with call / put richness</div></div></div>
           <div class="card-b">
-            <div class="story" id="marketStory"></div>
-            <div style="margin-top:14px">
-              <div class="muted" style="margin-bottom:8px">Confidence</div>
-              <div class="meter"><span id="storyMeter" style="width:62%;background:linear-gradient(90deg,var(--gold),var(--cyan))"></span></div>
+            <div class="tablewrap">
+              <table id="chainTable">
+                <thead><tr><th>Strike</th><th>Call</th><th>Call OI</th><th>Pin</th><th>Put OI</th><th>Put</th></tr></thead>
+                <tbody></tbody>
+              </table>
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-h"><div><h3>Sector Heatfield</h3><div class="sub">Not a boring heatmap — each tile encodes direction + pressure</div></div></div>
-          <div class="card-b"><div class="heatgrid" id="heatGrid"></div></div>
-        </div>
       </div>
     </div>
   </section>
 
-  <section class="tab-panel hidden" id="tab-radar">
-    <div class="two">
-      <div class="card">
-        <div class="card-h"><div><h2>Stock Radar</h2><div class="sub">Score-driven Indian watchlist with local persistence</div></div><div class="right-tools"><button class="btn" id="addWatchBtn">Add current symbol</button><button class="btn ghost" id="clearWatchBtn">Reset watchlist</button></div></div>
-        <div class="card-b">
-          <div class="watch" id="watchList"></div>
-          <div class="footer-note">Tip: this watchlist is stored in localStorage, so it stays on your browser without any backend.</div>
-        </div>
-      </div>
-      <div class="stack">
-        <div class="card">
-          <div class="card-h"><div><h3>Risk Radar</h3><div class="sub">Momentum, quality, crowding, trend, and mean-reversion</div></div></div>
-          <div class="card-b"><canvas id="radarCanvas" width="520" height="280"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-h"><div><h3>Signal Decomposition</h3><div class="sub">Why a stock is lighting up</div></div></div>
-          <div class="card-b" id="signalBlocks"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="tab-panel hidden" id="tab-options">
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-h"><div><h2>Options Lab</h2><div class="sub">Offline options engine with Black-Scholes pricing, Greeks, IV smile, scenario mixer, and strategy payoff</div></div><div class="badge">No APIs required</div></div>
-      <div class="card-b">
-        <div class="options-controls">
-          <select class="select" id="optSymbol"></select>
-          <select class="select" id="optType"><option value="call">Call</option><option value="put">Put</option></select>
-          <select class="select" id="strategySelect">
-            <option>Long Call</option><option>Long Put</option><option>Bull Call Spread</option><option>Bear Put Spread</option><option>Long Straddle</option><option>Iron Condor</option>
-          </select>
-          <select class="select" id="expiryDays">
-            <option value="7">7 days</option><option value="14">14 days</option><option value="30" selected>30 days</option><option value="60">60 days</option>
-          </select>
-          <input type="number" id="spotInput" placeholder="Spot" />
-          <input type="number" id="strikeInput" placeholder="Strike" step="1" />
-          <input type="number" id="premiumInput" placeholder="Premium" step="0.1" />
-          <input type="number" id="ivInput" placeholder="IV %" step="0.1" />
-          <input type="number" id="rateInput" placeholder="Rate %" step="0.1" value="7.0" />
-          <input type="number" id="lotInput" placeholder="Quantity" value="50" step="1" />
-          <input type="number" id="scenarioMove" placeholder="Scenario Move %" value="2.5" step="0.1" />
-          <button class="btn gold" id="recalcOptions">Recalculate Options Lab</button>
-        </div>
-        <div style="height:14px"></div>
-        <div class="statline" id="optionStats"></div>
-      </div>
-    </div>
-
-    <div class="two">
-      <div class="stack">
-        <div class="card">
-          <div class="card-h"><div><h3>Strategy Payoff Canvas</h3><div class="sub">Innovative payoff map with scenario markers</div></div></div>
-          <div class="card-b"><canvas id="payoffCanvas" width="900" height="320"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-h"><div><h3>Scenario Mixer</h3><div class="sub">Drag the move slider and watch EV / P&L shift instantly</div></div></div>
-          <div class="card-b">
-            <div class="slider-wrap">
-              <label class="muted">Underlying move expectation: <span class="mono" id="moveLabel">+2.5%</span></label>
-              <input type="range" id="moveRange" min="-8" max="8" step="0.1" value="2.5" />
-            </div>
-            <div style="height:14px"></div>
-            <div class="matrix" id="scenarioMatrix"></div>
-          </div>
-        </div>
-      </div>
-      <div class="stack">
-        <div class="card">
-          <div class="card-h"><div><h3>Greeks + Pricing</h3><div class="sub">Computed in browser, no feeds</div></div></div>
-          <div class="card-b"><div class="matrix" id="greekGrid"></div></div>
-        </div>
-        <div class="card">
-          <div class="card-h"><div><h3>IV Smile</h3><div class="sub">Local volatility curve around spot</div></div></div>
-          <div class="card-b"><canvas id="ivCanvas" width="520" height="180"></canvas></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:18px">
-      <div class="card-h"><div><h3>Offline Options Chain</h3><div class="sub">Synthetic chain centered around selected spot</div></div><div class="badge" id="chainAtmBadge">ATM</div></div>
-      <div class="card-b">
-        <div class="watch" id="chainRows"></div>
-      </div>
-    </div>
-  
-    <div class="card glow" style="margin-top:18px">
-      <div class="card-h"><div><h3>Options Strategy Backtester</h3><div class="sub">Offline Monte Carlo engine for strategy stress-testing under synthetic India-style volatility</div></div><div class="badge">Backtest sandbox</div></div>
-      <div class="card-b stack">
-        <div class="backtest-controls">
-          <select class="select" id="btHorizon">
-            <option value="5">5 trading days</option>
-            <option value="10">10 trading days</option>
-            <option value="20" selected>20 trading days</option>
-            <option value="30">30 trading days</option>
-          </select>
-          <select class="select" id="btPaths">
-            <option value="120">120 paths</option>
-            <option value="240" selected>240 paths</option>
-            <option value="500">500 paths</option>
-          </select>
-          <select class="select" id="btVolShock">
-            <option value="-0.15">IV Crush</option>
-            <option value="0" selected>Base IV</option>
-            <option value="0.18">IV Expansion</option>
-          </select>
-          <select class="select" id="btDriftBias">
-            <option value="-0.0008">Bear Drift</option>
-            <option value="0" selected>Neutral Drift</option>
-            <option value="0.0012">Bull Drift</option>
-          </select>
-          <button class="btn gold" id="runBacktestBtn">Run Backtest</button>
-        </div>
-        <div class="backtest-grid">
-          <div class="card" style="background:rgba(255,255,255,.015)">
-            <div class="card-b"><canvas id="backtestCanvas" width="900" height="260"></canvas></div>
-          </div>
-          <div class="stack">
-            <div class="statline" id="backtestStats"></div>
-            <div class="matrix" id="backtestMatrix"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-
-  <section class="tab-panel hidden" id="tab-alpha">
+  <section class="panel" id="tab-alpha">
     <div class="stack">
-      <div class="card glow">
-        <div class="card-h">
-          <div><h2>Alpha OS</h2><div class="sub">Five-level deeper intelligence stack: reflexivity engine, liquidity gravity, expiry warp, decision cockpit, and alternate reality paths</div></div>
-          <div class="badge">Experimental browser-native intelligence</div>
-        </div>
+      <div class="card">
+        <div class="card-h"><div><h2>Alpha OS</h2><div class="sub">Pre-trade second brain with working gravity, reality, reflexivity, expiry warp and decision layers</div></div></div>
         <div class="card-b">
-          <div class="ultra-grid" id="alphaHeadlineGrid"></div>
+          <div class="alpha-grid" id="alphaHeadlineGrid"></div>
         </div>
       </div>
-
-      <div class="alpha-grid">
-        <div class="stack">
-          <div class="card">
-            <div class="card-h"><div><h3>Liquidity Gravity Map</h3><div class="sub">Synthetic strike magnetism, dealer pin zones, and option gravity pockets around spot</div></div><div class="badge" id="gravityBadge">Spot</div></div>
-            <div class="card-b">
-              <canvas id="gravityCanvas" width="980" height="320"></canvas>
-              <div class="future-cards" id="gravityStats"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-h"><div><h3>Alternate Reality Engine</h3><div class="sub">Four possible local futures generated from the current symbol, regime, and volatility state</div></div></div>
-            <div class="card-b">
-              <canvas id="futureCanvas" width="980" height="260"></canvas>
-              <div class="future-cards" id="futureCards"></div>
-            </div>
+      <div class="grid g-2">
+        <div class="card">
+          <div class="card-h"><div><h3>Liquidity Gravity Map</h3><div class="sub">Synthetic strike magnet and pin-zone visualization</div></div></div>
+          <div class="card-b"><canvas id="gravityCanvas" height="260"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div><h3>Expiry Warp</h3><div class="sub">Time-decay bending into expiry for active option</div></div></div>
+          <div class="card-b"><canvas id="expiryWarpCanvas" height="260"></canvas></div>
+        </div>
+      </div>
+      <div class="grid g-2">
+        <div class="card">
+          <div class="card-h"><div><h3>Alternate Reality Engine</h3><div class="sub">Four local future path simulations with different volatility textures</div></div></div>
+          <div class="card-b">
+            <div class="reality-grid" id="realityGrid"></div>
+            <div style="margin-top:14px"><canvas id="realityCanvas" height="220"></canvas></div>
           </div>
         </div>
-
-        <div class="alpha-side">
-          <div class="card">
-            <div class="card-h"><div><h3>Reflexivity Engine</h3><div class="sub">Measures how price, options pressure, and crowding could loop into each other</div></div></div>
-            <div class="card-b">
-              <div class="matrix" id="reflexGrid"></div>
-            </div>
+        <div class="card">
+          <div class="card-h"><div><h3>Reflexivity Engine</h3><div class="sub">Crowding, squeeze, fragility and flow-loop signals</div></div></div>
+          <div class="card-b">
+            <div class="signal-list" id="reflexSignals"></div>
           </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h"><div><h3>Decision Cockpit</h3><div class="sub">Action-ready pre-trade framing</div></div></div>
+        <div class="card-b" id="decisionCockpit"></div>
+      </div>
+    </div>
+  </section>
 
-          <div class="card">
-            <div class="card-h"><div><h3>Expiry Warp</h3><div class="sub">A nonstandard time-decay strip showing how value can bend as expiry approaches</div></div></div>
-            <div class="card-b">
-              <canvas id="warpCanvas" width="520" height="180"></canvas>
-            </div>
+  <section class="panel" id="tab-backtest">
+    <div class="grid g-2">
+      <div class="card">
+        <div class="card-h"><div><h2>Options Strategy Backtester</h2><div class="sub">Build multi-leg expiries offline and inspect payoff geometry</div></div></div>
+        <div class="card-b">
+          <div class="controls">
+            <div class="field"><label>Spot</label><input id="btSpot" type="number" step="0.01"></div>
+            <div class="field"><label>Price Range %</label><input id="btRange" type="number" step="1" value="25"></div>
+            <div class="field"><label>Strategy Preset</label><select id="strategyPreset">
+              <option value="longcall">Long Call</option>
+              <option value="bullcall">Bull Call Spread</option>
+              <option value="straddle">Long Straddle</option>
+              <option value="ironcondor">Iron Condor</option>
+              <option value="coveredcall">Covered Call</option>
+              <option value="custom">Custom</option>
+            </select></div>
+            <div class="field"><label>Lot Size</label><input id="btLot" type="number" step="1" value="1"></div>
+            <div class="field"><label>Apply</label><button class="btn" id="loadPresetBtn">Load Preset</button></div>
+            <div class="field"><label>Refresh</label><button class="btn secondary" id="refreshBtBtn">Run Backtest</button></div>
           </div>
-
-          <div class="card">
-            <div class="card-h"><div><h3>Decision Cockpit</h3><div class="sub">Bias guardrails + setup quality checks before a trade is taken</div></div></div>
-            <div class="card-b">
-              <div class="decision-list" id="decisionBoard"></div>
-              <div style="height:12px"></div>
-              <div class="insight-box" id="decisionNarrative"></div>
+          <div style="margin-top:16px" id="legsContainer"></div>
+          <div class="row" style="margin-top:12px">
+            <button class="btn ghost" id="addLegBtn">Add Leg</button>
+          </div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <div class="card-h"><div><h3>Strategy Payoff</h3><div class="sub">Expiry P&amp;L distribution</div></div></div>
+          <div class="card-b"><canvas id="backtestCanvas" height="300"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div><h3>Strategy Diagnostics</h3><div class="sub">Breakevens and asymmetry</div></div></div>
+          <div class="card-b">
+            <div class="kpis">
+              <div class="kpi"><div class="label">Max Profit</div><div class="value" id="btMaxProfit">∞</div><div class="hint">At expiry</div></div>
+              <div class="kpi"><div class="label">Max Loss</div><div class="value" id="btMaxLoss">0</div><div class="hint">At expiry</div></div>
+              <div class="kpi"><div class="label">Breakevens</div><div class="value" id="btBep">-</div><div class="hint">Approximate points</div></div>
+              <div class="kpi"><div class="label">Convexity</div><div class="value" id="btConvexity">0</div><div class="hint">Curvature proxy</div></div>
             </div>
+            <div class="terminal-note" style="margin-top:14px">This backtester is for strategy geometry and scenario learning. It is intentionally offline and deterministic, so you can prototype structures instantly without relying on broker or exchange APIs.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="tab-panel hidden" id="tab-journal">
-    <div class="two">
+  <section class="panel" id="tab-journal">
+    <div class="grid g-2">
       <div class="card">
-        <div class="card-h"><div><h2>Trade Journal</h2><div class="sub">Save ideas, setups, rules, and post-trade review locally</div></div><button class="btn gold" id="saveNoteBtn">Save Journal Entry</button></div>
-        <div class="card-b stack">
-          <div class="three">
-            <input type="text" class="select" id="noteTitle" placeholder="Title" />
-            <select class="select" id="noteTag"><option>Swing</option><option>Scalp</option><option>Positional</option><option>Options</option><option>Observation</option></select>
-            <input type="text" class="select" id="noteSymbol" placeholder="Symbol" />
+        <div class="card-h"><div><h2>Trade Journal</h2><div class="sub">Local browser storage for hypotheses, setups and review</div></div></div>
+        <div class="card-b">
+          <div class="controls">
+            <div class="field"><label>Symbol</label><input id="jSymbol"></div>
+            <div class="field"><label>Setup</label><input id="jSetup" placeholder="Bull call spread on pin risk fade"></div>
+            <div class="field"><label>Bias</label><select id="jBias"><option>Constructive</option><option>Neutral</option><option>Cautious</option></select></div>
+            <div class="field"><label>Confidence / 100</label><input id="jConfidence" type="number" value="60"></div>
+            <div class="field" style="grid-column:span 2"><label>Reasoning</label><textarea id="jReason"></textarea></div>
           </div>
-          <textarea id="noteText" placeholder="Example: Why this setup matters, entry thesis, invalidation, size, emotional state, lessons..."></textarea>
-          <div class="footer-note">Everything is stored on this browser only. No login, no backend, no API.</div>
+          <div class="row" style="margin-top:14px">
+            <button class="btn" id="saveJournalBtn">Save Entry</button>
+            <button class="btn ghost" id="clearJournalBtn">Clear Journal</button>
+          </div>
         </div>
       </div>
       <div class="card">
-        <div class="card-h"><div><h3>Saved Entries</h3><div class="sub">Your browser-persistent notebook</div></div><button class="btn ghost" id="clearNotesBtn">Clear Notes</button></div>
-        <div class="card-b"><div class="journal-list" id="journalList"></div></div>
+        <div class="card-h"><div><h3>Entries</h3><div class="sub">Stored only on this device</div></div></div>
+        <div class="card-b" id="journalList"></div>
       </div>
     </div>
   </section>
+
+  <div class="footerline">ipaint Stocks — premium offline terminal for Indian stocks, options analytics, Alpha OS simulation, and strategy prototyping.</div>
 </div>
 
 <script>
-const INSTRUMENTS = {
-  'NIFTY 50': {base: 22850, lot: 50, beta: 0.9, sector:'Index'},
-  'BANK NIFTY': {base: 48950, lot: 30, beta: 1.15, sector:'Index'},
-  'SENSEX': {base: 75200, lot: 10, beta: 0.84, sector:'Index'},
-  'RELIANCE': {base: 2850, lot: 250, beta: 1.02, sector:'Energy'},
-  'HDFCBANK': {base: 1650, lot: 550, beta: 0.92, sector:'Banking'},
-  'TCS': {base: 3920, lot: 150, beta: 0.78, sector:'IT'},
-  'INFY': {base: 1780, lot: 300, beta: 0.88, sector:'IT'},
-  'ICICIBANK': {base: 1128, lot: 700, beta: 1.04, sector:'Banking'},
-  'SBIN': {base: 812, lot: 750, beta: 1.12, sector:'Banking'},
-  'TATAMOTORS': {base: 925, lot: 550, beta: 1.18, sector:'Auto'}
+const SYMBOLS = {
+  RELIANCE:{name:"Reliance Industries",base:2865.4,lot:250},
+  TCS:{name:"TCS",base:4172.8,lot:150},
+  INFY:{name:"Infosys",base:1692.6,lot:300},
+  HDFCBANK:{name:"HDFC Bank",base:1566.5,lot:550},
+  ICICIBANK:{name:"ICICI Bank",base:1119.2,lot:700},
+  SBIN:{name:"State Bank of India",base:778.9,lot:750},
+  LT:{name:"Larsen & Toubro",base:3868.2,lot:150},
+  BAJFINANCE:{name:"Bajaj Finance",base:7218.1,lot:125},
+  BHARTIARTL:{name:"Bharti Airtel",base:1278.4,lot:950},
+  NIFTY:{name:"NIFTY 50 proxy",base:22640.0,lot:50},
+  BANKNIFTY:{name:"BANKNIFTY proxy",base:48250.0,lot:15}
 };
-const SECTORS = ['Banking','IT','Auto','Energy','Pharma','FMCG','Metal','Infra','Realty'];
-let activeSymbol = 'NIFTY 50';
-let activeRegime = 'trend';
-let activeChartMode = 'candles';
-let seriesCache = {};
-let state = { watchlist: loadLS('offline_watchlist', ['NIFTY 50','BANK NIFTY','RELIANCE','TCS','INFY']), notes: loadLS('offline_notes', []) };
+let state = {
+  symbol:"RELIANCE",
+  timeframe:"1M",
+  regime:"balanced",
+  seedOffset:0,
+  noise:1,
+  ohlc:[],
+  watchlist: JSON.parse(localStorage.getItem('ipaint_watchlist') || '["RELIANCE","TCS","INFY","HDFCBANK","NIFTY"]'),
+  journal: JSON.parse(localStorage.getItem('ipaint_journal') || '[]')
+};
 
-function loadLS(key, fallback){ try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
-function saveLS(key, value){ localStorage.setItem(key, JSON.stringify(value)); }
-function rnd(seed){ const x = Math.sin(seed) * 10000; return x - Math.floor(x); }
-function seededNormal(seed){ const u = Math.max(rnd(seed),1e-6), v = Math.max(rnd(seed+7),1e-6); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
-function clamp(n,a,b){ return Math.max(a,Math.min(b,n)); }
+function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 function fmt(n,d=2){ return Number(n).toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d}); }
-function percent(n){ const s = n >= 0 ? '+' : ''; return `${s}${n.toFixed(2)}%`; }
-function regimeParams(regime){ return regime==='calm' ? {vol:0.004, drift:0.0005, pulse:0.5} : regime==='volatile' ? {vol:0.015, drift:0.0002, pulse:1.5} : {vol:0.008, drift:0.0009, pulse:1.0}; }
-
-function generateSeries(symbol, tf='1W', regime=activeRegime){
-  const key = `${symbol}_${tf}_${regime}`;
-  if(seriesCache[key]) return seriesCache[key];
-  const points = tf==='1D'?78:tf==='1W'?45:tf==='1M'?80:90;
-  const base = INSTRUMENTS[symbol].base;
-  const params = regimeParams(regime);
-  const arr = []; let px = base * (0.97 + rnd(base)*0.06);
-  for(let i=0;i<points;i++){
-    const cyc = Math.sin(i/7)*params.pulse*0.003;
-    const shock = seededNormal(base + i*11 + tf.length*13) * params.vol;
-    px *= 1 + params.drift + cyc + shock;
-    arr.push(px);
-  }
-  seriesCache[key] = arr;
-  return arr;
+function rup(n){ return "₹ " + fmt(n,2); }
+function seeded(n){ const x = Math.sin(n) * 10000; return x - Math.floor(x); }
+function hashString(str){
+  let h = 2166136261;
+  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h += (h<<1)+(h<<4)+(h<<7)+(h<<8)+(h<<24); }
+  return Math.abs(h>>>0);
 }
-
-function generateOHLC(symbol, tf='1W', regime=activeRegime){
-  const closes = generateSeries(symbol, tf, regime);
-  const base = INSTRUMENTS[symbol].base;
-  return closes.map((close,i)=>{
-    const prevClose = i===0 ? closes[0]*(1 + seededNormal(base*0.11)*0.002) : closes[i-1];
-    const open = prevClose * (1 + seededNormal(base + i*101)*0.0018);
-    const wickScale = Math.abs(seededNormal(base + i*173))*0.004 + (regime==='volatile'?0.004:0.0022);
-    const high = Math.max(open, close) * (1 + wickScale);
-    const low = Math.min(open, close) * (1 - wickScale*0.92);
-    return {open, high, low, close};
-  });
+function normCdf(x){
+  const t = 1 / (1 + 0.2316419 * Math.abs(x));
+  const d = 0.3989423 * Math.exp(-x*x/2);
+  let prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+  if(x > 0) prob = 1 - prob;
+  return prob;
 }
-
-function populateSelects(){
-  const symbolSelect = document.getElementById('symbolSelect');
-  const optSymbol = document.getElementById('optSymbol');
-  Object.keys(INSTRUMENTS).forEach(sym=>{
-    const a = new Option(sym, sym); symbolSelect.add(a);
-    const b = new Option(sym, sym); optSymbol.add(b);
-  });
-  symbolSelect.value = activeSymbol;
-  optSymbol.value = activeSymbol;
-}
-
-function updateClock(){
-  const now = new Date();
-  const ist = new Date(now.toLocaleString('en-US',{timeZone:'Asia/Kolkata'}));
-  const hh = String(ist.getHours()).padStart(2,'0');
-  const mm = String(ist.getMinutes()).padStart(2,'0');
-  const ss = String(ist.getSeconds()).padStart(2,'0');
-  document.getElementById('clock').textContent = `${hh}:${mm}:${ss}`;
-  const mins = ist.getHours()*60 + ist.getMinutes();
-  let stateTxt='Closed', meta='After-hours';
-  if(mins>=555 && mins<570){ stateTxt='Pre-open'; meta='Price discovery'; }
-  else if(mins>=570 && mins<=930){ stateTxt='Market Open'; meta='NSE/BSE cash session'; }
-  else if(mins>930 && mins<=960){ stateTxt='Closing'; meta='Last 30 minutes'; }
-  document.getElementById('sessionState').textContent = stateTxt;
-  document.getElementById('sessionMeta').textContent = meta;
-}
-
-
-function drawPriceChart(canvas, ohlc, mode='candles'){
-  const ctx = canvas.getContext('2d'); const w = canvas.width, h = canvas.height;
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = 'rgba(255,255,255,0.02)';
-  ctx.fillRect(0,0,w,h);
-  ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
-  for(let i=0;i<6;i++){ const y = 20 + i*(h-40)/5; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
-  const prices = ohlc.flatMap(c=>[c.low,c.high]);
-  const min = Math.min(...prices), max = Math.max(...prices), pad = (max-min)*0.1 || 1;
-  const x = i => 26 + i*(w-52)/(ohlc.length-1);
-  const y = v => h-24 - ((v-(min-pad))/((max+pad)-(min-pad)))*(h-48);
-  if(mode==='line'){
-    const data = ohlc.map(x=>x.close);
-    const chg = data.at(-1) - data[0];
-    const color1 = chg>=0 ? '#2ee58d' : '#ff6b7a';
-    const grd = ctx.createLinearGradient(0,0,0,h);
-    grd.addColorStop(0, color1 + '55'); grd.addColorStop(1, color1 + '00');
-    ctx.beginPath(); ctx.moveTo(x(0), h-24); data.forEach((v,i)=>ctx.lineTo(x(i), y(v))); ctx.lineTo(x(data.length-1),h-24); ctx.closePath(); ctx.fillStyle = grd; ctx.fill();
-    ctx.lineWidth = 2.8; ctx.strokeStyle = color1; ctx.beginPath(); data.forEach((v,i)=> i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))); ctx.stroke();
-  } else {
-    const candleWidth = Math.max(4, (w-64)/ohlc.length*0.58);
-    ohlc.forEach((c,i)=>{
-      const xi = x(i);
-      const up = c.close >= c.open;
-      ctx.strokeStyle = up ? '#2ee58d' : '#ff6b7a';
-      ctx.lineWidth = 1.2;
-      ctx.beginPath(); ctx.moveTo(xi, y(c.high)); ctx.lineTo(xi, y(c.low)); ctx.stroke();
-      const top = y(Math.max(c.open,c.close));
-      const bottom = y(Math.min(c.open,c.close));
-      const bodyH = Math.max(2, bottom-top);
-      ctx.fillStyle = up ? 'rgba(46,229,141,.9)' : 'rgba(255,107,122,.9)';
-      ctx.fillRect(xi-candleWidth/2, top, candleWidth, bodyH);
-    });
-    const trend = ohlc.map(c=>c.close);
-    ctx.strokeStyle='rgba(248,193,93,.75)'; ctx.lineWidth=1.2; ctx.setLineDash([5,4]);
-    ctx.beginPath(); trend.forEach((v,i)=> i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))); ctx.stroke(); ctx.setLineDash([]);
-  }
-  ctx.fillStyle='#9fb2c6'; ctx.font = '12px ui-monospace, monospace';
-  ctx.fillText('₹ ' + fmt(max,0), 10, 18); ctx.fillText('₹ ' + fmt(min,0), 10, h-10);
-}
-function updateHero(){
-  const tf = document.getElementById('timeframeSelect').value;
-  const ohlc = generateOHLC(activeSymbol, tf, activeRegime);
-  const data = ohlc.map(x=>x.close);
-  const first = data[0], last = data[data.length-1], chg = ((last-first)/first)*100;
-  document.getElementById('heroPrice').textContent = '₹ ' + fmt(last,2);
-  const move = document.getElementById('heroMove'); move.textContent = percent(chg); move.className = 'badge ' + (chg>=0?'up':'down');
-  document.getElementById('heroRegime').textContent = 'Regime · ' + activeRegime + ' · ' + activeChartMode;
-  drawPriceChart(document.getElementById('priceCanvas'), ohlc, activeChartMode);
-  const latest = ohlc.at(-1);
-  document.getElementById('ohlcOpen').textContent = '₹ ' + fmt(latest.open,2);
-  document.getElementById('ohlcHigh').textContent = '₹ ' + fmt(latest.high,2);
-  document.getElementById('ohlcLow').textContent = '₹ ' + fmt(latest.low,2);
-  document.getElementById('ohlcClose').textContent = '₹ ' + fmt(latest.close,2);
-  const momentum = ((last - data[Math.max(0,data.length-6)]) / data[Math.max(0,data.length-6)])*100;
-  document.getElementById('breadthVal').textContent = `${Math.round(52 + Math.abs(momentum)*6 + (activeRegime==='trend'?9:0))}%`;
-  document.getElementById('momentumVal').textContent = `${momentum>=0?'+':''}${(momentum/2.1).toFixed(2)}σ`;
-  document.getElementById('tempVal').textContent = (activeRegime==='volatile'?18.9:activeRegime==='calm'?11.7:14.8).toFixed(1);
-  document.getElementById('instVal').textContent = chg>0.8 ? 'Accumulation' : chg < -0.8 ? 'Distribution' : 'Rotation';
-  renderStory(chg,momentum,last);
-}
-
-function renderStory(chg,momentum,last){
-  let mood = 'Neutral', cls='signal-neutral', meter=58;
-  if(chg>1.2 && momentum>0.5){ mood='Bullish Pulse'; cls='signal-bull'; meter=82; }
-  if(chg<-1.1 && momentum<0){ mood='Risk-off'; cls='signal-bear'; meter=78; }
-  document.getElementById('storySignal').className = 'signal-pill ' + cls;
-  document.getElementById('storySignal').textContent = mood;
-  document.getElementById('storyMeter').style.width = meter + '%';
-  document.getElementById('marketStory').innerHTML = `<strong>${activeSymbol}</strong> is trading at <strong>₹${fmt(last,2)}</strong>. Local breadth and momentum suggest a <strong>${mood.toLowerCase()}</strong> regime. In this offline model, the market is acting like a ${activeRegime} session — meaning <strong>${activeRegime==='volatile'?'wide swings and fast premium decay repricing':activeRegime==='trend'?'follow-through candles with better directional reward':'compressed ranges and better mean-reversion entries'}</strong>. Best use: treat this as a decision sandbox for layout, logic, and interaction — then wire real feeds later if needed.`;
-}
-
-function renderHeat(){
-  const wrap = document.getElementById('heatGrid');
-  wrap.innerHTML = '';
-  SECTORS.forEach((name, idx)=>{
-    const pulse = ((seededNormal(idx*17 + activeSymbol.length*31) * 1.5) + (activeRegime==='trend'?0.7:activeRegime==='volatile'? (idx%2? -0.4 : 0.9) : 0.1));
-    const val = clamp(pulse, -2.8, 3.1);
-    const bg = val >= 0 ? `linear-gradient(180deg, rgba(55,214,122,${0.12+Math.abs(val)/18}), rgba(55,214,122,0.04))` : `linear-gradient(180deg, rgba(255,107,122,${0.12+Math.abs(val)/18}), rgba(255,107,122,0.04))`;
-    const div = document.createElement('div'); div.className='heat'; div.style.background = bg;
-    div.innerHTML = `<div class="name">${name}</div><div class="chg ${val>=0?'up':'down'}">${val>=0?'+':''}${val.toFixed(2)}%</div><div class="muted">Pressure ${(50 + Math.abs(val)*14).toFixed(0)}/100</div>`;
-    wrap.appendChild(div);
-  });
-}
-
-function scoreForSymbol(sym){
-  const data = generateSeries(sym,'1M',activeRegime); const last = data.at(-1), first = data[0];
-  const roc = ((last-first)/first)*100;
-  const short = ((last-data.at(-6))/data.at(-6))*100;
-  const quality = 55 + rnd(sym.length*33)*25;
-  const crowd = 45 + rnd(sym.length*51)*40;
-  return {
-    symbol:sym,
-    price:last,
-    change:short,
-    score: clamp(Math.round(50 + roc*2 + quality*0.4), 35, 96),
-    momentum: clamp(50 + short*15, 10, 98),
-    quality: clamp(quality, 20, 95),
-    crowding: clamp(crowd, 12, 95),
-    reversion: clamp(60 - short*12, 8, 92),
-    trend: clamp(50 + roc*8, 8, 97)
-  };
-}
-
-function renderWatch(){
-  const wrap = document.getElementById('watchList');
-  wrap.innerHTML = '';
-  [...new Set(state.watchlist)].map(scoreForSymbol).sort((a,b)=>b.score-a.score).forEach(item=>{
-    const signal = item.score>78 ? 'Breakout bias' : item.score<50 ? 'Caution' : 'Constructive';
-    const row = document.createElement('div'); row.className='watch-row';
-    row.innerHTML = `<div><div style="font-weight:800">${item.symbol}</div><div class="muted">${INSTRUMENTS[item.symbol]?.sector || 'Equity'}</div></div>
-      <div class="mono">₹ ${fmt(item.price,2)}</div>
-      <div class="mono ${item.change>=0?'up':'down'}">${percent(item.change)}</div>
-      <div><div class="meter"><span style="width:${item.score}%;background:linear-gradient(90deg,var(--blue),var(--green))"></span></div><div class="muted" style="margin-top:6px">Score ${item.score}</div></div>
-      <div class="muted">${signal}</div>
-      <button class="btn ghost" data-remove="${item.symbol}">Remove</button>`;
-    wrap.appendChild(row);
-  });
-  renderRadar();
-}
-
-function renderRadar(){
-  const best = scoreForSymbol(state.watchlist[0] || activeSymbol);
-  const labels = ['Momentum','Quality','Crowding','Trend','Reversion'];
-  const vals = [best.momentum,best.quality,best.crowding,best.trend,best.reversion];
-  const canvas = document.getElementById('radarCanvas'); const ctx = canvas.getContext('2d'); const w=canvas.width,h=canvas.height,cx=w/2,cy=h/2,r=92;
-  ctx.clearRect(0,0,w,h);
-  ctx.font='12px sans-serif'; ctx.strokeStyle='rgba(255,255,255,.09)'; ctx.fillStyle='#8ca3b9';
-  for(let lv=1;lv<=5;lv++){
-    ctx.beginPath();
-    for(let i=0;i<labels.length;i++){
-      const ang = -Math.PI/2 + i*2*Math.PI/labels.length;
-      const rr = r*lv/5; const x = cx + Math.cos(ang)*rr; const y = cy + Math.sin(ang)*rr;
-      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-    }
-    ctx.closePath(); ctx.stroke();
-  }
-  labels.forEach((lab,i)=>{
-    const ang = -Math.PI/2 + i*2*Math.PI/labels.length;
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(ang)*r, cy+Math.sin(ang)*r); ctx.stroke();
-    ctx.fillText(lab, cx+Math.cos(ang)*(r+24)-18, cy+Math.sin(ang)*(r+24));
-  });
-  ctx.beginPath();
-  vals.forEach((v,i)=>{ const ang=-Math.PI/2+i*2*Math.PI/labels.length; const rr=r*v/100; const x=cx+Math.cos(ang)*rr; const y=cy+Math.sin(ang)*rr; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
-  ctx.closePath(); ctx.fillStyle='rgba(94,168,255,.22)'; ctx.strokeStyle='#5ea8ff'; ctx.lineWidth=2; ctx.fill(); ctx.stroke();
-  document.getElementById('signalBlocks').innerHTML = labels.map((lab,i)=>`<div class="statbox"><div class="a">${lab}</div><div class="b">${vals[i].toFixed(0)}</div><div class="meter"><span style="width:${vals[i]}%;background:linear-gradient(90deg,var(--gold),var(--violet))"></span></div></div>`).join('');
-}
-
-function erf(x){ const sign = x >= 0 ? 1 : -1; x = Math.abs(x); const a1=.254829592,a2=-.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=.3275911; const t=1/(1+p*x); const y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x); return sign*y; }
-function normCdf(x){ return 0.5*(1+erf(x/Math.sqrt(2))); }
 function normPdf(x){ return Math.exp(-0.5*x*x)/Math.sqrt(2*Math.PI); }
-function blackScholes({S,K,T,r,sigma,type}){
-  sigma = Math.max(sigma, 0.0001); T = Math.max(T, 1/365);
-  const d1 = (Math.log(S/K) + (r + 0.5*sigma*sigma)*T) / (sigma*Math.sqrt(T));
+function blackScholes(S,K,T,r,sigma,type){
+  if(T<=0 || sigma<=0 || S<=0 || K<=0){
+    const intrinsic = type==='call' ? Math.max(S-K,0) : Math.max(K-S,0);
+    return {price:intrinsic,delta:0,gamma:0,theta:0,vega:0,rho:0};
+  }
+  const d1 = (Math.log(S/K)+(r+sigma*sigma/2)*T)/(sigma*Math.sqrt(T));
   const d2 = d1 - sigma*Math.sqrt(T);
-  const call = S*normCdf(d1) - K*Math.exp(-r*T)*normCdf(d2);
-  const put = K*Math.exp(-r*T)*normCdf(-d2) - S*normCdf(-d1);
-  const price = type==='call' ? call : put;
-  const delta = type==='call' ? normCdf(d1) : normCdf(d1)-1;
+  let price, delta, rho;
+  if(type==='call'){
+    price = S*normCdf(d1)-K*Math.exp(-r*T)*normCdf(d2);
+    delta = normCdf(d1);
+    rho = K*T*Math.exp(-r*T)*normCdf(d2)/100;
+  }else{
+    price = K*Math.exp(-r*T)*normCdf(-d2)-S*normCdf(-d1);
+    delta = normCdf(d1)-1;
+    rho = -K*T*Math.exp(-r*T)*normCdf(-d2)/100;
+  }
   const gamma = normPdf(d1)/(S*sigma*Math.sqrt(T));
   const vega = S*normPdf(d1)*Math.sqrt(T)/100;
-  const thetaCall = (-(S*normPdf(d1)*sigma)/(2*Math.sqrt(T)) - r*K*Math.exp(-r*T)*normCdf(d2))/365;
-  const thetaPut = (-(S*normPdf(d1)*sigma)/(2*Math.sqrt(T)) + r*K*Math.exp(-r*T)*normCdf(-d2))/365;
-  const rho = (type==='call' ? K*T*Math.exp(-r*T)*normCdf(d2) : -K*T*Math.exp(-r*T)*normCdf(-d2))/100;
-  return {price, delta, gamma, vega, theta:type==='call'?thetaCall:thetaPut, rho, d1, d2};
+  const theta = (-(S*normPdf(d1)*sigma)/(2*Math.sqrt(T)) - (type==='call' ? r*K*Math.exp(-r*T)*normCdf(d2) : -r*K*Math.exp(-r*T)*normCdf(-d2)))/365;
+  return {price,delta,gamma,theta,vega,rho,d1,d2};
 }
-
-function populateOptionDefaults(){
-  const sym = document.getElementById('optSymbol').value;
-  const base = INSTRUMENTS[sym].base;
-  document.getElementById('spotInput').value = base;
-  document.getElementById('strikeInput').value = Math.round(base / (base>5000?100:10)) * (base>5000?100:10);
-  const iv = sym.includes('NIFTY') ? 14.5 : 24.0;
-  document.getElementById('ivInput').value = iv;
-  const bs = blackScholes({S:base,K:Number(document.getElementById('strikeInput').value),T:30/365,r:0.07,sigma:iv/100,type:document.getElementById('optType').value});
-  document.getElementById('premiumInput').value = bs.price.toFixed(1);
-  document.getElementById('lotInput').value = INSTRUMENTS[sym].lot;
+function timeframeLen(tf){ return ({'1D':24,'1W':35,'1M':42,'3M':65,'1Y':130}[tf] || 42); }
+function regimeParams(regime){
+  return {
+    balanced:{drift:0.0008,vol:0.014,gap:0.008,bias:0.1},
+    bull:{drift:0.0026,vol:0.016,gap:0.010,bias:0.8},
+    bear:{drift:-0.0024,vol:0.020,gap:0.012,bias:-0.9},
+    gamma:{drift:0.0002,vol:0.008,gap:0.004,bias:0.0},
+    event:{drift:0.0005,vol:0.030,gap:0.020,bias:0.2}
+  }[regime];
 }
-
+function generateOHLC(symbol, tf, regime, seedOffset=0, noise=1){
+  const base = SYMBOLS[symbol].base;
+  const n = timeframeLen(tf);
+  const hp = regimeParams(regime);
+  let last = base*(0.96+seeded(hashString(symbol)+seedOffset)*0.1);
+  const arr = [];
+  for(let i=0;i<n;i++){
+    const seed = hashString(symbol) + i*17 + seedOffset*97 + tf.length*131 + regime.length*59;
+    const cyc = Math.sin(i/6 + seeded(seed))*0.004;
+    const ret = hp.drift + cyc + (seeded(seed+11)-0.5)*hp.vol*noise + hp.bias*0.0007*Math.sin(i/11);
+    const open = i===0 ? last : last*(1+(seeded(seed+3)-0.5)*hp.gap*noise);
+    const close = Math.max(1, open*(1+ret));
+    const span = Math.abs(close-open) + open*(hp.vol*(0.55+seeded(seed+7))*noise);
+    const high = Math.max(open,close) + span*(0.45+seeded(seed+13)*0.75);
+    const low = Math.min(open,close) - span*(0.35+seeded(seed+17)*0.65);
+    const volume = 100 + (seeded(seed+19)*900) * (1 + Math.abs(ret)*22 + hp.vol*20);
+    arr.push({open,high,low,close,volume});
+    last = close;
+  }
+  return arr;
+}
+function seriesStats(ohlc){
+  const closes = ohlc.map(x=>x.close), highs=ohlc.map(x=>x.high), lows=ohlc.map(x=>x.low);
+  const first = closes[0], last = closes[closes.length-1];
+  const ret = (last/first - 1)*100;
+  const atr = highs.reduce((a,h,i)=>a+(h-lows[i]),0)/highs.length;
+  const trend = (last - closes[Math.max(0, closes.length-10)]) / Math.max(last,1) * 100;
+  const vol = Math.sqrt(closes.slice(1).reduce((a,c,i)=>a+Math.pow((c/closes[i]-1),2),0)/Math.max(closes.length-1,1))*100;
+  const avgVol = ohlc.reduce((a,x)=>a+x.volume,0)/ohlc.length;
+  return {last,ret,atr,trend,vol,avgVol};
+}
+function fitCanvas(canvas){
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = Math.max(300, Math.floor(rect.width * ratio));
+  canvas.height = Math.max(160, Math.floor(rect.height * ratio));
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(ratio,0,0,ratio,0,0);
+  return {ctx, width: rect.width, height: rect.height};
+}
+function drawCandles(canvas, ohlc){
+  const {ctx,width,height} = fitCanvas(canvas);
+  ctx.clearRect(0,0,width,height);
+  const pad = {l:54,r:20,t:20,b:28};
+  const highs = ohlc.map(x=>x.high), lows = ohlc.map(x=>x.low);
+  const max = Math.max(...highs)*1.01, min = Math.min(...lows)*0.99;
+  const px = (i)=> pad.l + i*(width-pad.l-pad.r)/ohlc.length;
+  const py = (v)=> pad.t + (max-v)/(max-min)*(height-pad.t-pad.b);
+  ctx.strokeStyle = "rgba(120,160,200,.12)";
+  ctx.lineWidth = 1;
+  for(let i=0;i<5;i++){
+    const y = pad.t + i*(height-pad.t-pad.b)/4;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(width-pad.r,y); ctx.stroke();
+    const val = max - i*(max-min)/4;
+    ctx.fillStyle = "#91a9c0"; ctx.font = "11px Inter";
+    ctx.fillText(fmt(val,2), 8, y+4);
+  }
+  const barW = Math.max(4,(width-pad.l-pad.r)/ohlc.length*0.62);
+  ohlc.forEach((c,i)=>{
+    const x = px(i), yH=py(c.high), yL=py(c.low), yO=py(c.open), yC=py(c.close);
+    const up = c.close>=c.open;
+    ctx.strokeStyle = up ? "#36e6a0" : "#ff7070";
+    ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.moveTo(x,yH); ctx.lineTo(x,yL); ctx.stroke();
+    ctx.fillStyle = up ? "rgba(54,230,160,.84)" : "rgba(255,112,112,.84)";
+    const top = Math.min(yO,yC), body = Math.max(2, Math.abs(yC-yO));
+    ctx.fillRect(x-barW/2, top, barW, body);
+  });
+  const closes = ohlc.map((d,i)=>({x:px(i), y:py(d.close)}));
+  ctx.strokeStyle = "rgba(108,179,255,.8)";
+  ctx.lineWidth = 1.5; ctx.beginPath();
+  closes.forEach((p,i)=>{ if(i===0) ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y);});
+  ctx.stroke();
+  const last = ohlc[ohlc.length-1].close;
+  const yLast = py(last);
+  ctx.strokeStyle = "rgba(241,196,109,.75)";
+  ctx.setLineDash([5,5]);
+  ctx.beginPath(); ctx.moveTo(pad.l, yLast); ctx.lineTo(width-pad.r, yLast); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = "#f1c46d";
+  ctx.fillText("Last " + fmt(last,2), width-92, yLast-6);
+}
+function drawLineChart(canvas, points, opts={}){
+  const {ctx,width,height} = fitCanvas(canvas);
+  ctx.clearRect(0,0,width,height);
+  const pad={l:42,r:18,t:14,b:28};
+  const vals = points.map(p=>p.y);
+  const min = Math.min(...vals), max = Math.max(...vals);
+  const px = i => pad.l + i*(width-pad.l-pad.r)/Math.max(points.length-1,1);
+  const py = v => pad.t + (max-v)/(Math.max(max-min,1e-9))*(height-pad.t-pad.b);
+  ctx.strokeStyle = "rgba(120,160,200,.14)";
+  for(let i=0;i<4;i++){
+    const y = pad.t + i*(height-pad.t-pad.b)/3;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(width-pad.r,y); ctx.stroke();
+  }
+  if(opts.zeroLine!==undefined && opts.zeroLine>=min && opts.zeroLine<=max){
+    const y0 = py(opts.zeroLine);
+    ctx.strokeStyle = "rgba(241,196,109,.55)";
+    ctx.setLineDash([5,4]); ctx.beginPath(); ctx.moveTo(pad.l,y0); ctx.lineTo(width-pad.r,y0); ctx.stroke(); ctx.setLineDash([]);
+  }
+  const grad = ctx.createLinearGradient(0,pad.t,0,height-pad.b);
+  grad.addColorStop(0,"rgba(108,179,255,.42)");
+  grad.addColorStop(1,"rgba(108,179,255,0)");
+  ctx.beginPath(); ctx.moveTo(px(0),height-pad.b);
+  points.forEach((p,i)=>{ const x=px(i), y=py(p.y); ctx.lineTo(x,y); });
+  ctx.lineTo(px(points.length-1),height-pad.b); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath();
+  points.forEach((p,i)=>{ const x=px(i), y=py(p.y); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
+  ctx.strokeStyle = opts.stroke || "#6cb3ff"; ctx.lineWidth=2; ctx.stroke();
+}
+function drawMultiLine(canvas, paths, colors){
+  const {ctx,width,height} = fitCanvas(canvas);
+  ctx.clearRect(0,0,width,height);
+  const pad={l:36,r:12,t:14,b:22};
+  const vals = paths.flat();
+  const min = Math.min(...vals), max = Math.max(...vals);
+  const px = i => pad.l + i*(width-pad.l-pad.r)/Math.max(paths[0].length-1,1);
+  const py = v => pad.t + (max-v)/(Math.max(max-min,1e-9))*(height-pad.t-pad.b);
+  ctx.strokeStyle = "rgba(120,160,200,.12)";
+  for(let i=0;i<4;i++){ const y=pad.t+i*(height-pad.t-pad.b)/3; ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(width-pad.r,y); ctx.stroke(); }
+  paths.forEach((path,pi)=>{
+    ctx.beginPath();
+    path.forEach((v,i)=>{ const x=px(i), y=py(v); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
+    ctx.strokeStyle = colors[pi]; ctx.lineWidth = 2; ctx.stroke();
+  });
+}
+function setBar(prefix,val){
+  document.getElementById(prefix+'Value').textContent = fmt(val,0);
+  document.getElementById(prefix+'Bar').style.width = val + '%';
+}
+function renderInsightFeed({breadth,fragility,pin,reflex}){
+  const feed = [
+    {title:'Flow Topology', body: breadth>56 ? 'Drift and breadth are aligned. Pullbacks are statistically cleaner than average.' : 'Breadth is muted. Favor selective structures over outright aggression.', tag: breadth>56?'Constructive':'Selective'},
+    {title:'Reflexivity Pulse', body: reflex>65 ? 'Crowding and feedback loops are active. Expect faster re-pricing and sharper reactions.' : 'Feedback loops are normal. Trend moves should be less chaotic.', tag: reflex>65?'Hot':'Normal'},
+    {title:'Pin Risk', body: pin>70 ? 'Price is magnetized toward local strike clusters. Premium selling structures may behave more predictably.' : 'Strike magnetism is weaker. Expect broader exploration around spot.', tag: pin>70?'Elevated':'Loose'},
+    {title:'Fragility Meter', body: fragility>58 ? 'Structure is brittle. Reduce leverage or prefer defined-risk spreads.' : 'Microstructure looks stable enough for directional expression.', tag: fragility>58?'High':'Contained'}
+  ];
+  document.getElementById('insightFeed').innerHTML = feed.map(f=>`
+    <div class="signal"><div><strong>${f.title}</strong><div class="small">${f.body}</div></div><span class="badge">${f.tag}</span></div>
+  `).join('');
+}
+function updatePulse(){
+  state.symbol = document.getElementById('symbolSelect').value;
+  state.timeframe = document.getElementById('timeframeSelect').value;
+  state.regime = document.getElementById('regimeSelect').value;
+  state.seedOffset = Number(document.getElementById('seedOffset').value || 0);
+  state.noise = Number(document.getElementById('noiseSelect').value || 1);
+  state.ohlc = generateOHLC(state.symbol,state.timeframe,state.regime,state.seedOffset,state.noise);
+  drawCandles(document.getElementById('candlesCanvas'), state.ohlc);
+  const s = seriesStats(state.ohlc);
+  const rp = regimeParams(state.regime);
+  document.getElementById('kpiPrice').textContent = rup(s.last);
+  document.getElementById('kpiMove').innerHTML = (s.ret>=0?'<span class="up">▲ ':'<span class="down">▼ ') + fmt(Math.abs(s.ret),2) + '%</span>';
+  document.getElementById('kpiAtr').textContent = fmt(s.atr,2);
+  document.getElementById('kpiTrend').textContent = fmt(s.trend,2) + '%';
+  document.getElementById('kpiVol').textContent = fmt(s.avgVol,0);
+  const breadth = clamp(50 + s.trend*3 + (state.regime==='bull'?12:state.regime==='bear'?-10:0), 5, 95);
+  const fragility = clamp(25 + s.vol*2.4 + (state.regime==='event'?22:0) + (state.regime==='bear'?10:0), 5, 96);
+  const pin = clamp(52 - s.vol*1.6 + (state.regime==='gamma'?24:0), 8, 98);
+  const reflex = clamp(45 + Math.abs(s.trend)*2.2 + rp.vol*1200 + (state.regime==='event'?10:0), 6, 98);
+  setBar('breadth', breadth);
+  setBar('fragility', fragility);
+  setBar('pin', pin);
+  setBar('reflex', reflex);
+  document.getElementById('miniRegime').textContent = ({balanced:'Balanced',bull:'Bull Expansion',bear:'Bear Stress',gamma:'Gamma Pin',event:'Event Volatility'})[state.regime];
+  document.getElementById('miniVol').textContent = 'Volatility ' + fmt(s.vol,1) + '%';
+  document.getElementById('miniSymbol').textContent = state.symbol;
+  document.getElementById('miniPrice').textContent = rup(s.last);
+  document.getElementById('miniBias').textContent = breadth>56 ? 'Constructive' : fragility>60 ? 'Defensive' : 'Balanced';
+  document.getElementById('miniSignal').textContent = pin>70 ? 'Strong pin field' : reflex>65 ? 'Flow loop elevated' : 'Flow loop normal';
+  renderInsightFeed({breadth,fragility,pin,reflex});
+  const spotInput = document.getElementById('optS');
+  if(document.activeElement !== spotInput){
+    spotInput.value = s.last.toFixed(2);
+    if(!document.getElementById('optK').value) document.getElementById('optK').value = (Math.round(s.last / (s.last>5000?100:10))*(s.last>5000?100:10)).toFixed(2);
+  }
+  document.getElementById('btSpot').value = s.last.toFixed(2);
+  document.getElementById('jSymbol').value = state.symbol;
+  updateOptions();
+  renderRadar();
+}
 function getOptionInputs(){
-  const S = Number(document.getElementById('spotInput').value);
-  const K = Number(document.getElementById('strikeInput').value);
-  const days = Number(document.getElementById('expiryDays').value);
-  const sigma = Number(document.getElementById('ivInput').value)/100;
-  const r = Number(document.getElementById('rateInput').value)/100;
-  const premium = Number(document.getElementById('premiumInput').value);
-  const qty = Number(document.getElementById('lotInput').value);
+  const S = Number(document.getElementById('optS').value || 0);
+  const K = Number(document.getElementById('optK').value || 0);
+  const T = Math.max(0.0001, Number(document.getElementById('optDays').value || 1)/365);
+  const r = Number(document.getElementById('optR').value || 0)/100;
+  const sigma = Number(document.getElementById('optIV').value || 0)/100;
   const type = document.getElementById('optType').value;
-  return {S,K,T:days/365,sigma,r,premium,qty,type,days};
+  return {S,K,T,r,sigma,type};
 }
-
-function optionPayoff(strategy, p, x){
-  const spread = Math.max(10, Math.round(p.K * 0.02 / 10) * 10);
-  const call = Math.max(x-p.K,0) - p.premium;
-  const put = Math.max(p.K-x,0) - p.premium;
-  switch(strategy){
-    case 'Long Call': return call;
-    case 'Long Put': return put;
-    case 'Bull Call Spread': return (Math.max(x-p.K,0) - Math.max(x-(p.K+spread),0)) - p.premium*0.48;
-    case 'Bear Put Spread': return (Math.max(p.K-x,0) - Math.max((p.K-spread)-x,0)) - p.premium*0.44;
-    case 'Long Straddle': return Math.max(Math.abs(x-p.K),0) - p.premium*2;
-    case 'Iron Condor':
-      const w = spread;
-      const shortCall = -(Math.max(x-(p.K+w),0));
-      const longCall = Math.max(x-(p.K+2*w),0);
-      const shortPut = -(Math.max((p.K-w)-x,0));
-      const longPut = Math.max((p.K-2*w)-x,0);
-      return shortCall + longCall + shortPut + longPut + p.premium*0.65;
-    default: return call;
+function updateOptions(){
+  const p = getOptionInputs();
+  const m = blackScholes(p.S,p.K,p.T,p.r,p.sigma,p.type);
+  const intrinsic = p.type==='call' ? Math.max(p.S-p.K,0) : Math.max(p.K-p.S,0);
+  const extrinsic = Math.max(m.price-intrinsic,0);
+  const bep = p.type==='call' ? p.K + m.price : p.K - m.price;
+  document.getElementById('bsPrice').textContent = rup(m.price);
+  document.getElementById('bsDelta').textContent = fmt(m.delta,3);
+  document.getElementById('bsTheta').textContent = fmt(m.theta,3);
+  document.getElementById('bsVega').textContent = fmt(m.vega,3);
+  document.getElementById('bsGamma').textContent = fmt(m.gamma,4);
+  document.getElementById('bsRho').textContent = fmt(m.rho,3);
+  document.getElementById('bsIntrinsic').textContent = rup(intrinsic);
+  document.getElementById('bsExtrinsic').textContent = rup(extrinsic);
+  document.getElementById('bsBep').textContent = rup(bep);
+  const payoff = [];
+  for(let i=0;i<60;i++){
+    const x = p.S*(0.75 + i/59*0.5);
+    const intrinsicAtExp = p.type==='call' ? Math.max(x-p.K,0) : Math.max(p.K-x,0);
+    payoff.push({x, y:intrinsicAtExp - m.price});
   }
+  drawLineChart(document.getElementById('payoffCanvas'), payoff.map((v,i)=>({x:i,y:v.y})), {stroke:"#f1c46d", zeroLine:0});
+  drawSmile();
+  drawChain();
+  renderAlphaOS();
 }
-
-function renderOptionStats(){
+function drawSmile(){
   const p = getOptionInputs();
-  const strategy = document.getElementById('strategySelect').value;
-  const bs = blackScholes(p);
-  const stats = [
-    ['Theoretical Price', '₹ ' + fmt(bs.price,2)],
-    ['Edge vs Premium', ((bs.price-p.premium)/Math.max(p.premium,0.01)*100).toFixed(1) + '%'],
-    ['Breakeven', '₹ ' + fmt(p.type==='call' ? p.K + p.premium : p.K - p.premium,2)],
-    ['Expected Move', '± ₹ ' + fmt(p.S*p.sigma*Math.sqrt(p.T),2)],
-    ['Strategy', strategy]
-  ];
-  document.getElementById('optionStats').innerHTML = stats.map(([a,b])=>`<div class="statbox"><div class="a">${a}</div><div class="b">${b}</div></div>`).join('');
-
-  const greekData = [
-    ['Delta', bs.delta], ['Gamma', bs.gamma], ['Theta / day', bs.theta], ['Vega', bs.vega], ['Rho', bs.rho], ['d1 / d2', `${bs.d1.toFixed(2)} / ${bs.d2.toFixed(2)}`]
-  ];
-  document.getElementById('greekGrid').innerHTML = greekData.map(([a,b])=>`<div class="m"><div class="a">${a}</div><div class="v mono">${typeof b==='number'?b.toFixed(4):b}</div></div>`).join('');
-}
-
-function drawPayoff(){
-  const p = getOptionInputs();
-  const strategy = document.getElementById('strategySelect').value;
-  const canvas = document.getElementById('payoffCanvas'); const ctx = canvas.getContext('2d'); const w=canvas.width,h=canvas.height;
-  ctx.clearRect(0,0,w,h); ctx.strokeStyle='rgba(255,255,255,.08)';
-  for(let i=0;i<6;i++){ const y=20+i*(h-40)/5; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
-  const xs=[]; for(let i=0;i<100;i++) xs.push(p.S*(0.82 + i*(0.36/99)));
-  const vals=xs.map(x=>optionPayoff(strategy,p,x)*p.qty);
-  const min=Math.min(...vals), max=Math.max(...vals), pad=Math.max((max-min)*0.12, 50);
-  const px = i => 26 + i*(w-52)/(xs.length-1); const py=v=>h-24 - ((v-(min-pad))/((max+pad)-(min-pad)))*(h-48);
-  const zeroY = py(0); ctx.strokeStyle='rgba(248,193,93,.4)'; ctx.beginPath(); ctx.moveTo(20,zeroY); ctx.lineTo(w-20,zeroY); ctx.stroke();
-  const grad = ctx.createLinearGradient(0,0,0,h); grad.addColorStop(0,'rgba(94,168,255,.18)'); grad.addColorStop(1,'rgba(94,168,255,0)');
-  ctx.beginPath(); ctx.moveTo(px(0), zeroY); vals.forEach((v,i)=>ctx.lineTo(px(i),py(v))); ctx.lineTo(px(xs.length-1), zeroY); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
-  ctx.strokeStyle='#5ea8ff'; ctx.lineWidth=3; ctx.beginPath(); vals.forEach((v,i)=> i?ctx.lineTo(px(i),py(v)):ctx.moveTo(px(i),py(v))); ctx.stroke();
-  const move = Number(document.getElementById('moveRange').value)/100; const scenPrice = p.S*(1+move); const scenPnl = optionPayoff(strategy,p,scenPrice)*p.qty;
-  const scenIdx = xs.reduce((best,cur,i)=> Math.abs(cur-scenPrice)<Math.abs(xs[best]-scenPrice)?i:best,0);
-  ctx.fillStyle = scenPnl>=0 ? '#37d67a' : '#ff6b7a'; ctx.beginPath(); ctx.arc(px(scenIdx), py(vals[scenIdx]), 6, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle='#9fb2c6'; ctx.font='12px ui-monospace, monospace'; ctx.fillText('P/L', 10, 18); ctx.fillText('Scenario → ₹ ' + fmt(scenPnl,0), w-160, 18);
-}
-
-function drawIVSmile(){
-  const p = getOptionInputs(); const canvas = document.getElementById('ivCanvas'); const ctx=canvas.getContext('2d'); const w=canvas.width,h=canvas.height;
-  ctx.clearRect(0,0,w,h); ctx.strokeStyle='rgba(255,255,255,.08)'; for(let i=0;i<5;i++){const y=16+i*(h-32)/4;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
-  const strikes=[]; for(let i=-6;i<=6;i++){ strikes.push(p.K + i*(p.S>5000?100:10)); }
-  const ivs=strikes.map(k=> (p.sigma*100) + Math.abs((k-p.S)/p.S)*150 + (k<p.S?1.2:0.6));
-  const min=Math.min(...ivs)-1,max=Math.max(...ivs)+1; const xx=i=>24+i*(w-48)/(strikes.length-1), yy=v=>h-20-((v-min)/(max-min))*(h-40);
-  ctx.strokeStyle='#bc8cff'; ctx.lineWidth=2.5; ctx.beginPath(); ivs.forEach((v,i)=> i?ctx.lineTo(xx(i),yy(v)):ctx.moveTo(xx(i),yy(v))); ctx.stroke();
-  ivs.forEach((v,i)=>{ ctx.fillStyle = strikes[i]===p.K ? '#f8c15d' : '#bc8cff'; ctx.beginPath(); ctx.arc(xx(i),yy(v), strikes[i]===p.K?4.5:3,0,Math.PI*2); ctx.fill(); });
-}
-
-function renderScenarioMatrix(){
-  const p = getOptionInputs(); const strategy = document.getElementById('strategySelect').value; const mv = Number(document.getElementById('moveRange').value)/100;
-  document.getElementById('moveLabel').textContent = `${mv>=0?'+':''}${(mv*100).toFixed(1)}%`;
-  const spots = [p.S*(1+mv), p.S*(1+mv*0.5), p.S*(1-mv*0.5), p.S*(1-mv)];
-  const labels = ['Bull Case','Base+','Base-','Bear Case'];
-  document.getElementById('scenarioMatrix').innerHTML = spots.map((s,i)=>{
-    const pnl = optionPayoff(strategy,p,s)*p.qty;
-    return `<div class="m"><div class="a">${labels[i]}</div><div class="v ${pnl>=0?'up':'down'}">₹ ${fmt(pnl,0)}</div><div class="muted">Spot ₹ ${fmt(s,2)}</div></div>`;
-  }).join('');
-}
-
-function renderChain(){
-  const p = getOptionInputs(); const wrap = document.getElementById('chainRows'); wrap.innerHTML='';
-  const step = p.S > 5000 ? 100 : 10; const start = p.K - step*5;
-  for(let i=0;i<11;i++){
-    const strike = start + i*step;
-    const call = blackScholes({...p,K:strike,type:'call'});
-    const put = blackScholes({...p,K:strike,type:'put'});
-    const callOi = Math.round(12000 + Math.abs(strike-p.S)*13 + rnd(strike)*3000);
-    const putOi = Math.round(13000 + Math.abs(strike-p.S)*11 + rnd(strike+9)*3200);
-    const row = document.createElement('div'); row.className='chain-row';
-    row.style.background = strike===p.K ? 'linear-gradient(180deg,rgba(248,193,93,.12),rgba(248,193,93,.04))' : 'rgba(255,255,255,.018)';
-    row.innerHTML = `<div class="up">C OI ${callOi.toLocaleString('en-IN')}</div><div>Call ₹${fmt(call.price,1)}</div><div>Δ ${call.delta.toFixed(2)}</div><div>IV ${(p.sigma*100 + Math.abs(strike-p.S)/p.S*150).toFixed(1)}%</div><div style="text-align:center;font-weight:800;color:var(--gold)">${fmt(strike,0)}</div><div>IV ${(p.sigma*100 + Math.abs(strike-p.S)/p.S*150 + 0.8).toFixed(1)}%</div><div>Put ₹${fmt(put.price,1)}</div><div class="down">P OI ${putOi.toLocaleString('en-IN')}</div>`;
-    wrap.appendChild(row);
+  const pts = [];
+  for(let i=-6;i<=6;i++){
+    const strike = p.K + i*(p.S>5000?100:10);
+    const moneyness = (strike-p.S)/Math.max(p.S,1);
+    const iv = p.sigma*100 + Math.abs(moneyness)*110 + seeded(strike)*3 + (state.regime==='event'?8:0);
+    pts.push({x:strike,y:iv});
   }
-  document.getElementById('chainAtmBadge').textContent = `ATM · ₹ ${fmt(p.K,0)}`;
+  drawLineChart(document.getElementById('smileCanvas'), pts.map((d,i)=>({x:i,y:d.y})), {stroke:"#6af6ff"});
 }
-
-function refreshOptions(){
-  renderOptionStats(); drawPayoff(); drawIVSmile(); renderScenarioMatrix(); renderChain();
-}
-
-
-function runBacktest(){
+function drawChain(){
   const p = getOptionInputs();
-  const strategy = document.getElementById('strategySelect').value;
-  const horizon = Number(document.getElementById('btHorizon').value);
-  const paths = Number(document.getElementById('btPaths').value);
-  const ivShock = Number(document.getElementById('btVolShock').value);
-  const driftBias = Number(document.getElementById('btDriftBias').value);
-  const sigma = Math.max(0.05, p.sigma * (1 + ivShock));
-  const results = [];
-  let equity = [0];
-  for(let i=0;i<paths;i++){
-    let S = p.S;
-    for(let d=0; d<horizon; d++){
-      const dailyVol = sigma/Math.sqrt(252);
-      const shock = seededNormal((p.S+p.K)*0.01 + i*37 + d*11);
-      S *= 1 + driftBias + shock*dailyVol;
-    }
-    const pnl = optionPayoff(strategy,p,S) * p.qty;
-    results.push(pnl);
-  }
-  results.sort((a,b)=>a-b);
-  let running = 0;
-  const eqCurve = results.map(v=> running += v/paths);
-  const avg = results.reduce((a,b)=>a+b,0)/results.length;
-  const wins = results.filter(x=>x>0).length / results.length * 100;
-  const median = results[Math.floor(results.length/2)];
-  const p5 = results[Math.floor(results.length*0.05)];
-  const p95 = results[Math.floor(results.length*0.95)];
-  const maxLoss = results[0];
-  const maxGain = results.at(-1);
-  document.getElementById('backtestStats').innerHTML = [
-    ['Avg P/L','₹ ' + fmt(avg,0)],
-    ['Win Rate', wins.toFixed(1) + '%'],
-    ['Median','₹ ' + fmt(median,0)],
-    ['P5','₹ ' + fmt(p5,0)],
-    ['P95','₹ ' + fmt(p95,0)]
-  ].map(([a,b])=>`<div class="statbox"><div class="a">${a}</div><div class="b ${String(b).includes('-')?'down':'up'}">${b}</div></div>`).join('');
-  document.getElementById('backtestMatrix').innerHTML = [
-    ['Max Gain', maxGain], ['Max Loss', maxLoss], ['Horizon', horizon + ' days'], ['Paths', paths], ['Vol Regime', (ivShock>0?'Expansion':ivShock<0?'Crush':'Base')], ['Drift', driftBias>0?'Bull tilt':driftBias<0?'Bear tilt':'Neutral']
-  ].map(([a,b])=>`<div class="m"><div class="a">${a}</div><div class="v mono ${typeof b==='number'?(b>=0?'up':'down'):''}">${typeof b==='number'?'₹ ' + fmt(b,0):b}</div></div>`).join('');
-  drawBacktest(results, eqCurve);
-}
-function drawBacktest(results, eqCurve){
-  const canvas = document.getElementById('backtestCanvas'); const ctx = canvas.getContext('2d'); const w=canvas.width,h=canvas.height;
-  ctx.clearRect(0,0,w,h);
-  ctx.strokeStyle='rgba(255,255,255,.07)';
-  for(let i=0;i<5;i++){ const y=18+i*(h-36)/4; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
-  const min = Math.min(...results, ...eqCurve), max = Math.max(...results, ...eqCurve), pad=Math.max((max-min)*0.12,50);
-  const py=v=>h-20-((v-(min-pad))/((max+pad)-(min-pad)))*(h-40);
-  const bins = 24;
-  const binMin = results[0], binMax = results.at(-1), bw = Math.max(1,(binMax-binMin)/bins);
-  const counts = Array.from({length:bins},()=>0);
-  results.forEach(v=>{
-    const idx = Math.min(bins-1, Math.max(0, Math.floor((v-binMin)/bw)));
-    counts[idx]++;
-  });
-  const maxCount = Math.max(...counts);
-  counts.forEach((c,i)=>{
-    const x = 24 + i*(w*0.48-40)/bins;
-    const barW = (w*0.48-40)/bins - 3;
-    const bh = (c/maxCount)*(h-52);
-    ctx.fillStyle = 'rgba(83,166,255,.35)';
-    ctx.fillRect(x, h-20-bh, barW, bh);
-  });
-  const x2 = i => w*0.54 + i*(w*0.42)/(Math.max(eqCurve.length-1,1));
-  ctx.strokeStyle='rgba(248,193,93,.85)'; ctx.lineWidth=2.5; ctx.beginPath();
-  eqCurve.forEach((v,i)=> i?ctx.lineTo(x2(i),py(v)):ctx.moveTo(x2(i),py(v))); ctx.stroke();
-  ctx.fillStyle='#9fb2c6'; ctx.font='12px ui-monospace, monospace';
-  ctx.fillText('Distribution', 24, 16);
-  ctx.fillText('Equity Curve', w*0.54, 16);
-}
-function saveJournal(){
-  const entry = {
-    id: Date.now(),
-    title: document.getElementById('noteTitle').value || 'Untitled',
-    tag: document.getElementById('noteTag').value,
-    symbol: document.getElementById('noteSymbol').value || activeSymbol,
-    text: document.getElementById('noteText').value || 'No notes entered.',
-    time: new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
-  };
-  state.notes.unshift(entry); saveLS('offline_notes', state.notes); renderNotes();
-  document.getElementById('noteTitle').value=''; document.getElementById('noteText').value=''; document.getElementById('noteSymbol').value='';
-}
-function renderNotes(){
-  const wrap = document.getElementById('journalList');
-  if(!state.notes.length){ wrap.innerHTML = '<div class="muted">No entries yet. Save your first setup note.</div>'; return; }
-  wrap.innerHTML = state.notes.map(n=>`<div class="journal-item"><div class="row" style="justify-content:space-between"><strong>${n.title}</strong><span class="badge">${n.tag}</span></div><div class="muted" style="margin:8px 0">${n.symbol} · ${n.time}</div><div>${n.text.replace(/</g,'&lt;')}</div></div>`).join('');
-}
-
-
-function rollingStats(series){
-  const rets = [];
-  for(let i=1;i<series.length;i++) rets.push(series[i]/series[i-1]-1);
-  const mean = rets.reduce((a,b)=>a+b,0)/Math.max(rets.length,1);
-  const vol = Math.sqrt(rets.reduce((a,b)=>a+(b-mean)**2,0)/Math.max(rets.length,1))*Math.sqrt(252);
-  const trend = (series.at(-1)-series[0])/series[0]*100;
-  const max = Math.max(...series), min = Math.min(...series);
-  return {mean, vol, trend, range:(max-min)/min*100};
-}
-
-function renderAlphaOS(){
-  const tf = document.getElementById('timeframeSelect').value;
-  const closes = generateSeries(activeSymbol, tf, activeRegime);
-  const ohlc = generateOHLC(activeSymbol, tf, activeRegime);
-  const p = getOptionInputs();
-  const stats = rollingStats(closes);
-  const move = Number(document.getElementById('scenarioMove').value || 0);
-  const breadth = 48 + Math.abs(stats.trend)*1.3 + rnd(p.S)*18;
-  const squeeze = clamp(100 - stats.vol*100 + Math.abs(p.S-p.K)/p.S*220, 8, 96);
-  const gravity = clamp(30 + (1-Math.abs(p.S-p.K)/Math.max(p.S,1))*45 + rnd(p.K)*20, 6, 98);
-  const fragility = clamp(20 + stats.range*0.7 + Math.max(0,-stats.trend)*1.1 + p.sigma*55, 5, 97);
-  const asymmetry = clamp(40 + Math.abs(move)*4 + Math.abs(p.K-p.S)/Math.max(p.S,1)*200, 5, 99);
-  document.getElementById('alphaHeadlineGrid').innerHTML = [
-    ['Reflexivity', reflexLabel(breadth), 'Price-feedback pressure'],
-    ['Gravity Pull', gravity.toFixed(0) + '/100', 'How strongly price may pin near strikes'],
-    ['Fragility', fragility.toFixed(0) + '/100', 'Break risk under volatility'],
-    ['Asymmetry', asymmetry.toFixed(0) + '/100', 'Reward skew across scenarios']
-  ].map(([t,n,d])=>`<div class="ultra-card"><div class="t">${t}</div><div class="n">${n}</div><div class="d">${d}</div></div>`).join('');
-
-  document.getElementById('reflexGrid').innerHTML = [
-    ['Crowding Pulse', breadth.toFixed(0) + '/100', breadth>68?'signal-bear':'signal-bull'],
-    ['Squeeze Fuel', squeeze.toFixed(0) + '/100', squeeze>60?'signal-bull':'signal-neutral'],
-    ['Dealer Gravity', gravity.toFixed(0) + '/100', gravity>65?'signal-neutral':'signal-bear'],
-    ['Fragility Index', fragility.toFixed(0) + '/100', fragility>60?'signal-bear':'signal-neutral'],
-    ['Narrative Heat', (50 + Math.abs(stats.trend)*1.8).toFixed(0) + '/100', stats.trend>=0?'signal-bull':'signal-bear'],
-    ['Flow Asymmetry', asymmetry.toFixed(0) + '/100', asymmetry>58?'signal-bull':'signal-neutral']
-  ].map(([a,b,c])=>`<div class="m"><div class="a">${a}</div><div class="v mono">${b}</div><div class="signal-pill ${c}" style="margin-top:8px">${signalWord(c)}</div></div>`).join('');
-
-  drawGravityMap();
-  drawFuturePaths();
-  drawExpiryWarp();
-  renderDecisionCockpit(stats, {breadth, squeeze, gravity, fragility, asymmetry});
-}
-
-function reflexLabel(v){
-  return v>72 ? 'Hot Loop' : v>58 ? 'Live' : v>44 ? 'Balanced' : 'Dormant';
-}
-function signalWord(c){
-  return c.includes('bull') ? 'Constructive' : c.includes('bear') ? 'Caution' : 'Balanced';
-}
-
-function drawGravityMap(){
-  const canvas = document.getElementById('gravityCanvas'); if(!canvas) return;
-  const ctx = canvas.getContext('2d'); const w=canvas.width,h=canvas.height;
-  ctx.clearRect(0,0,w,h);
-  const p = getOptionInputs();
+  const tbody = document.querySelector('#chainTable tbody');
+  tbody.innerHTML = '';
   const step = p.S>5000 ? 100 : 10;
-  const centerStrike = Math.round(p.S/step)*step;
-  const strikes = Array.from({length:13},(_,i)=>centerStrike + (i-6)*step);
-  const gravities = strikes.map((k,i)=>{
-    const callOi = 10000 + Math.abs(k-p.S)*7 + rnd(k)*7000;
-    const putOi = 10000 + Math.abs(k-p.S)*6 + rnd(k+17)*6000;
-    const gravity = Math.exp(-Math.abs(k-p.S)/(step*3.5))*(callOi+putOi)/26000;
-    return {k, callOi, putOi, gravity};
-  });
-  const maxG = Math.max(...gravities.map(x=>x.gravity));
-  ctx.strokeStyle='rgba(255,255,255,.06)';
-  for(let i=0;i<5;i++){ const y=24+i*(h-48)/4; ctx.beginPath(); ctx.moveTo(26,y); ctx.lineTo(w-20,y); ctx.stroke(); }
-  gravities.forEach((g,i)=>{
-    const x = 42 + i*(w-84)/(gravities.length-1);
-    const barH = (g.gravity/maxG)*(h-100);
-    const radius = 20 + (g.gravity/maxG)*38;
-    const grad = ctx.createRadialGradient(x,h-70-barH*0.4,4,x,h-70-barH*0.4,radius);
-    grad.addColorStop(0,'rgba(248,193,93,.9)');
-    grad.addColorStop(.55,'rgba(83,166,255,.32)');
-    grad.addColorStop(1,'rgba(83,166,255,0)');
-    ctx.fillStyle = grad;
-    ctx.beginPath(); ctx.arc(x,h-70-barH*0.4,radius,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(83,166,255,.25)';
-    ctx.fillRect(x-12,h-48-barH,24,barH);
-    ctx.fillStyle = '#cfe0f0';
-    ctx.font='11px ui-monospace, monospace';
-    ctx.fillText(String(g.k), x-18, h-22);
-  });
-  const sx = 42 + (p.S-strikes[0])/(strikes.at(-1)-strikes[0])*(w-84);
-  ctx.strokeStyle='rgba(46,229,141,.9)'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(sx,18); ctx.lineTo(sx,h-26); ctx.stroke();
-  ctx.fillStyle='#2ee58d'; ctx.fillText('Spot', sx+6, 20);
-  const strongest = gravities.slice().sort((a,b)=>b.gravity-a.gravity)[0];
-  document.getElementById('gravityBadge').textContent = `Spot ₹ ${fmt(p.S,0)} · Magnet ${strongest.k}`;
-  document.getElementById('gravityStats').innerHTML = [
-    ['Nearest Magnet', strongest.k],
-    ['Pinning Score', (strongest.gravity/maxG*100).toFixed(0) + '%'],
-    ['Call Wall', Math.max(...gravities.map(x=>x.callOi)).toLocaleString('en-IN')],
-    ['Put Floor', Math.max(...gravities.map(x=>x.putOi)).toLocaleString('en-IN')]
-  ].map(([h,v])=>`<div class="future-card"><div class="h">${h}</div><div class="v mono">${v}</div></div>`).join('');
+  for(let i=-6;i<=6;i++){
+    const strike = Math.round(p.S/step)*step + i*step;
+    const iv = clamp(p.sigma + Math.abs((strike-p.S)/p.S)*1.1 + (state.regime==='event'?0.06:0), 0.08, 0.85);
+    const call = blackScholes(p.S,strike,p.T,p.r,iv,'call').price;
+    const put = blackScholes(p.S,strike,p.T,p.r,iv,'put').price;
+    const callOi = Math.round(10000 + Math.exp(-Math.abs(strike-p.S)/(step*3))*14000 + seeded(strike)*3000);
+    const putOi = Math.round(10000 + Math.exp(-Math.abs(strike-p.S)/(step*3))*12000 + seeded(strike+99)*3200);
+    const pin = clamp(100 - Math.abs(strike-p.S)/step*11 + (callOi+putOi)/700, 4, 99);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${fmt(strike,0)}</td><td>${fmt(call,2)}</td><td>${fmt(callOi,0)}</td><td>${fmt(pin,0)}</td><td>${fmt(putOi,0)}</td><td>${fmt(put,2)}</td>`;
+    tbody.appendChild(tr);
+  }
 }
-
-function drawFuturePaths(){
-  const canvas = document.getElementById('futureCanvas'); if(!canvas) return;
-  const ctx = canvas.getContext('2d'); const w=canvas.width,h=canvas.height;
-  ctx.clearRect(0,0,w,h);
-  const p = getOptionInputs();
-  const scenarios = [
-    {name:'Melt-up', drift:0.006, vol:p.sigma*0.7, bias:1},
-    {name:'Pin & Drift', drift:0.0015, vol:p.sigma*0.35, bias:0},
-    {name:'Shakeout', drift:-0.002, vol:p.sigma*1.1, bias:-0.5},
-    {name:'Air Pocket', drift:-0.006, vol:p.sigma*1.45, bias:-1}
-  ];
-  const paths = scenarios.map((sc,sid)=>{
-    let S=p.S; const arr=[S];
-    for(let i=1;i<26;i++){
-      const shock = seededNormal(p.S*0.01 + sid*97 + i*13) * sc.vol/Math.sqrt(26);
-      S *= 1 + sc.drift + shock + Math.sin(i/3)*0.001*sc.bias;
-      arr.push(S);
-    }
-    return {...sc, arr};
+function renderRadar(){
+  const tbody = document.querySelector('#radarTable tbody');
+  const list = Array.from(new Set(state.watchlist));
+  tbody.innerHTML = '';
+  let notes = [];
+  list.forEach(sym=>{
+    const ohlc = generateOHLC(sym,'1M',state.regime,state.seedOffset,1);
+    const st = seriesStats(ohlc);
+    const momentum = clamp(50+st.trend*6,1,99);
+    const squeeze = clamp(52 - st.vol*2 + (state.regime==='gamma'?18:0),1,99);
+    const value = clamp(60 - st.ret*1.7 + seeded(hashString(sym))*22,1,99);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><strong>${sym}</strong><div class="small">${SYMBOLS[sym].name}</div></td>
+      <td>${rup(st.last)}</td>
+      <td class="${st.ret>=0?'up':'down'}">${st.ret>=0?'▲':'▼'} ${fmt(Math.abs(st.ret),2)}%</td>
+      <td>${fmt(momentum,0)}</td><td>${fmt(squeeze,0)}</td><td>${fmt(value,0)}</td>`;
+    tbody.appendChild(tr);
+    if(momentum>70) notes.push(`${sym} has strong local momentum.`);
+    if(squeeze>68) notes.push(`${sym} is showing a tighter squeeze profile.`);
   });
-  const min = Math.min(...paths.flatMap(x=>x.arr)), max = Math.max(...paths.flatMap(x=>x.arr));
-  const px = i => 30 + i*(w-50)/25, py = v => h-22 - (v-min)/(max-min||1)*(h-44);
-  ctx.strokeStyle='rgba(255,255,255,.07)';
-  for(let i=0;i<5;i++){const y=18+i*(h-38)/4;ctx.beginPath();ctx.moveTo(24,y);ctx.lineTo(w-12,y);ctx.stroke();}
-  ['rgba(46,229,141,.95)','rgba(248,193,93,.95)','rgba(83,166,255,.95)','rgba(255,107,122,.95)'].forEach((color,idx)=>{
-    const arr = paths[idx].arr;
-    ctx.strokeStyle=color; ctx.lineWidth=2.2; ctx.beginPath();
-    arr.forEach((v,i)=> i?ctx.lineTo(px(i),py(v)):ctx.moveTo(px(i),py(v))); ctx.stroke();
-  });
-  document.getElementById('futureCards').innerHTML = paths.map((sc,idx)=>{
-    const end = sc.arr.at(-1), chg=(end/p.S-1)*100;
-    return `<div class="future-card"><div class="h">${sc.name}</div><div class="v ${chg>=0?'up':'down'}">₹ ${fmt(end,0)}</div><div class="p ${chg>=0?'up':'down'}">${percent(chg)}</div></div>`;
+  document.getElementById('radarNotes').innerHTML = `
+    <div class="signal-list">
+      ${(notes.slice(0,4).length?notes.slice(0,4):['Watchlist is balanced. No dominant dislocation yet.']).map(n=>`<div class="signal"><div><strong>Radar note</strong><div class="small">${n}</div></div><span class="badge">Local</span></div>`).join('')}
+    </div>`;
+  const watchDiv = document.getElementById('watchlist');
+  watchDiv.innerHTML = list.map(sym=>{
+    const st = seriesStats(generateOHLC(sym,'1M',state.regime,state.seedOffset,1));
+    return `<div class="watch">
+      <div><div class="sym">${sym}</div><div class="small">${SYMBOLS[sym].name}</div></div>
+      <div><div>${rup(st.last)}</div><div class="${st.ret>=0?'up':'down'} small">${st.ret>=0?'▲':'▼'} ${fmt(Math.abs(st.ret),2)}%</div></div>
+      <div class="row">
+        <button class="btn ghost focus-watch" data-sym="${sym}">Focus</button>
+        <button class="btn ghost remove-watch" data-sym="${sym}">Remove</button>
+      </div>
+    </div>`;
   }).join('');
 }
-
-function drawExpiryWarp(){
-  const canvas = document.getElementById('warpCanvas'); if(!canvas) return;
-  const ctx = canvas.getContext('2d'); const w=canvas.width,h=canvas.height;
-  ctx.clearRect(0,0,w,h);
+function renderAlphaOS(){
+  const stats = seriesStats(state.ohlc.length ? state.ohlc : generateOHLC(state.symbol,state.timeframe,state.regime,state.seedOffset,state.noise));
   const p = getOptionInputs();
-  const baseT = Math.max(1/365,p.T);
-  const values=[];
-  for(let i=30;i>=1;i--){
-    const T = Math.max(1/365, baseT * (i/30));
-    const o = blackScholes({S:p.S,K:p.K,T,r:p.r,sigma:p.sigma,type:p.type});
-    values.push({d:i, price:o.price, theta:o.theta});
+  const breadth = clamp(48 + stats.trend*5 + (state.regime==='bull'?14:state.regime==='bear'?-8:0), 4, 98);
+  const squeeze = clamp(55 - stats.vol*2.1 + (state.regime==='gamma'?20:0), 4, 98);
+  const gravity = clamp(72 - Math.abs(p.S-p.K)/Math.max(p.S,1)*220 + seeded(p.K)*14, 4, 99);
+  const fragility = clamp(20 + stats.vol*2.8 + (state.regime==='event'?18:0) + (state.regime==='bear'?12:0), 5, 99);
+  const asymmetry = clamp(35 + Math.abs(stats.trend)*5 + Math.abs(p.K-p.S)/Math.max(p.S,1)*140 + Number(document.getElementById('optIV').value)/2, 6, 99);
+  const cards = [
+    ['Alpha Reflexivity', fmt(breadth,0), breadth>60?'Crowd expansion':'Quiet tape'],
+    ['Squeeze Field', fmt(squeeze,0), squeeze>65?'Compression active':'Loose'],
+    ['Gravity Pin', fmt(gravity,0), gravity>70?'Magnetized strike':'Open field'],
+    ['Fragility', fmt(fragility,0), fragility>60?'Defined risk bias':'Stable'],
+    ['Asymmetry', fmt(asymmetry,0), asymmetry>62?'Optionality rich':'Balanced']
+  ];
+  document.getElementById('alphaHeadlineGrid').innerHTML = cards.map(c=>`
+    <div class="alpha-card"><div class="t">${c[0]}</div><div class="v">${c[1]}</div><div class="s">${c[2]}</div></div>
+  `).join('');
+  drawGravityMap(p);
+  renderRealityEngine(stats,p);
+  renderReflexivity({breadth,squeeze,gravity,fragility,asymmetry});
+  drawExpiryWarp(p);
+  renderDecisionCockpit({breadth,squeeze,gravity,fragility,asymmetry,stats,p});
+}
+function drawGravityMap(p){
+  const canvas = document.getElementById('gravityCanvas');
+  const {ctx,width,height} = fitCanvas(canvas);
+  ctx.clearRect(0,0,width,height);
+  const step = p.S>5000?100:10;
+  const center = Math.round(p.S/step)*step;
+  const strikes = Array.from({length:13}, (_,i)=>center+(i-6)*step);
+  const gravities = strikes.map(k=>{
+    const callOi = 9000 + Math.exp(-Math.abs(k-p.S)/(step*3))*16000 + seeded(k)*3000;
+    const putOi = 9500 + Math.exp(-Math.abs(k-p.S)/(step*3))*15000 + seeded(k+91)*2800;
+    return {k, g: clamp((callOi+putOi)/420, 10, 96)};
+  });
+  const maxG = Math.max(...gravities.map(x=>x.g));
+  gravities.forEach((g,i)=>{
+    const x = 44 + i*(width-88)/(gravities.length-1);
+    const y = height-34;
+    const radius = 8 + g.g/maxG*30;
+    const grd = ctx.createRadialGradient(x, y-70, 2, x, y-70, radius+14);
+    grd.addColorStop(0, 'rgba(188,151,255,.72)');
+    grd.addColorStop(1, 'rgba(106,246,255,0.05)');
+    ctx.fillStyle = grd;
+    ctx.beginPath(); ctx.arc(x, y-70, radius+10, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = "rgba(106,246,255,.85)";
+    ctx.fillRect(x-10, y- (g.g/maxG)*120, 20, (g.g/maxG)*120);
+    if(Math.abs(g.k-p.S)<step/2){
+      ctx.strokeStyle = "#f1c46d"; ctx.lineWidth=2;
+      ctx.strokeRect(x-15, y- (g.g/maxG)*120 - 8, 30, (g.g/maxG)*120 + 8);
+    }
+    ctx.fillStyle = "#cfe5fa"; ctx.font="11px Inter"; ctx.fillText(fmt(g.k,0), x-14, height-12);
+  });
+  ctx.fillStyle="#9ab1c7"; ctx.fillText("Higher bars and glows indicate stronger synthetic strike gravity / pin pressure.", 16, 18);
+}
+function renderRealityEngine(stats,p){
+  const scenarios = [
+    {name:'Drift Melt-Up', drift:0.0018, vol:0.010, color:'#36e6a0'},
+    {name:'Pin & Coil', drift:0.0003, vol:0.006, color:'#6cb3ff'},
+    {name:'Vol Expansion', drift:0.0006, vol:0.022, color:'#f1c46d'},
+    {name:'Stress Unwind', drift:-0.0016, vol:0.018, color:'#ff7070'}
+  ];
+  const grid = document.getElementById('realityGrid');
+  const paths = [];
+  grid.innerHTML = scenarios.map((sc)=>{
+    let price = p.S || stats.last, arr=[price];
+    for(let i=1;i<=24;i++){
+      const seed = hashString(sc.name + state.symbol + i + state.seedOffset);
+      const ret = sc.drift + (seeded(seed)-0.5)*sc.vol;
+      price *= 1 + ret;
+      arr.push(price);
+    }
+    paths.push(arr);
+    const final = arr[arr.length-1];
+    const rr = (final/arr[0]-1)*100;
+    return `<div class="reality">
+      <h4>${sc.name}</h4>
+      <div class="price">${rup(final)}</div>
+      <div class="return ${rr>=0?'up':'down'}">${rr>=0?'▲':'▼'} ${fmt(Math.abs(rr),2)}%</div>
+      <div class="small">Vol texture ${(sc.vol*100).toFixed(1)}% / phase horizon 24 steps</div>
+    </div>`;
+  }).join('');
+  drawMultiLine(document.getElementById('realityCanvas'), paths, scenarios.map(s=>s.color));
+}
+function renderReflexivity(m){
+  const signals = [
+    ['Crowding', m.breadth, m.breadth>60?'Participation is broad. Crowded upside can accelerate and exhaust faster.':'Participation is mixed. Trend quality depends on selective leadership.'],
+    ['Squeeze Potential', m.squeeze, m.squeeze>65?'Compression is high. Breaks may release sharply.':'Compression is moderate. Expect cleaner but slower moves.'],
+    ['Fragility', m.fragility, m.fragility>60?'Tape is brittle. Prefer defined risk structures.':'Structure is stable enough for directional expression.'],
+    ['Flow Loop', m.asymmetry, m.asymmetry>60?'Optionality asymmetry is rich. Non-linear payoffs are relatively attractive.':'Payoff asymmetry is balanced. Linear views are acceptable.']
+  ];
+  document.getElementById('reflexSignals').innerHTML = signals.map(s=>`
+    <div class="signal">
+      <div><strong>${s[0]}</strong><div class="small">${s[2]}</div></div>
+      <div style="min-width:120px;text-align:right"><div style="font-size:24px;font-weight:800">${fmt(s[1],0)}</div><div class="small">/ 100</div></div>
+    </div>
+  `).join('');
+}
+function drawExpiryWarp(p){
+  const pts = [];
+  for(let d=Math.max(1,Number(document.getElementById('optDays').value)); d>=1; d--){
+    const T = d/365;
+    const price = blackScholes(p.S,p.K,T,p.r,p.sigma,p.type).price;
+    pts.push({x:d,y:price});
   }
-  const max = Math.max(...values.map(x=>x.price)), min = Math.min(...values.map(x=>x.price));
-  const px=i=>20+i*(w-40)/29, py=v=>h-22-(v-min)/(max-min||1)*(h-44);
-  ctx.strokeStyle='rgba(255,255,255,.07)'; for(let i=0;i<4;i++){const y=18+i*(h-34)/3;ctx.beginPath();ctx.moveTo(18,y);ctx.lineTo(w-18,y);ctx.stroke();}
-  ctx.strokeStyle='rgba(188,140,255,.95)'; ctx.lineWidth=2.4; ctx.beginPath();
-  values.forEach((x,i)=> i?ctx.lineTo(px(i),py(x.price)):ctx.moveTo(px(i),py(x.price))); ctx.stroke();
-  values.forEach((x,i)=>{
-    if(i%5===0){
-      ctx.fillStyle='rgba(89,239,232,.8)'; ctx.beginPath(); ctx.arc(px(i),py(x.price),3,0,Math.PI*2); ctx.fill();
+  drawLineChart(document.getElementById('expiryWarpCanvas'), pts.map((d,i)=>({x:i,y:d.y})), {stroke:"#bc97ff"});
+}
+function renderDecisionCockpit(ctx){
+  const scoreBull = ctx.breadth*0.30 + ctx.squeeze*0.15 + ctx.gravity*0.15 - ctx.fragility*0.2 + ctx.asymmetry*0.2;
+  let stance = scoreBull>58 ? 'Lean bullish with controlled risk' : ctx.fragility>65 ? 'Defensive / premium-defined structures' : 'Neutral and selective';
+  let setup = scoreBull>60 ? 'Bull call spread or call diagonal' : ctx.gravity>70 ? 'Iron fly / short premium around pin zone' : ctx.fragility>60 ? 'Put spread hedge or reduced delta' : 'Long gamma only on breakouts';
+  const risk = ctx.fragility>60 ? 'Use smaller size, defined risk and fewer correlated bets.' : 'Normal position sizing acceptable with event awareness.';
+  const timing = ctx.squeeze>65 ? 'Compression is high. Time entries near breakouts or failed-break fades.' : 'No extreme squeeze. Stage entries on pullbacks.';
+  document.getElementById('decisionCockpit').innerHTML = `
+    <div class="grid g-3">
+      <div class="glass"><div class="metricline"><span>Primary stance</span><strong>${stance}</strong></div><div class="small">Derived from breadth, fragility, gravity and asymmetry.</div></div>
+      <div class="glass"><div class="metricline"><span>Preferred structure</span><strong>${setup}</strong></div><div class="small">Offline recommendation from the active option geometry.</div></div>
+      <div class="glass"><div class="metricline"><span>Execution timing</span><strong>${timing}</strong></div><div class="small">Blend with candle structure from Pulseboard.</div></div>
+    </div>
+    <div class="terminal-note" style="margin-top:14px"><strong>Risk framing:</strong> ${risk}</div>
+  `;
+}
+function createLegRow(leg={}){
+  const div = document.createElement('div');
+  div.className = 'trade-row';
+  div.innerHTML = `
+    <div class="controls">
+      <div class="field"><label>Action</label><select class="leg-action"><option ${leg.action==='long'?'selected':''}>long</option><option ${leg.action==='short'?'selected':''}>short</option></select></div>
+      <div class="field"><label>Instrument</label><select class="leg-kind"><option value="call" ${leg.kind==='call'?'selected':''}>call</option><option value="put" ${leg.kind==='put'?'selected':''}>put</option><option value="stock" ${leg.kind==='stock'?'selected':''}>stock</option></select></div>
+      <div class="field"><label>Strike</label><input class="leg-strike" type="number" step="0.01" value="${leg.strike ?? ''}"></div>
+      <div class="field"><label>Premium</label><input class="leg-premium" type="number" step="0.01" value="${leg.premium ?? ''}"></div>
+      <div class="field"><label>Qty</label><input class="leg-qty" type="number" step="1" value="${leg.qty ?? 1}"></div>
+      <div class="field"><label>Remove</label><button class="btn ghost remove-leg" type="button">Delete</button></div>
+    </div>`;
+  div.querySelector('.remove-leg').addEventListener('click', ()=>{ div.remove(); runBacktest(); });
+  div.querySelectorAll('input,select').forEach(el=>el.addEventListener('input', runBacktest));
+  return div;
+}
+function loadPreset(){
+  const spot = Number(document.getElementById('btSpot').value || getOptionInputs().S || 100);
+  const T = Number(document.getElementById('optDays').value || 21)/365;
+  const r = Number(document.getElementById('optR').value || 6.75)/100;
+  const sigma = Number(document.getElementById('optIV').value || 22)/100;
+  const price = blackScholes(spot, spot, T, r, sigma, 'call').price;
+  const putp = blackScholes(spot, spot, T, r, sigma, 'put').price;
+  const step = spot>5000?100:10;
+  const preset = document.getElementById('strategyPreset').value;
+  const c = document.getElementById('legsContainer');
+  c.innerHTML = '';
+  let legs = [];
+  if(preset==='longcall') legs=[{action:'long',kind:'call',strike:Math.round(spot/step)*step,premium:price,qty:1}];
+  if(preset==='bullcall') legs=[{action:'long',kind:'call',strike:Math.round(spot/step)*step,premium:price,qty:1},{action:'short',kind:'call',strike:Math.round(spot/step)*step+step*2,premium:Math.max(price*0.42,1),qty:1}];
+  if(preset==='straddle') legs=[{action:'long',kind:'call',strike:Math.round(spot/step)*step,premium:price,qty:1},{action:'long',kind:'put',strike:Math.round(spot/step)*step,premium:putp,qty:1}];
+  if(preset==='ironcondor') legs=[{action:'short',kind:'put',strike:Math.round(spot/step)*step-step*2,premium:Math.max(putp*0.55,1),qty:1},{action:'long',kind:'put',strike:Math.round(spot/step)*step-step*4,premium:Math.max(putp*0.28,1),qty:1},{action:'short',kind:'call',strike:Math.round(spot/step)*step+step*2,premium:Math.max(price*0.55,1),qty:1},{action:'long',kind:'call',strike:Math.round(spot/step)*step+step*4,premium:Math.max(price*0.28,1),qty:1}];
+  if(preset==='coveredcall') legs=[{action:'long',kind:'stock',strike:'',premium:spot,qty:1},{action:'short',kind:'call',strike:Math.round(spot/step)*step+step*2,premium:Math.max(price*0.48,1),qty:1}];
+  if(preset==='custom') legs=[{action:'long',kind:'call',strike:Math.round(spot/step)*step,premium:price,qty:1}];
+  legs.forEach(leg=>c.appendChild(createLegRow(leg)));
+  runBacktest();
+}
+function collectLegs(){
+  return [...document.querySelectorAll('#legsContainer .trade-row')].map(row=>({
+    action: row.querySelector('.leg-action').value,
+    kind: row.querySelector('.leg-kind').value,
+    strike: Number(row.querySelector('.leg-strike').value || 0),
+    premium: Number(row.querySelector('.leg-premium').value || 0),
+    qty: Number(row.querySelector('.leg-qty').value || 1)
+  }));
+}
+function payoffAt(spot, leg){
+  const sign = leg.action==='long' ? 1 : -1;
+  let intrinsic = 0;
+  if(leg.kind==='call') intrinsic = Math.max(spot-leg.strike,0);
+  if(leg.kind==='put') intrinsic = Math.max(leg.strike-spot,0);
+  if(leg.kind==='stock') intrinsic = spot;
+  return sign * (intrinsic - leg.premium) * leg.qty;
+}
+function runBacktest(){
+  const spot = Number(document.getElementById('btSpot').value || getOptionInputs().S || 100);
+  const range = Number(document.getElementById('btRange').value || 25)/100;
+  const lot = Number(document.getElementById('btLot').value || 1);
+  const legs = collectLegs();
+  if(!legs.length) return;
+  const pts = [];
+  let maxP = -Infinity, maxL = Infinity;
+  for(let i=0;i<120;i++){
+    const s = spot*(1-range + (i/119)*(range*2));
+    const y = legs.reduce((a,leg)=>a+payoffAt(s,leg),0)*lot;
+    pts.push({x:i,y});
+    maxP = Math.max(maxP,y); maxL = Math.min(maxL,y);
+  }
+  drawLineChart(document.getElementById('backtestCanvas'), pts, {stroke:"#36e6a0", zeroLine:0});
+  const beps = [];
+  for(let i=1;i<pts.length;i++){
+    if((pts[i-1].y<=0 && pts[i].y>=0) || (pts[i-1].y>=0 && pts[i].y<=0)){
+      const s = spot*(1-range + (i/119)*(range*2));
+      beps.push(fmt(s,2));
+    }
+  }
+  const convexity = (() => {
+    let c=0;
+    for(let i=2;i<pts.length;i++) c += Math.abs(pts[i].y - 2*pts[i-1].y + pts[i-2].y);
+    return c/pts.length;
+  })();
+  document.getElementById('btMaxProfit').textContent = maxP > 1e7 ? '∞' : rup(maxP);
+  document.getElementById('btMaxLoss').textContent = rup(maxL);
+  document.getElementById('btBep').textContent = beps.length ? beps.slice(0,3).join(', ') : 'None in range';
+  document.getElementById('btConvexity').textContent = fmt(convexity,1);
+}
+function saveWatchlist(){ localStorage.setItem('ipaint_watchlist', JSON.stringify(state.watchlist)); }
+function renderJournal(){
+  const list = document.getElementById('journalList');
+  list.innerHTML = state.journal.length ? state.journal.map((e,idx)=>`
+    <div class="trade-row">
+      <div class="metricline"><strong>${e.symbol} — ${e.setup}</strong><span class="badge">${e.bias}</span></div>
+      <div class="small">Confidence ${e.confidence}/100 • ${e.when}</div>
+      <div style="margin-top:8px">${e.reason}</div>
+      <div class="row" style="margin-top:10px"><button class="btn ghost del-journal" data-idx="${idx}" type="button">Delete</button></div>
+    </div>
+  `).join('') : '<div class="terminal-note">No entries yet. Save a setup to start your local review loop.</div>';
+  list.querySelectorAll('.del-journal').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.journal.splice(Number(btn.dataset.idx),1);
+      localStorage.setItem('ipaint_journal', JSON.stringify(state.journal));
+      renderJournal();
+    });
+  });
+}
+function initSelectors(){
+  const symbolSelect = document.getElementById('symbolSelect');
+  const watchAdd = document.getElementById('watchAddSymbol');
+  Object.keys(SYMBOLS).forEach(sym=>{
+    const o1 = document.createElement('option'); o1.value=sym; o1.textContent=sym + ' — ' + SYMBOLS[sym].name; symbolSelect.appendChild(o1);
+    const o2 = document.createElement('option'); o2.value=sym; o2.textContent=sym + ' — ' + SYMBOLS[sym].name; watchAdd.appendChild(o2);
+  });
+  symbolSelect.value = state.symbol;
+  watchAdd.value = 'ICICIBANK';
+}
+function activateTab(key){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active', x.dataset.tab===key));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active', x.id==='tab-'+key));
+  if(key==='alpha') renderAlphaOS();
+  if(key==='backtest') runBacktest();
+}
+function initTabs(){
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>activateTab(btn.dataset.tab));
+  });
+  document.querySelectorAll('.jump-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>activateTab(btn.dataset.jump));
+  });
+}
+function wireEvents(){
+  document.getElementById('applyMarketBtn').addEventListener('click', updatePulse);
+  document.getElementById('regenSeriesBtn').addEventListener('click', ()=>{
+    document.getElementById('seedOffset').value = Number(document.getElementById('seedOffset').value||0)+1;
+    updatePulse();
+  });
+  document.getElementById('syncFromPulseBtn').addEventListener('click', ()=>{
+    const last = seriesStats(state.ohlc).last;
+    document.getElementById('optS').value = last.toFixed(2);
+    document.getElementById('optK').value = (Math.round(last / (last>5000?100:10))*(last>5000?100:10)).toFixed(2);
+    updateOptions();
+    activateTab('options');
+  });
+  ['symbolSelect','timeframeSelect','regimeSelect','seedOffset','noiseSelect'].forEach(id=>{
+    document.getElementById(id).addEventListener('change', updatePulse);
+  });
+  ['optS','optK','optDays','optR','optIV','optType'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', updateOptions);
+  });
+  document.getElementById('copyToBacktesterBtn').addEventListener('click', ()=>{
+    document.getElementById('btSpot').value = document.getElementById('optS').value;
+    loadPreset();
+    activateTab('backtest');
+  });
+  document.getElementById('addWatchBtn').addEventListener('click', ()=>{
+    const sym = document.getElementById('watchAddSymbol').value;
+    if(!state.watchlist.includes(sym)) state.watchlist.push(sym);
+    saveWatchlist(); renderRadar();
+  });
+  document.getElementById('resetWatchBtn').addEventListener('click', ()=>{
+    state.watchlist = ["RELIANCE","TCS","INFY","HDFCBANK","NIFTY"];
+    saveWatchlist(); renderRadar();
+  });
+  document.getElementById('watchlist').addEventListener('click', e=>{
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    const sym = btn.dataset.sym;
+    if(btn.classList.contains('focus-watch')){
+      document.getElementById('symbolSelect').value = sym;
+      updatePulse(); activateTab('pulse');
+    }
+    if(btn.classList.contains('remove-watch')){
+      state.watchlist = state.watchlist.filter(x=>x!==sym);
+      saveWatchlist(); renderRadar();
     }
   });
-  ctx.fillStyle='#cfe0f0'; ctx.font='12px ui-monospace, monospace';
-  ctx.fillText('Time value warp → expiry', 18, 16);
-  ctx.fillText(`Now ₹${fmt(values[0].price,1)} · Expiry ₹${fmt(values.at(-1).price,1)}`, 18, h-8);
+  document.getElementById('loadPresetBtn').addEventListener('click', loadPreset);
+  document.getElementById('refreshBtBtn').addEventListener('click', runBacktest);
+  document.getElementById('addLegBtn').addEventListener('click', ()=>{
+    document.getElementById('legsContainer').appendChild(createLegRow({action:'long',kind:'call',strike:Number(document.getElementById('btSpot').value||100),premium:10,qty:1}));
+  });
+  document.getElementById('saveJournalBtn').addEventListener('click', ()=>{
+    const entry = {
+      symbol: document.getElementById('jSymbol').value || state.symbol,
+      setup: document.getElementById('jSetup').value || 'Untitled setup',
+      bias: document.getElementById('jBias').value,
+      confidence: Number(document.getElementById('jConfidence').value || 0),
+      reason: document.getElementById('jReason').value || 'No notes added.',
+      when: new Date().toLocaleString('en-IN')
+    };
+    state.journal.unshift(entry);
+    localStorage.setItem('ipaint_journal', JSON.stringify(state.journal));
+    renderJournal();
+    document.getElementById('jSetup').value = '';
+    document.getElementById('jReason').value = '';
+  });
+  document.getElementById('clearJournalBtn').addEventListener('click', ()=>{
+    state.journal = [];
+    localStorage.setItem('ipaint_journal', JSON.stringify(state.journal));
+    renderJournal();
+  });
+  window.addEventListener('resize', ()=>{
+    if(state.ohlc.length) drawCandles(document.getElementById('candlesCanvas'), state.ohlc);
+    updateOptions();
+    runBacktest();
+  });
 }
-
-function renderDecisionCockpit(stats, m){
-  const p = getOptionInputs();
-  const strategy = document.getElementById('strategySelect').value;
-  const checks = [
-    ['Trend Alignment', stats.trend>=0 || strategy.includes('Put')===false ? 78:43, 'Is your structure aligned with the direction pressure?'],
-    ['Strike Quality', clamp(100 - Math.abs(p.K-p.S)/Math.max(p.S,1)*1200, 18, 96), 'Closer-to-reality strikes score higher than fantasy strikes.'],
-    ['Volatility Fit', clamp(100 - Math.abs(p.sigma*100-22)*2.4, 14, 95), 'Avoid overpaying for volatility unless convexity is the point.'],
-    ['Reward Shape', clamp(42 + m.asymmetry*0.55, 18, 98), 'Does the payoff geometry justify the risk?'],
-    ['Crowding Risk', clamp(100 - m.fragility*0.72, 7, 92), 'The more crowded the setup, the lower the score.']
-  ];
-  document.getElementById('decisionBoard').innerHTML = checks.map(([name,score,desc])=>`<div class="decision-item"><div><div class="name">${name}</div><div class="desc">${desc}</div></div><div class="score ${score>=65?'up':score>=45?'flat':'down'}">${Math.round(score)}/100</div></div>`).join('');
-  const total = checks.reduce((a,b)=>a+b[1],0)/checks.length;
-  let text = total>=72 ? 'High-quality structure. Your local stack sees a coherent setup with limited mismatch between price behavior, strike placement, and volatility.' :
-             total>=54 ? 'Playable, but selective. One or two dimensions are supportive while the rest need discipline and position sizing.' :
-             'Fragile setup. The structure currently looks more emotional than asymmetrically intelligent. Reduce size or redesign the payoff.';
-  document.getElementById('decisionNarrative').innerHTML = `<strong>Decision Score: ${total.toFixed(0)}/100</strong><div style="margin-top:8px">${text}</div><div style="margin-top:8px" class="muted">This cockpit is intentionally opinionated and browser-local. It acts like a pre-trade second brain rather than a simple calculator.</div>`;
+function bootstrap(){
+  initSelectors();
+  initTabs();
+  wireEvents();
+  document.getElementById('optS').value = SYMBOLS[state.symbol].base.toFixed(2);
+  document.getElementById('optK').value = (Math.round(SYMBOLS[state.symbol].base/10)*10).toFixed(2);
+  document.getElementById('btSpot').value = SYMBOLS[state.symbol].base.toFixed(2);
+  updatePulse();
+  loadPreset();
+  renderJournal();
 }
-
-function setupEvents(){
-  document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden')); document.getElementById('tab-'+btn.dataset.tab).classList.remove('hidden');
-  }));
-  document.getElementById('symbolSelect').addEventListener('change', e=>{ activeSymbol = e.target.value; document.getElementById('optSymbol').value = activeSymbol; populateOptionDefaults(); updateHero(); renderWatch(); refreshOptions(); renderAlphaOS(); });
-  document.getElementById('timeframeSelect').addEventListener('change', updateHero);
-  document.getElementById('chartModeSelect').addEventListener('change', e=>{ activeChartMode = e.target.value; updateHero(); });
-  document.getElementById('reshuffleBtn').addEventListener('click', ()=>{ seriesCache={}; updateHero(); renderHeat(); renderWatch(); refreshOptions(); renderAlphaOS(); });
-  document.querySelectorAll('[data-regime]').forEach(btn=>btn.addEventListener('click',()=>{ activeRegime = btn.dataset.regime; seriesCache={}; updateHero(); renderHeat(); renderWatch(); refreshOptions(); }));
-  document.getElementById('addWatchBtn').addEventListener('click', ()=>{ if(!state.watchlist.includes(activeSymbol)){ state.watchlist.unshift(activeSymbol); saveLS('offline_watchlist', state.watchlist); renderWatch(); } });
-  document.getElementById('clearWatchBtn').addEventListener('click', ()=>{ state.watchlist = ['NIFTY 50','BANK NIFTY','RELIANCE']; saveLS('offline_watchlist', state.watchlist); renderWatch(); });
-  document.getElementById('watchList').addEventListener('click', e=>{ const sym = e.target.dataset.remove; if(sym){ state.watchlist = state.watchlist.filter(x=>x!==sym); saveLS('offline_watchlist', state.watchlist); renderWatch(); } });
-  document.getElementById('optSymbol').addEventListener('change', ()=>{ populateOptionDefaults(); renderAlphaOS(); });
-  ['optType','strategySelect','expiryDays','spotInput','strikeInput','premiumInput','ivInput','rateInput','lotInput','scenarioMove'].forEach(id=>document.getElementById(id).addEventListener('input', refreshOptions));
-  document.getElementById('recalcOptions').addEventListener('click', ()=>{ refreshOptions(); runBacktest(); renderAlphaOS(); });
-  document.getElementById('moveRange').addEventListener('input', ()=>{ document.getElementById('scenarioMove').value = document.getElementById('moveRange').value; drawPayoff(); renderScenarioMatrix(); renderAlphaOS(); });
-  document.getElementById('scenarioMove').addEventListener('input', ()=>{ document.getElementById('moveRange').value = document.getElementById('scenarioMove').value; drawPayoff(); renderScenarioMatrix(); renderAlphaOS(); });
-  document.getElementById('saveNoteBtn').addEventListener('click', saveJournal);
-  document.getElementById('clearNotesBtn').addEventListener('click', ()=>{ state.notes=[]; saveLS('offline_notes', state.notes); renderNotes(); });
-  ['btHorizon','btPaths','btVolShock','btDriftBias'].forEach(id=>document.getElementById(id).addEventListener('input', runBacktest));
-  document.getElementById('runBacktestBtn').addEventListener('click', runBacktest);
-}
-
-populateSelects(); updateClock(); setInterval(updateClock,1000); setupEvents(); renderHeat(); updateHero(); renderWatch(); populateOptionDefaults(); refreshOptions(); runBacktest(); renderAlphaOS(); renderNotes();
+bootstrap();
 </script>
 </body>
 </html>
