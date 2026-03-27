@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ipaint Stocks — Premium Offline Terminal</title>
+<title>ipaint Stocks — Alpha OS Premium Offline Terminal</title>
 <style>
 :root{
   --bg:#03070c;
@@ -88,6 +88,59 @@ button,input,select,textarea{font:inherit}
  .watch-row{grid-template-columns:1.2fr .7fr .6fr .8fr .9fr auto}
  .chain-row{grid-template-columns:1fr 1fr .9fr .9fr .9fr .9fr .9fr .9fr; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px}
  .muted{color:var(--muted)}
+
+.terminal-shell{position:relative}
+.terminal-shell:before{content:"";position:fixed;inset:0;background:
+radial-gradient(circle at 12% 18%,rgba(248,193,93,.08),transparent 24%),
+radial-gradient(circle at 84% 12%,rgba(83,166,255,.10),transparent 28%),
+radial-gradient(circle at 72% 78%,rgba(89,239,232,.06),transparent 24%);
+pointer-events:none;mix-blend-mode:screen}
+.topbar{box-shadow:0 20px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06)}
+.brand h1{font-size:24px;text-transform:none}
+.brand h1 .accent{color:var(--gold);text-shadow:0 0 18px rgba(248,193,93,.28)}
+.brand p{letter-spacing:.08em;text-transform:uppercase}
+.card{backdrop-filter:blur(18px)}
+.card:hover{border-color:#2b4560;transform:translateY(-1px);transition:.18s ease}
+.tab{letter-spacing:.05em}
+.tab.active{box-shadow:0 0 0 1px rgba(83,166,255,.22) inset, 0 0 22px rgba(83,166,255,.12)}
+.launch-banner{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-bottom:18px}
+.hero-callout{padding:18px 20px;border-radius:22px;border:1px solid rgba(248,193,93,.18);background:
+linear-gradient(135deg,rgba(248,193,93,.10),rgba(83,166,255,.07) 48%,rgba(255,255,255,.03));
+box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero-callout:after{content:"";position:absolute;inset:auto -15% -55% auto;width:340px;height:340px;background:radial-gradient(circle,rgba(89,239,232,.13),transparent 60%);pointer-events:none}
+.hero-callout .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.hero-callout h2{margin:0 0 10px;font-size:28px;line-height:1.08}
+.hero-callout p{margin:0;color:#c0d2e4;max-width:700px}
+.feature-rail{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.feature-chip{padding:14px 15px;border-radius:16px;border:1px solid rgba(255,255,255,.06);background:rgba(4,9,15,.7)}
+.feature-chip .k{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.feature-chip .v{margin-top:8px;font-size:15px;font-weight:700}
+.feature-chip .d{margin-top:6px;color:#a8bfd5;font-size:12px}
+.alpha-shortcuts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.alpha-shortcut{padding:14px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line)}
+.alpha-shortcut .t{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.alpha-shortcut .n{font-size:18px;font-weight:800;margin-top:8px}
+.alpha-shortcut .d{font-size:12px;color:#a6bdd3;margin-top:6px}
+.alpha-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+.stack{display:grid;gap:18px}
+.alpha-side{display:grid;gap:18px}
+.alpha-beacon{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
+.beacon{padding:12px;border-radius:16px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05)}
+.beacon .h{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.beacon .v{font-size:15px;font-weight:800;margin-top:7px}
+.beacon .s{font-size:11px;margin-top:5px;color:#a5bdd3}
+.alpha-subnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.alpha-subnav .mini-btn{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#dbe8f5;cursor:pointer}
+.alpha-subnav .mini-btn:hover{border-color:#49637c;background:rgba(248,193,93,.08)}
+.section-anchor{scroll-margin-top:110px}
+@media (max-width:1100px){
+  .launch-banner,.alpha-grid{grid-template-columns:1fr}
+  .feature-rail,.alpha-shortcuts,.alpha-beacon{grid-template-columns:1fr 1fr}
+}
+@media (max-width:720px){
+  .feature-rail,.alpha-shortcuts,.alpha-beacon{grid-template-columns:1fr}
+}
+
  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
  .two{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
@@ -149,7 +202,7 @@ button,input,select,textarea{font:inherit}
  @media (max-width:720px){.container{padding:12px}.topbar{display:block}.topbar-right{margin-top:12px}.mini{min-width:unset;flex:1}.kpis,.statline,.three,.matrix{grid-template-columns:1fr}.heatgrid{grid-template-columns:1fr}.watch-row,.chain-row{grid-template-columns:1fr 1fr}.tabs{position:sticky;top:92px;z-index:10;background:linear-gradient(180deg,rgba(7,16,24,.96),rgba(7,16,24,.8));padding:8px 0}}
 </style>
 </head>
-<body>
+<body class="terminal-shell">
 <div class="container">
   <div class="topbar">
     <div class="brand">
@@ -164,11 +217,32 @@ button,input,select,textarea{font:inherit}
     </div>
   </div>
 
+
+  <section class="launch-banner">
+    <div class="hero-callout">
+      <div class="eyebrow">ipaint Stocks / offline intelligence stack</div>
+      <h2>Premium terminal for India with Alpha OS, offline candles, and options strategy intelligence.</h2>
+      <p>This build now explicitly surfaces the advanced modules you requested: Liquidity Gravity Map, Alternate Reality Engine, Reflexivity Engine, Expiry Warp, and the Decision Cockpit — all local, browser-only, and API-free.</p>
+      <div class="alpha-subnav">
+        <button class="mini-btn" data-jump="tab-alpha">Open Alpha OS</button>
+        <button class="mini-btn" data-jump="gravityCanvas">Liquidity Gravity</button>
+        <button class="mini-btn" data-jump="futureCanvas">Alternate Reality</button>
+        <button class="mini-btn" data-jump="decisionBoard">Decision Cockpit</button>
+      </div>
+    </div>
+    <div class="feature-rail">
+      <div class="feature-chip"><div class="k">Premium Look</div><div class="v">Sharper terminal shell</div><div class="d">Glass panels, bloom lighting, scanlines, and gold/cyan emphasis.</div></div>
+      <div class="feature-chip"><div class="k">Offline Candles</div><div class="v">Local candlestick engine</div><div class="d">Synthetic OHLC generation with regime-aware chart behavior.</div></div>
+      <div class="feature-chip"><div class="k">Backtester</div><div class="v">Options strategy engine</div><div class="d">Path-based local scenario testing without any external data feed.</div></div>
+    </div>
+  </section>
+
   <div class="tabs">
+
     <button class="tab active" data-tab="pulse">Pulseboard</button>
     <button class="tab" data-tab="radar">Stock Radar</button>
     <button class="tab" data-tab="options">Options Lab</button>
-    <button class="tab" data-tab="alpha">Alpha OS</button>
+    <button class="tab" data-tab="alpha">Alpha OS ∞</button>
     <button class="tab" data-tab="journal">Trade Journal</button>
   </div>
 
@@ -383,16 +457,31 @@ button,input,select,textarea{font:inherit}
         </div>
       </div>
 
+      
+      <div class="alpha-beacon">
+        <div class="beacon"><div class="h">Module</div><div class="v">Liquidity Gravity</div><div class="s">Strike magnet + pin-zone map</div></div>
+        <div class="beacon"><div class="h">Module</div><div class="v">Alternate Reality</div><div class="s">4 future-path simulations</div></div>
+        <div class="beacon"><div class="h">Module</div><div class="v">Reflexivity</div><div class="s">Crowding and squeeze loop meter</div></div>
+        <div class="beacon"><div class="h">Module</div><div class="v">Expiry Warp</div><div class="s">Time-decay bend visualizer</div></div>
+        <div class="beacon"><div class="h">Module</div><div class="v">Decision Cockpit</div><div class="s">Pre-trade second-brain checks</div></div>
+        <div class="beacon"><div class="h">State</div><div class="v">Alpha OS Live</div><div class="s">Runs fully local in the browser</div></div>
+      </div>
+      <div class="alpha-shortcuts" style="margin-bottom:18px">
+        <div class="alpha-shortcut"><div class="t">Liquidity Gravity Map</div><div class="n">Synthetic strike magnetism</div><div class="d">Shows likely strike gravity pockets around spot and highlights local pinning zones.</div></div>
+        <div class="alpha-shortcut"><div class="t">Alternate Reality Engine</div><div class="n">Multi-future scenario lab</div><div class="d">Explores melt-up, pin drift, shakeout, and air-pocket outcomes from current conditions.</div></div>
+        <div class="alpha-shortcut"><div class="t">Reflexivity + Expiry Warp + Cockpit</div><div class="n">Nonstandard trader intelligence</div><div class="d">Maps crowding, squeeze fuel, time decay bending, and setup quality before the trade.</div></div>
+      </div>
       <div class="alpha-grid">
+
         <div class="stack">
-          <div class="card">
+          <div class="card section-anchor" id="gravitySection">
             <div class="card-h"><div><h3>Liquidity Gravity Map</h3><div class="sub">Synthetic strike magnetism, dealer pin zones, and option gravity pockets around spot</div></div><div class="badge" id="gravityBadge">Spot</div></div>
             <div class="card-b">
               <canvas id="gravityCanvas" width="980" height="320"></canvas>
               <div class="future-cards" id="gravityStats"></div>
             </div>
           </div>
-          <div class="card">
+          <div class="card section-anchor" id="alternateRealitySection">
             <div class="card-h"><div><h3>Alternate Reality Engine</h3><div class="sub">Four possible local futures generated from the current symbol, regime, and volatility state</div></div></div>
             <div class="card-b">
               <canvas id="futureCanvas" width="980" height="260"></canvas>
@@ -402,21 +491,21 @@ button,input,select,textarea{font:inherit}
         </div>
 
         <div class="alpha-side">
-          <div class="card">
+          <div class="card section-anchor" id="reflexivitySection">
             <div class="card-h"><div><h3>Reflexivity Engine</h3><div class="sub">Measures how price, options pressure, and crowding could loop into each other</div></div></div>
             <div class="card-b">
               <div class="matrix" id="reflexGrid"></div>
             </div>
           </div>
 
-          <div class="card">
+          <div class="card section-anchor" id="expiryWarpSection">
             <div class="card-h"><div><h3>Expiry Warp</h3><div class="sub">A nonstandard time-decay strip showing how value can bend as expiry approaches</div></div></div>
             <div class="card-b">
               <canvas id="warpCanvas" width="520" height="180"></canvas>
             </div>
           </div>
 
-          <div class="card">
+          <div class="card section-anchor" id="decisionCockpitSection">
             <div class="card-h"><div><h3>Decision Cockpit</h3><div class="sub">Bias guardrails + setup quality checks before a trade is taken</div></div></div>
             <div class="card-b">
               <div class="decision-list" id="decisionBoard"></div>
@@ -945,10 +1034,10 @@ function renderAlphaOS(){
   const fragility = clamp(20 + stats.range*0.7 + Math.max(0,-stats.trend)*1.1 + p.sigma*55, 5, 97);
   const asymmetry = clamp(40 + Math.abs(move)*4 + Math.abs(p.K-p.S)/Math.max(p.S,1)*200, 5, 99);
   document.getElementById('alphaHeadlineGrid').innerHTML = [
-    ['Reflexivity', reflexLabel(breadth), 'Price-feedback pressure'],
-    ['Gravity Pull', gravity.toFixed(0) + '/100', 'How strongly price may pin near strikes'],
-    ['Fragility', fragility.toFixed(0) + '/100', 'Break risk under volatility'],
-    ['Asymmetry', asymmetry.toFixed(0) + '/100', 'Reward skew across scenarios']
+    ['Alpha Reflexivity', reflexLabel(breadth), 'Price-feedback pressure and crowd-loop intensity'],
+    ['Liquidity Gravity', gravity.toFixed(0) + '/100', 'How strongly price may pin near strikes and dealer walls'],
+    ['Fragility Radar', fragility.toFixed(0) + '/100', 'Break risk under volatility and narrative stress'],
+    ['Decision Edge', asymmetry.toFixed(0) + '/100', 'Reward skew across alternate realities']
   ].map(([t,n,d])=>`<div class="ultra-card"><div class="t">${t}</div><div class="n">${n}</div><div class="d">${d}</div></div>`).join('');
 
   document.getElementById('reflexGrid').innerHTML = [
@@ -1010,6 +1099,7 @@ function drawGravityMap(){
   ctx.strokeStyle='rgba(46,229,141,.9)'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(sx,18); ctx.lineTo(sx,h-26); ctx.stroke();
   ctx.fillStyle='#2ee58d'; ctx.fillText('Spot', sx+6, 20);
+  ctx.fillStyle='#f8c15d'; ctx.fillText('Liquidity Gravity Map', 26, 16);
   const strongest = gravities.slice().sort((a,b)=>b.gravity-a.gravity)[0];
   document.getElementById('gravityBadge').textContent = `Spot ₹ ${fmt(p.S,0)} · Magnet ${strongest.k}`;
   document.getElementById('gravityStats').innerHTML = [
@@ -1044,6 +1134,7 @@ function drawFuturePaths(){
   const px = i => 30 + i*(w-50)/25, py = v => h-22 - (v-min)/(max-min||1)*(h-44);
   ctx.strokeStyle='rgba(255,255,255,.07)';
   for(let i=0;i<5;i++){const y=18+i*(h-38)/4;ctx.beginPath();ctx.moveTo(24,y);ctx.lineTo(w-12,y);ctx.stroke();}
+  ctx.fillStyle='#f8c15d'; ctx.font='12px ui-monospace, monospace'; ctx.fillText('Alternate Reality Engine', 30, 18);
   ['rgba(46,229,141,.95)','rgba(248,193,93,.95)','rgba(83,166,255,.95)','rgba(255,107,122,.95)'].forEach((color,idx)=>{
     const arr = paths[idx].arr;
     ctx.strokeStyle=color; ctx.lineWidth=2.2; ctx.beginPath();
@@ -1078,7 +1169,8 @@ function drawExpiryWarp(){
     }
   });
   ctx.fillStyle='#cfe0f0'; ctx.font='12px ui-monospace, monospace';
-  ctx.fillText('Time value warp → expiry', 18, 16);
+  ctx.fillStyle='#f8c15d'; ctx.fillText('Expiry Warp', 18, 16);
+  ctx.fillStyle='#cfe0f0'; ctx.fillText('Time value warp → expiry', 18, 32);
   ctx.fillText(`Now ₹${fmt(values[0].price,1)} · Expiry ₹${fmt(values.at(-1).price,1)}`, 18, h-8);
 }
 
@@ -1097,19 +1189,41 @@ function renderDecisionCockpit(stats, m){
   let text = total>=72 ? 'High-quality structure. Your local stack sees a coherent setup with limited mismatch between price behavior, strike placement, and volatility.' :
              total>=54 ? 'Playable, but selective. One or two dimensions are supportive while the rest need discipline and position sizing.' :
              'Fragile setup. The structure currently looks more emotional than asymmetrically intelligent. Reduce size or redesign the payoff.';
-  document.getElementById('decisionNarrative').innerHTML = `<strong>Decision Score: ${total.toFixed(0)}/100</strong><div style="margin-top:8px">${text}</div><div style="margin-top:8px" class="muted">This cockpit is intentionally opinionated and browser-local. It acts like a pre-trade second brain rather than a simple calculator.</div>`;
+  document.getElementById('decisionNarrative').innerHTML = `<strong>Decision Cockpit Score: ${total.toFixed(0)}/100</strong><div style="margin-top:8px">${text}</div><div style="margin-top:8px" class="muted">This cockpit is intentionally opinionated and browser-local. It acts like a pre-trade second brain rather than a simple calculator.</div>`;
 }
 
 function setupEvents(){
   document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden')); document.getElementById('tab-'+btn.dataset.tab).classList.remove('hidden');
+    if(btn.dataset.tab==='alpha'){ setTimeout(()=>{ renderAlphaOS(); }, 30); }
+  }));
+  document.querySelectorAll('[data-jump]').forEach(btn=>btn.addEventListener('click',()=>{
+    const target = btn.dataset.jump;
+    if(target==='tab-alpha'){
+      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+      const alphaTab = document.querySelector('.tab[data-tab="alpha"]');
+      alphaTab.classList.add('active');
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden'));
+      document.getElementById('tab-alpha').classList.remove('hidden');
+      setTimeout(()=>{ renderAlphaOS(); document.getElementById('tab-alpha').scrollIntoView({behavior:'smooth',block:'start'}); }, 30);
+      return;
+    }
+    const node = document.getElementById(target) || document.getElementById(target.replace('Canvas','Section'));
+    if(node){
+      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+      const alphaTab = document.querySelector('.tab[data-tab="alpha"]');
+      alphaTab.classList.add('active');
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden'));
+      document.getElementById('tab-alpha').classList.remove('hidden');
+      setTimeout(()=>{ renderAlphaOS(); (node.closest('.section-anchor')||node).scrollIntoView({behavior:'smooth',block:'center'}); }, 30);
+    }
   }));
   document.getElementById('symbolSelect').addEventListener('change', e=>{ activeSymbol = e.target.value; document.getElementById('optSymbol').value = activeSymbol; populateOptionDefaults(); updateHero(); renderWatch(); refreshOptions(); renderAlphaOS(); });
   document.getElementById('timeframeSelect').addEventListener('change', updateHero);
   document.getElementById('chartModeSelect').addEventListener('change', e=>{ activeChartMode = e.target.value; updateHero(); });
   document.getElementById('reshuffleBtn').addEventListener('click', ()=>{ seriesCache={}; updateHero(); renderHeat(); renderWatch(); refreshOptions(); renderAlphaOS(); });
-  document.querySelectorAll('[data-regime]').forEach(btn=>btn.addEventListener('click',()=>{ activeRegime = btn.dataset.regime; seriesCache={}; updateHero(); renderHeat(); renderWatch(); refreshOptions(); }));
+  document.querySelectorAll('[data-regime]').forEach(btn=>btn.addEventListener('click',()=>{ activeRegime = btn.dataset.regime; seriesCache={}; updateHero(); renderHeat(); renderWatch(); refreshOptions(); renderAlphaOS(); }));
   document.getElementById('addWatchBtn').addEventListener('click', ()=>{ if(!state.watchlist.includes(activeSymbol)){ state.watchlist.unshift(activeSymbol); saveLS('offline_watchlist', state.watchlist); renderWatch(); } });
   document.getElementById('clearWatchBtn').addEventListener('click', ()=>{ state.watchlist = ['NIFTY 50','BANK NIFTY','RELIANCE']; saveLS('offline_watchlist', state.watchlist); renderWatch(); });
   document.getElementById('watchList').addEventListener('click', e=>{ const sym = e.target.dataset.remove; if(sym){ state.watchlist = state.watchlist.filter(x=>x!==sym); saveLS('offline_watchlist', state.watchlist); renderWatch(); } });
