@@ -1,8 +1,174 @@
 <!DOCTYPE html>
-<html><head><title>iPant Future</title><link rel="stylesheet" href="styles.css"></head>
-<body><h1>🔮 iPant Future</h1><p>Personalized AI Astrology</p>
-<input id="dob" type="date"><input id="time" type="time"><input id="place" placeholder="Place">
-<button onclick="generate()">Generate</button>
-<div id="result"></div>
-<input id="question" placeholder="Ask question"><button onclick="ask()">Ask ₹1</button>
-<script src="app.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iPant Future !</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="aurora aurora-a"></div>
+  <div class="aurora aurora-b"></div>
+  <header class="topbar">
+    <div class="brand">iPant Future !</div>
+    <button id="apiConfigBtn" class="ghost-btn" type="button">Backend URL</button>
+  </header>
+
+  <main class="shell">
+    <section class="hero glass">
+      <div class="hero-copy">
+        <p class="eyebrow">Pro astrologer edition</p>
+        <h1>Premium Vedic astrology with D1, D9, dasha, and chart-based AI guidance.</h1>
+        <p class="lede">
+          Enter your birth details and generate a full North Indian style kundli with
+          Lagna, Moon sign, Nakshatra, Vimshottari timeline, and unlimited chart Q&A.
+        </p>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-item"><span>Charts</span><strong>D1 + D9</strong></div>
+        <div class="badge-item"><span>System</span><strong>Lahiri</strong></div>
+        <div class="badge-item"><span>Questions</span><strong>Unlimited</strong></div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <section class="panel glass form-panel">
+        <h2>Birth details</h2>
+        <form id="birthForm" class="form-grid">
+          <label>
+            <span>Name</span>
+            <input id="name" type="text" placeholder="Sneha" value="Guest" />
+          </label>
+          <label>
+            <span>Date of birth</span>
+            <input id="date_of_birth" type="text" placeholder="13/05/1980" />
+          </label>
+          <label>
+            <span>Time of birth</span>
+            <input id="time_of_birth" type="text" placeholder="20:15" />
+          </label>
+          <label class="full">
+            <span>Place of birth</span>
+            <input id="place_of_birth" type="text" placeholder="Pune, Maharashtra, India" />
+          </label>
+          <div class="actions full">
+            <button class="primary-btn" type="submit">Generate my kundli</button>
+            <button class="ghost-btn" type="button" id="demoBtn">Load demo</button>
+          </div>
+        </form>
+        <p class="helper">Use DD/MM/YYYY and 24-hour time like 20:15.</p>
+        <div id="status" class="status"></div>
+      </section>
+
+      <section id="results" class="results hidden">
+        <section class="panel glass metrics">
+          <div class="metric"><span>Lagna</span><strong id="lagnaValue">—</strong></div>
+          <div class="metric"><span>Moon sign</span><strong id="moonValue">—</strong></div>
+          <div class="metric"><span>Nakshatra</span><strong id="nakshatraValue">—</strong></div>
+          <div class="metric"><span>Dasha</span><strong id="dashaValue">—</strong></div>
+        </section>
+
+        <section class="panel glass narrative">
+          <div class="section-title-row">
+            <h2>Chart snapshot</h2>
+            <span id="birthResolved" class="resolved"></span>
+          </div>
+          <div class="summary-grid">
+            <article>
+              <h3>Personality</h3>
+              <p id="summaryPersonality"></p>
+            </article>
+            <article>
+              <h3>Career</h3>
+              <p id="summaryCareer"></p>
+            </article>
+            <article>
+              <h3>Relationships</h3>
+              <p id="summaryRelationships"></p>
+            </article>
+            <article>
+              <h3>Wealth</h3>
+              <p id="summaryWealth"></p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel glass charts-panel">
+          <div class="section-title-row">
+            <h2>Kundli charts</h2>
+            <span class="mini-note">North Indian style</span>
+          </div>
+          <div class="chart-grid">
+            <div class="chart-card">
+              <h3>Rasi D1</h3>
+              <div id="chartD1" class="north-chart"></div>
+            </div>
+            <div class="chart-card">
+              <h3>Navamsha D9</h3>
+              <div id="chartD9" class="north-chart"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel glass">
+          <div class="section-title-row">
+            <h2>Planetary placements</h2>
+            <span class="mini-note">Sidereal · Lahiri</span>
+          </div>
+          <div class="table-wrap">
+            <table class="placements-table">
+              <thead>
+                <tr>
+                  <th>Planet</th>
+                  <th>Sign</th>
+                  <th>Degree</th>
+                  <th>House</th>
+                  <th>D9</th>
+                </tr>
+              </thead>
+              <tbody id="placementsBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel glass">
+          <div class="section-title-row">
+            <h2>Vimshottari dasha</h2>
+            <span class="mini-note">First 8 mahadashas from birth</span>
+          </div>
+          <div id="dashaTimeline" class="dasha-list"></div>
+        </section>
+
+        <section class="panel glass qa-panel">
+          <div class="section-title-row">
+            <h2>Ask your chart</h2>
+            <span class="mini-note">Unlimited questions</span>
+          </div>
+          <div class="ask-row">
+            <textarea id="questionInput" rows="3" placeholder="What does my chart suggest about career growth in the next 2 years?"></textarea>
+            <button id="askBtn" class="primary-btn" type="button">Ask astrologer AI</button>
+          </div>
+          <div id="answerBox" class="answer-box hidden"></div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="apiDialog" class="config-dialog">
+    <form method="dialog" class="dialog-card">
+      <h3>Backend URL</h3>
+      <p>Set the deployed FastAPI backend URL for GitHub Pages.</p>
+      <input id="apiBaseInput" type="text" placeholder="https://your-backend.onrender.com" />
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost-btn">Cancel</button>
+        <button id="saveApiBtn" value="default" class="primary-btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
