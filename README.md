@@ -1,59 +1,62 @@
+# iPant Future — Full Astrology Engine
 
-# iPant Future !
+Production-oriented Vedic astrology backend for **iPant Future**.
 
-Pro astrologer version of iPant Future with:
+## What it does
+- Geocodes birthplace to latitude/longitude
+- Resolves timezone from coordinates
+- Computes **sidereal Vedic chart** using **Swiss Ephemeris**
+- Calculates:
+  - Ascendant (Lagna)
+  - Rasi / D1 chart
+  - Navamsha / D9 chart
+  - 9 graha sign placements
+  - Whole-sign house placements from Lagna
+  - Moon nakshatra + pada
+  - Vimshottari mahadasha (current + next)
+- Calls OpenAI only for a **short summarized interpretation**
 
-- premium static frontend for GitHub Pages in `/docs`
-- FastAPI backend for Render/Railway/Fly
-- Vedic astrology engine using Swiss Ephemeris
-- Lahiri ayanamsa
-- Ascendant, Moon sign, Nakshatra, Vimshottari dasha
-- Rasi (D1) and Navamsha (D9) charts
-- North Indian style kundli rendering in the browser
-- unlimited AI Q&A grounded in the user chart
+## Architecture
+- `backend/chart_engine.py` → real astrology calculations
+- `backend/ai_summary.py` → OpenAI summary layer
+- `backend/main.py` → FastAPI API
+- `docs/` → optional static landing page / API smoke test
 
-## Repo layout
-
-- `docs/` static frontend for GitHub Pages
-- `backend/` FastAPI app
-- `.env.example` environment variables
-
-## Frontend deploy
-
-Publish `/docs` using GitHub Pages.
-
-## Backend deploy
-
-Works well on Render.
-
-Start command:
-
-```bash
-uvicorn main:app --host 0.0.0.0 --port $PORT
-```
-
-## Environment variables
-
-Copy `.env.example` to `.env` in `backend/` or configure in your hosting provider.
-
-## Local run
-
-### Backend
+## Quick start
 
 ```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+cp .env.example .env
 uvicorn main:app --reload
 ```
 
-### Frontend
+## Required env vars
+- `OPENAI_API_KEY`
+- `OPENAI_MODEL` (optional, default in code)
 
-Open `docs/index.html` directly for quick testing, or serve it locally.
+## API endpoints
+- `GET /health`
+- `POST /api/chart`
+- `POST /api/reading`
+
+## Sample request
+```json
+{
+  "date_of_birth": "1980-05-13",
+  "time_of_birth": "20:15",
+  "birth_place": "Pune, India"
+}
+```
 
 ## Notes
+- Uses **Lahiri ayanamsa**
+- Uses **whole-sign houses** for stable Vedic display
+- Vimshottari dasha is calculated from Moon nakshatra longitude
+- For best reliability in production, cache geocoding results
 
-- Geocoding uses OpenStreetMap Nominatim through `geopy`.
-- Time zone is detected using `timezonefinder`.
-- The frontend calls the backend through `window.IPANT_API_BASE` or `localStorage.ipant_api_base`.
+## Deployment
+- Frontend can go on GitHub Pages (`/docs`)
+- Backend should be deployed separately on Render / Railway / VPS
