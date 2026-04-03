@@ -1,11 +1,15 @@
+from typing import Any, Dict
 from pydantic import BaseModel, Field
 
+class ChartRequest(BaseModel):
+    name: str = Field(default="Guest")
+    date_of_birth: str = Field(..., description="DD/MM/YYYY")
+    time_of_birth: str = Field(..., description="HH:MM in 24-hour format")
+    place_of_birth: str = Field(..., description="City, State, Country")
 
-class BirthInput(BaseModel):
-    date_of_birth: str = Field(..., examples=["1980-05-13"])
-    time_of_birth: str = Field(..., examples=["20:15"])
-    birth_place: str = Field(..., examples=["Pune, India"])
+class AskRequest(BaseModel):
+    question: str
+    chart_context: Dict[str, Any]
 
-
-class ReadingRequest(BirthInput):
-    question: str | None = None
+class AskResponse(BaseModel):
+    answer: str

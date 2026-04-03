@@ -2,57 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>iPant Future — Astrology Engine</title>
+  <title>iPant Future</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body{font-family:Inter,Arial,sans-serif;background:#0b1220;color:#fff;margin:0}
-    .wrap{max-width:900px;margin:40px auto;padding:24px}
-    .card{background:#131c2f;border:1px solid #2b3859;border-radius:16px;padding:20px}
-    input,button,textarea{width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #33446e;background:#0f172a;color:#fff}
-    button{background:#7c3aed;border:none;font-weight:700;cursor:pointer}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    pre{white-space:pre-wrap;background:#0a1020;padding:16px;border-radius:12px;overflow:auto}
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>iPant Future</h1>
-      <p>Full Vedic astrology engine with summarized AI interpretation.</p>
-      <div class="grid">
-        <input id="dob" type="date" />
-        <input id="tob" type="time" />
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">Personalized Vedic Astrology</span>
+        <h1>iPant Future</h1>
+        <p class="hero-copy">Generate your kundli, explore North Indian style D1 and D9 charts, and get concise AI-guided insights based on real astrology calculations.</p>
       </div>
-      <p></p>
-      <input id="place" placeholder="Birth place, e.g. Pune, India" />
-      <p></p>
-      <textarea id="question" rows="3" placeholder="Optional question"></textarea>
-      <p></p>
-      <button id="run">Generate</button>
-      <h3>Summary</h3>
-      <pre id="summary"></pre>
-      <h3>Chart JSON</h3>
-      <pre id="chart"></pre>
+      <button id="apiConfigBtn" class="ghost-btn" type="button">API Settings</button>
     </div>
-  </div>
-<script>
-const API = "http://localhost:8000";
-document.getElementById("run").addEventListener("click", async () => {
-  const payload = {
-    date_of_birth: document.getElementById("dob").value,
-    time_of_birth: document.getElementById("tob").value,
-    birth_place: document.getElementById("place").value,
-    question: document.getElementById("question").value || null
-  };
-  const res = await fetch(API + "/api/reading", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(payload)
-  });
-  const data = await res.json();
-  document.getElementById("summary").textContent = data.summary || JSON.stringify(data, null, 2);
-  document.getElementById("chart").textContent = JSON.stringify(data.chart, null, 2);
-});
-</script>
+  </header>
+
+  <main class="page">
+    <section class="panel form-panel">
+      <div class="panel-head">
+        <h2>Birth Details</h2>
+        <button id="demoBtn" type="button" class="secondary-btn">Load Demo</button>
+      </div>
+
+      <form id="birthForm" class="birth-form">
+        <div class="grid two">
+          <label><span>Name</span><input id="name" type="text" placeholder="Your name" /></label>
+          <label><span>Date of Birth</span><input id="date_of_birth" type="text" placeholder="DD/MM/YYYY" required /></label>
+        </div>
+        <div class="grid two">
+          <label><span>Time of Birth</span><input id="time_of_birth" type="text" placeholder="HH:MM (24-hour)" required /></label>
+          <label><span>Place of Birth</span><input id="place_of_birth" type="text" placeholder="City, State, Country" required /></label>
+        </div>
+        <button type="submit" class="primary-btn">Generate Kundli</button>
+      </form>
+
+      <div id="status" class="status">Ready.</div>
+    </section>
+
+    <section id="results" class="hidden">
+      <section class="panel stats-panel">
+        <h2>Birth Chart Snapshot</h2>
+        <div class="stats-grid">
+          <div class="stat-card"><span class="stat-label">Lagna</span><strong id="lagnaValue">—</strong></div>
+          <div class="stat-card"><span class="stat-label">Moon Sign</span><strong id="moonValue">—</strong></div>
+          <div class="stat-card"><span class="stat-label">Nakshatra</span><strong id="nakshatraValue">—</strong></div>
+          <div class="stat-card"><span class="stat-label">Current Dasha</span><strong id="dashaValue">—</strong></div>
+        </div>
+        <p class="resolved-place">Resolved birthplace: <span id="birthResolved">—</span></p>
+      </section>
+
+      <section class="grid two-panels">
+        <article class="panel"><h2>Rasi (D1)</h2><div id="chartD1" class="chart-wrap"></div></article>
+        <article class="panel"><h2>Navamsha (D9)</h2><div id="chartD9" class="chart-wrap"></div></article>
+      </section>
+
+      <section class="panel">
+        <h2>Guided Summary</h2>
+        <div class="summary-grid">
+          <article><h3>Personality</h3><p id="summaryPersonality"></p></article>
+          <article><h3>Career</h3><p id="summaryCareer"></p></article>
+          <article><h3>Relationships</h3><p id="summaryRelationships"></p></article>
+          <article><h3>Wealth</h3><p id="summaryWealth"></p></article>
+        </div>
+      </section>
+
+      <section class="grid two-panels">
+        <article class="panel">
+          <h2>Planetary Placements</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Planet</th><th>Sign</th><th>Degree</th><th>House</th><th>Navamsha</th></tr></thead>
+              <tbody id="placementsBody"></tbody>
+            </table>
+          </div>
+        </article>
+        <article class="panel">
+          <h2>Vimshottari Timeline</h2>
+          <div id="dashaTimeline" class="dasha-timeline"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>Ask About Your Chart</h2>
+        <div class="ask-row">
+          <input id="questionInput" type="text" placeholder="Ask one focused question about career, relationships, finances, or timing..." />
+          <button id="askBtn" class="primary-btn" type="button">Ask</button>
+        </div>
+        <div id="answerBox" class="answer-box hidden"></div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="apiDialog" class="api-dialog">
+    <form method="dialog" class="api-form">
+      <h3>API Base URL</h3>
+      <input id="apiBaseInput" type="text" />
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost-btn" type="button" onclick="document.getElementById('apiDialog').close()">Cancel</button>
+        <button id="saveApiBtn" class="primary-btn" value="default">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
 </body>
 </html>
